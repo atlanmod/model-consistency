@@ -1,0 +1,16 @@
+@namespace(uri="http://atlanmod.neoemf.tutorial", prefix="graph")
+package graph;
+
+class Graph {
+	val Vertex[*] vertices;
+	val Edge[*] edges;
+}
+
+class Vertex {
+	attr String label;
+}
+
+class Edge {
+	ref Vertex from;
+	ref Vertex to;
+}

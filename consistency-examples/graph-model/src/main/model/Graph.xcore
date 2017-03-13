@@ -1,0 +1,20 @@
+@Ecore(nsURI="http://atlanmod.consistency.example")
+@GenModel(modelDirectory="/graph-model/target/generated-sources",
+importerID="org.eclipse.emf.importer.ecore")
+package graph
+
+class Graph {
+	contains Vertex[] vertices opposite owner
+	contains Edge[] edges
+}
+
+class Vertex {
+	refers Graph owner opposite vertices
+	String label
+	
+}
+
+class Edge {
+	refers Vertex from
+	refers Vertex to
+}

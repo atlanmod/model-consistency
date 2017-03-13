@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.inria.atlanmod</groupId>
+    <artifactId>consistency</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>Model Consistency</name>
+    <description>A prototype for model consistency</description>
+
+    <url>http://web.emn.fr/x-info/atlanmod/</url>
+    <inceptionYear>2017</inceptionYear>
+
+    <organization>
+        <name>Atlanmod INRIA LINA Mines Nantes</name>
+        <url>http://www.emn.fr/z-info/atlanmod/index.php/Main_Page</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:https://github.com/sunye/NeoEMF.git</connection>
+        <developerConnection>scm:git:https://github.com/atlanmod/model-consistency.git</developerConnection>
+        <url>https://github.com/sunye/model-consistencyF</url>
+    </scm>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/sunye/model-consistency/issues</url>
+    </issueManagement>
+
+    <!--
+    <ciManagement>
+        <system>travis</system>
+        <url>https://travis-ci.org/atlanmod/NeoEMF</url>
+    </ciManagement>
+    -->
+
+
+    <!--
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+    -->
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License - v 1.0</name>
+            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
+
+    <prerequisites>
+        <maven>3.3.9</maven>
+    </prerequisites>
+
+    <modules>
+        <module>consistency-core</module>
+        <module>consistency-bootstrapper</module>
+        <module>consistency-examples</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <name>Gerson Sunyé</name>
+            <id>gerson.sunye</id>
+            <email>gerson.sunye@gmail.com</email>
+            <roles>
+                <role>admin</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <argLine /> <!-- Keep it empty -->
+        <argLine.global>-Xms256m -Xmx2g -XX:+UseConcMarkSweepGC</argLine.global>
+
+        <caffeine.version>2.3.5</caffeine.version>
+
+        <commons-collections.version>4.1</commons-collections.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
+        <commons-io.version>2.5</commons-io.version>
+        <commons-lang.version>3.5</commons-lang.version>
+        <guava.version>20.0</guava.version>
+        <osgi.version>6.0.0</osgi.version>
+
+        <emf.version>2.12.0</emf.version>
+        <ecore.version>2.12.0</ecore.version>
+        <xcore.version>1.1.100</xcore.version>
+
+        <javax-annotations.version>3.0.1</javax-annotations.version>
+
+        <assertj.version>3.6.2</assertj.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.7.4</mockito.version>
+        <tomp2p.version>5.0-Beta8</tomp2p.version>
+        <hornetq.version>2.4.7.Final</hornetq.version>
+        <appa.version>0.0.1-SNAPSHOT</appa.version>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${javax-annotations.version}</version>
+            <optional>true</optional><!-- needed only for annotations -->
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Cache -->
+
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
+            <!-- Common -->
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- EMF -->
+
+            <dependency>
+                <groupId>org.eclipse.emf</groupId>
+                <artifactId>org.eclipse.emf.common</artifactId>
+                <version>${emf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.emf</groupId>
+                <artifactId>org.eclipse.emf.ecore</artifactId>
+                <version>${ecore.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.emf</groupId>
+                <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+                <version>${ecore.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.emf</groupId>
+                <artifactId>org.eclipse.emf.ecore.xcore.lib</artifactId>
+                <version>${xcore.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>fr.inria.atlanmod.appa</groupId>
+                <artifactId>appa-core</artifactId>
+                <version>${appa.version}</version>
+            </dependency>
+
+            <!-- Test -->
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>
