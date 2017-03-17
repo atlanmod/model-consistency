@@ -38,4 +38,9 @@ public class SetReference extends Operation {
                 ", oid=" + oid +
                 '}';
     }
+
+    @Override
+    public Id instanceId() {
+        return oid;
+    }
 }

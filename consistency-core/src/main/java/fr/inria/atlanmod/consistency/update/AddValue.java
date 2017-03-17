@@ -21,19 +21,18 @@ import fr.inria.atlanmod.consistency.core.FeatureId;
  *
  * @author AtlanMod team.
  */
-public class AddValue extends Operation {
-    private final FeatureId fid;
+public class AddValue extends FeatureOperation {
     private final Object value;
 
     public AddValue(FeatureId fid, Object value) {
-        this.fid = fid;
+        super(fid);
         this.value = value;
     }
 
     @Override
     public String toString() {
         return "AddValue{" +
-                "fid=" + fid +
+                "fid=" + featureId() +
                 ", value=" + value +
                 '}';
     }

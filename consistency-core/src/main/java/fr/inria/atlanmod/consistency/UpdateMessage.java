@@ -14,8 +14,6 @@
 
 package fr.inria.atlanmod.consistency;
 
-/**
- * Created by sunye on 16/02/2017.
- */
+
 public class UpdateMessage {
 }

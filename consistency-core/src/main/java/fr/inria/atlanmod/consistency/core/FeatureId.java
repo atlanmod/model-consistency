@@ -17,4 +17,9 @@ public class FeatureId extends CompositeId {
     protected FeatureId(Id high, Id low) {
         super(high, low);
     }
+
+
+    public Id asInstanceId() {
+        return high();
+    }
 }

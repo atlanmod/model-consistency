@@ -21,6 +21,7 @@ import fr.inria.atlanmod.consistency.core.IdBuilder;
 import fr.inria.atlanmod.consistency.core.InstanceId;
 import fr.inria.atlanmod.consistency.core.ResourceId;
 import fr.inria.atlanmod.consistency.update.ChangeManager;
+import fr.inria.atlanmod.consistency.update.Operation;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -37,8 +38,10 @@ public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
     private IdBuilder builder = new IdBuilder();
-    private ChangeManager manager = new ChangeManager();
+    private History history = new History(this);
+    private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid = builder.generateRID();
+
 
 
     public SharedResource(URI uri) {
@@ -71,5 +74,17 @@ public class SharedResource extends ResourceImpl {
     }
 
 
+    public void execute(Operation operation) {
+        Id oid = operation.instanceId();
+        EObject eObject = contents.get(oid);
+        eObject.eSetDeliver(false);
+        // execute without notification
+        eObject.eSetDeliver(true);
+
+    }
+
+    public void cancel(Operation operation) {
+
+    }
 
 }

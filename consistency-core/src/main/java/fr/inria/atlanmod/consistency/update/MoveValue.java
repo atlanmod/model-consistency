@@ -15,6 +15,7 @@
 package fr.inria.atlanmod.consistency.update;
 
 import fr.inria.atlanmod.consistency.core.FeatureId;
+import fr.inria.atlanmod.consistency.core.Id;
 
 /**
  * Created on 10/03/2017.
@@ -40,5 +41,10 @@ public class MoveValue extends Operation {
                 ", from=" + from +
                 ", to=" + to +
                 '}';
+    }
+
+    @Override
+    public Id instanceId() {
+        return fid.asInstanceId();
     }
 }

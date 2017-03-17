@@ -40,4 +40,9 @@ public class RemoveManyReferences extends Operation {
                 ", value=" + oids +
                 '}';
     }
+
+    @Override
+    public Id instanceId() {
+        return fid.asInstanceId();
+    }
 }

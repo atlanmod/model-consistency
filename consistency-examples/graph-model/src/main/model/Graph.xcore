@@ -11,6 +11,7 @@ class Graph {
 class Vertex {
 	refers Graph owner opposite vertices
 	String label
+	int weight
 	
 }
 

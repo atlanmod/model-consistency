@@ -27,6 +27,7 @@ public interface Graph extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Vertices</b></em>' containment reference list.
 	 * The list contents are of type {@link graph.Vertex}.
+	 * It is bidirectional and its opposite is '{@link graph.Vertex#getOwner <em>Owner</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Vertices</em>' containment reference list isn't clear,
@@ -35,7 +36,8 @@ public interface Graph extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Vertices</em>' containment reference list.
 	 * @see graph.GraphPackage#getGraph_Vertices()
-	 * @model containment="true"
+	 * @see graph.Vertex#getOwner
+	 * @model opposite="owner" containment="true"
 	 * @generated
 	 */
 	EList<Vertex> getVertices();

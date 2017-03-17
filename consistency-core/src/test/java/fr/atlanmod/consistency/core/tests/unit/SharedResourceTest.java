@@ -90,6 +90,16 @@ public class SharedResourceTest {
         g.getVertices().remove(v2);
     }
 
+    @Test
+    public void testBasicTypes() {
+        Graph g = factory.createGraph();
+        Vertex v1 = factory.createVertex();
+        resource.getContents().add(g);
+        g.getVertices().add(v1);
+
+        v1.setWeight(5);
+    }
+
     private void write(Resource resource) throws IOException {
 
 

@@ -16,31 +16,27 @@ package fr.inria.atlanmod.consistency.update;
 
 import fr.inria.atlanmod.consistency.core.FeatureId;
 import fr.inria.atlanmod.consistency.core.Id;
+import fr.inria.atlanmod.consistency.core.InstanceId;
 
 /**
- * Created on 10/03/2017.
+ * Created on 15/03/2017.
  *
  * @author AtlanMod team.
  */
-public class AddReference extends Operation {
-    private final FeatureId fid;
-    private final Id oid;
+public class FeatureOperation extends Operation {
 
-    public AddReference(FeatureId fid, Id oid) {
-        this.fid = fid;
-        this.oid = oid;
-    }
+    private final FeatureId featureId;
 
-    @Override
-    public String toString() {
-        return "AddReference{" +
-                "fid=" + fid +
-                ", oid=" + oid +
-                '}';
+    public FeatureOperation(FeatureId featureId) {
+        this.featureId = featureId;
     }
 
     @Override
     public Id instanceId() {
-        return oid;
+        return featureId.asInstanceId();
+    }
+
+    public Id featureId() {
+        return featureId;
     }
 }

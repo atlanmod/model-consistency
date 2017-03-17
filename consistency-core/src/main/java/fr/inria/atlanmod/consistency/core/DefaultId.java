@@ -14,9 +14,7 @@
 
 package fr.inria.atlanmod.consistency.core;
 
-/**
- * Created by sunye on 09/03/2017.
- */
+
 public class DefaultId implements Id {
     @Override
     public CompositeId composeWith(Id low) {

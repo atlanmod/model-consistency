@@ -21,20 +21,22 @@ import fr.inria.atlanmod.consistency.core.FeatureId;
  *
  * @author AtlanMod team.
  */
-public class SetValue extends Operation {
-    private final FeatureId fid;
+public class SetValue extends FeatureOperation {
     private final Object value;
+    private final Object previous;
 
-    public SetValue(FeatureId fid, Object value) {
-        this.fid = fid;
+    public SetValue(FeatureId fid, Object value, Object previous) {
+        super(fid);
         this.value = value;
+        this.previous = previous;
     }
 
     @Override
     public String toString() {
         return "SetValue{" +
-                "fid=" + fid +
+                "fid=" + featureId() +
                 ", value=" + value +
+                ", previous="+previous+
                 '}';
     }
 }

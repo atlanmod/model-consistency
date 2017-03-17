@@ -8,6 +8,7 @@ class Graph {
 
 class Vertex {
 	attr String label;
+	attr int weigth;
 }
 
 class Edge {

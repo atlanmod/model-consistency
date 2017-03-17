@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -82,7 +83,7 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 	 */
 	public EList<Vertex> getVertices() {
 		if (vertices == null) {
-			vertices = new EObjectContainmentEList<Vertex>(Vertex.class, this, GraphPackage.GRAPH__VERTICES);
+			vertices = new EObjectContainmentWithInverseEList<Vertex>(Vertex.class, this, GraphPackage.GRAPH__VERTICES, GraphPackage.VERTEX__OWNER);
 		}
 		return vertices;
 	}
@@ -97,6 +98,21 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 			edges = new EObjectContainmentEList<Edge>(Edge.class, this, GraphPackage.GRAPH__EDGES);
 		}
 		return edges;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GraphPackage.GRAPH__VERTICES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVertices()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**

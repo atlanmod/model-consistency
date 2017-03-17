@@ -2,19 +2,13 @@
  */
 package graph.impl;
 
-import graph.Graph;
 import graph.GraphPackage;
 import graph.Vertex;
 
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,8 +18,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link graph.impl.VertexImpl#getOwner <em>Owner</em>}</li>
  *   <li>{@link graph.impl.VertexImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link graph.impl.VertexImpl#getWeigth <em>Weigth</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,6 +46,26 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getWeigth() <em>Weigth</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWeigth()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int WEIGTH_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getWeigth() <em>Weigth</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWeigth()
+	 * @generated
+	 * @ordered
+	 */
+	protected int weigth = WEIGTH_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -68,57 +82,6 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	@Override
 	protected EClass eStaticClass() {
 		return GraphPackage.Literals.VERTEX;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Graph getOwner() {
-		if (eContainerFeatureID() != GraphPackage.VERTEX__OWNER) return null;
-		return (Graph)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Graph basicGetOwner() {
-		if (eContainerFeatureID() != GraphPackage.VERTEX__OWNER) return null;
-		return (Graph)eInternalContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetOwner(Graph newOwner, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newOwner, GraphPackage.VERTEX__OWNER, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOwner(Graph newOwner) {
-		if (newOwner != eInternalContainer() || (eContainerFeatureID() != GraphPackage.VERTEX__OWNER && newOwner != null)) {
-			if (EcoreUtil.isAncestor(this, newOwner))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newOwner != null)
-				msgs = ((InternalEObject)newOwner).eInverseAdd(this, GraphPackage.GRAPH__VERTICES, Graph.class, msgs);
-			msgs = basicSetOwner(newOwner, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__OWNER, newOwner, newOwner));
 	}
 
 	/**
@@ -147,15 +110,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetOwner((Graph)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
+	public int getWeigth() {
+		return weigth;
 	}
 
 	/**
@@ -163,27 +119,11 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				return basicSetOwner(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case GraphPackage.VERTEX__OWNER:
-				return eInternalContainer().eInverseRemove(this, GraphPackage.GRAPH__VERTICES, Graph.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
+	public void setWeigth(int newWeigth) {
+		int oldWeigth = weigth;
+		weigth = newWeigth;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__WEIGTH, oldWeigth, weigth));
 	}
 
 	/**
@@ -194,11 +134,10 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				if (resolve) return getOwner();
-				return basicGetOwner();
 			case GraphPackage.VERTEX__LABEL:
 				return getLabel();
+			case GraphPackage.VERTEX__WEIGTH:
+				return getWeigth();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -211,11 +150,11 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				setOwner((Graph)newValue);
-				return;
 			case GraphPackage.VERTEX__LABEL:
 				setLabel((String)newValue);
+				return;
+			case GraphPackage.VERTEX__WEIGTH:
+				setWeigth((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -229,11 +168,11 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				setOwner((Graph)null);
-				return;
 			case GraphPackage.VERTEX__LABEL:
 				setLabel(LABEL_EDEFAULT);
+				return;
+			case GraphPackage.VERTEX__WEIGTH:
+				setWeigth(WEIGTH_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -247,10 +186,10 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case GraphPackage.VERTEX__OWNER:
-				return basicGetOwner() != null;
 			case GraphPackage.VERTEX__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+			case GraphPackage.VERTEX__WEIGTH:
+				return weigth != WEIGTH_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -267,6 +206,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (label: ");
 		result.append(label);
+		result.append(", weigth: ");
+		result.append(weigth);
 		result.append(')');
 		return result.toString();
 	}

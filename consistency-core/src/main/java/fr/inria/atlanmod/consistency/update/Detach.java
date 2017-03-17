@@ -14,10 +14,16 @@
 
 package fr.inria.atlanmod.consistency.update;
 
+import fr.inria.atlanmod.consistency.core.Id;
+
 /**
  * Created on 09/03/2017.
  *
  * @author AtlanMod team.
  */
 public class Detach extends Operation {
+    @Override
+    public Id instanceId() {
+        return null;
+    }
 }

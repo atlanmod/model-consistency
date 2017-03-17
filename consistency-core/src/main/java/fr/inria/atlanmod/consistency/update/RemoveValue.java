@@ -15,6 +15,7 @@
 package fr.inria.atlanmod.consistency.update;
 
 import fr.inria.atlanmod.consistency.core.FeatureId;
+import fr.inria.atlanmod.consistency.core.Id;
 
 /**
  * Created on 10/03/2017.
@@ -36,5 +37,10 @@ public class RemoveValue extends Operation {
                 "fid=" + fid +
                 ", value=" + value +
                 '}';
+    }
+
+    @Override
+    public Id instanceId() {
+        return fid.asInstanceId();
     }
 }

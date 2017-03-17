@@ -14,6 +14,8 @@
 
 package fr.inria.atlanmod.consistency.update;
 
+import fr.inria.atlanmod.consistency.History;
+import fr.inria.atlanmod.consistency.SharedResource;
 import fr.inria.atlanmod.consistency.core.FeatureId;
 import fr.inria.atlanmod.consistency.core.Id;
 import fr.inria.atlanmod.consistency.core.InstanceId;
@@ -33,51 +35,55 @@ import static fr.inria.atlanmod.consistency.util.ConsistencyUtil.isEReference;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-/**
- * Created by sunye on 17/02/2017.
- */
 public class ChangeManager {
 
-    private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<Operation>();
+    private final History history;
+
+
+    public ChangeManager(History history) {
+        this.history = history;
+    }
+
+
 
     public void notifyChanged(InstanceId oid, Notification notification) {
         assert nonNull(notification);
         assert nonNull(notification.getNotifier());
         assert EObject.class.isAssignableFrom(notification.getNotifier().getClass());
 
+        if (notification.isTouch()) {return;}
         if(isNull(notification.getFeature())) {return;}
         int type = notification.getEventType();
         Operation op;
 
         switch (type) {
-
             case Notification.SET :
                 op = set(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.UNSET:
                 op = unset(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.ADD:
                 op = add(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.REMOVE:
                 op = remove(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.MOVE:
                 op = move(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.ADD_MANY:
                 op = addMany(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.REMOVE_MANY:
                 op = removeMany(oid, notification);
-                newLocalOperation(op);
+                history.add(op);
                 break;
             case Notification.REMOVING_ADAPTER:
                 System.out.println("--removing adapter--");
@@ -97,8 +103,12 @@ public class ChangeManager {
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);
 
+
+        notification.wasSet();
+        notification.isReset();
+
         if (isEAttribute(feature)) {
-            return new SetValue(fid, notification.getNewValue());
+            return new SetValue(fid, notification.getNewValue(), notification.getOldValue());
         } else if (isEReference(feature)) {
             return new SetReference(fid, identifierFor((EObject) notification.getNewValue()));
         } else {
@@ -198,8 +208,5 @@ public class ChangeManager {
         }
     }
 
-    private void newLocalOperation(Operation operation) {
-        incoming.offer(operation);
-        System.out.println("New operation: " + operation);
-    }
+
 }

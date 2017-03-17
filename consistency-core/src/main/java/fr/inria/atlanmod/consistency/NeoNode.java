@@ -15,6 +15,7 @@
 package fr.inria.atlanmod.consistency;
 
 import fr.inria.atlanmod.appa.Node;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * Created on 09/03/2017.
@@ -23,5 +24,10 @@ import fr.inria.atlanmod.appa.Node;
 public class NeoNode extends Node {
 
 
+
+    public static void main(String[] args) {
+        NeoNode node = new NeoNode();
+        node.start();
+    }
 
 }

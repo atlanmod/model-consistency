@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see graph.GraphFactory
  * @model kind="package"
+ *        annotation="http://www.eclipse.org/emf/2002/GenModel modelDirectory='/graph-model/target/generated-sources' importerID='org.eclipse.emf.importer.ecore'"
  * @generated
  */
 public interface GraphPackage extends EPackage {
@@ -38,7 +39,7 @@ public interface GraphPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://atlanmod.neoemf.tutorial";
+	String eNS_URI = "http://atlanmod.consistency.example";
 
 	/**
 	 * The package namespace name.
@@ -113,22 +114,31 @@ public interface GraphPackage extends EPackage {
 	int VERTEX = 1;
 
 	/**
+	 * The feature id for the '<em><b>Owner</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VERTEX__OWNER = 0;
+
+	/**
 	 * The feature id for the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VERTEX__LABEL = 0;
+	int VERTEX__LABEL = 1;
 
 	/**
-	 * The feature id for the '<em><b>Weigth</b></em>' attribute.
+	 * The feature id for the '<em><b>Weight</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VERTEX__WEIGTH = 1;
+	int VERTEX__WEIGHT = 2;
 
 	/**
 	 * The number of structural features of the '<em>Vertex</em>' class.
@@ -137,7 +147,7 @@ public interface GraphPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VERTEX_FEATURE_COUNT = 2;
+	int VERTEX_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Vertex</em>' class.
@@ -238,6 +248,17 @@ public interface GraphPackage extends EPackage {
 	EClass getVertex();
 
 	/**
+	 * Returns the meta object for the container reference '{@link graph.Vertex#getOwner <em>Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Owner</em>'.
+	 * @see graph.Vertex#getOwner()
+	 * @see #getVertex()
+	 * @generated
+	 */
+	EReference getVertex_Owner();
+
+	/**
 	 * Returns the meta object for the attribute '{@link graph.Vertex#getLabel <em>Label</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -249,15 +270,15 @@ public interface GraphPackage extends EPackage {
 	EAttribute getVertex_Label();
 
 	/**
-	 * Returns the meta object for the attribute '{@link graph.Vertex#getWeigth <em>Weigth</em>}'.
+	 * Returns the meta object for the attribute '{@link graph.Vertex#getWeight <em>Weight</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Weigth</em>'.
-	 * @see graph.Vertex#getWeigth()
+	 * @return the meta object for the attribute '<em>Weight</em>'.
+	 * @see graph.Vertex#getWeight()
 	 * @see #getVertex()
 	 * @generated
 	 */
-	EAttribute getVertex_Weigth();
+	EAttribute getVertex_Weight();
 
 	/**
 	 * Returns the meta object for class '{@link graph.Edge <em>Edge</em>}'.
@@ -351,6 +372,14 @@ public interface GraphPackage extends EPackage {
 		EClass VERTEX = eINSTANCE.getVertex();
 
 		/**
+		 * The meta object literal for the '<em><b>Owner</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VERTEX__OWNER = eINSTANCE.getVertex_Owner();
+
+		/**
 		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -359,12 +388,12 @@ public interface GraphPackage extends EPackage {
 		EAttribute VERTEX__LABEL = eINSTANCE.getVertex_Label();
 
 		/**
-		 * The meta object literal for the '<em><b>Weigth</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute VERTEX__WEIGTH = eINSTANCE.getVertex_Weigth();
+		EAttribute VERTEX__WEIGHT = eINSTANCE.getVertex_Weight();
 
 		/**
 		 * The meta object literal for the '{@link graph.impl.EdgeImpl <em>Edge</em>}' class.

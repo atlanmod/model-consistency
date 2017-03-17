@@ -40,4 +40,9 @@ public class AddManyReferences extends Operation {
                 ", value=" + oids +
                 '}';
     }
+
+    @Override
+    public Id instanceId() {
+        return fid.asInstanceId();
+    }
 }

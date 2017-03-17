@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link graph.Vertex#getOwner <em>Owner</em>}</li>
  *   <li>{@link graph.Vertex#getLabel <em>Label</em>}</li>
+ *   <li>{@link graph.Vertex#getWeigth <em>Weigth</em>}</li>
  * </ul>
  *
  * @see graph.GraphPackage#getVertex()
@@ -22,34 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Vertex extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Owner</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link graph.Graph#getVertices <em>Vertices</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Owner</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Owner</em>' container reference.
-	 * @see #setOwner(Graph)
-	 * @see graph.GraphPackage#getVertex_Owner()
-	 * @see graph.Graph#getVertices
-	 * @model opposite="vertices" transient="false"
-	 * @generated
-	 */
-	Graph getOwner();
-
-	/**
-	 * Sets the value of the '{@link graph.Vertex#getOwner <em>Owner</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Owner</em>' container reference.
-	 * @see #getOwner()
-	 * @generated
-	 */
-	void setOwner(Graph value);
-
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -61,7 +33,7 @@ public interface Vertex extends EObject {
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(String)
 	 * @see graph.GraphPackage#getVertex_Label()
-	 * @model unique="false"
+	 * @model
 	 * @generated
 	 */
 	String getLabel();
@@ -75,5 +47,31 @@ public interface Vertex extends EObject {
 	 * @generated
 	 */
 	void setLabel(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Weigth</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Weigth</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Weigth</em>' attribute.
+	 * @see #setWeigth(int)
+	 * @see graph.GraphPackage#getVertex_Weigth()
+	 * @model
+	 * @generated
+	 */
+	int getWeigth();
+
+	/**
+	 * Sets the value of the '{@link graph.Vertex#getWeigth <em>Weigth</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Weigth</em>' attribute.
+	 * @see #getWeigth()
+	 * @generated
+	 */
+	void setWeigth(int value);
 
 } // Vertex

@@ -21,17 +21,16 @@ import fr.inria.atlanmod.consistency.core.FeatureId;
  *
  * @author AtlanMod team.
  */
-public class Unset extends Operation {
-    private final FeatureId fid;
+public class Unset extends FeatureOperation {
 
     public Unset(FeatureId fid) {
-        this.fid = fid;
+        super(fid);
     }
 
     @Override
     public String toString() {
         return "Unset{" +
-                "fid=" + fid +
+                "fid=" + featureId() +
                 '}';
     }
 }

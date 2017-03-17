@@ -38,4 +38,9 @@ public class RemoveReference extends Operation {
                 ", oid=" + oid +
                 '}';
     }
+
+    @Override
+    public Id instanceId() {
+        return oid;
+    }
 }

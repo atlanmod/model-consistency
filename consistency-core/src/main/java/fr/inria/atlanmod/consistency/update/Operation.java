@@ -14,6 +14,10 @@
 
 package fr.inria.atlanmod.consistency.update;
 
+
+
+import fr.inria.atlanmod.consistency.core.Id;
+
 import java.io.Serializable;
 
 /**
@@ -21,7 +25,10 @@ import java.io.Serializable;
  *
  * @author AtlanMod team.
  */
-public class Operation implements Serializable {
+public abstract class Operation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public abstract Id instanceId();
+
 }
