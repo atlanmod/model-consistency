@@ -48,11 +48,11 @@ public class CompositeId extends DefaultId implements Id {
                 '}';
     }
 
-    protected Id high() {
+    public Id high() {
         return high;
     }
 
-    protected Id low() {
+    public Id low() {
         return low;
     }
 }

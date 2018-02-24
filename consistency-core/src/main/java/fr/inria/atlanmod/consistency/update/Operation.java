@@ -16,7 +16,10 @@ package fr.inria.atlanmod.consistency.update;
 
 
 
+import fr.inria.atlanmod.consistency.SharedResource;
 import fr.inria.atlanmod.consistency.core.Id;
+import fr.inria.atlanmod.consistency.message.UpdateMessage;
+import org.eclipse.emf.ecore.EObject;
 
 import java.io.Serializable;
 
@@ -25,10 +28,25 @@ import java.io.Serializable;
  *
  * @author AtlanMod team.
  */
-public abstract class Operation implements Serializable {
+public interface Operation {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     *
+     * @return an Id.
+     */
+    Id instanceId();
 
-    public abstract Id instanceId();
+    /**
+     * Transforms this operation into a Serializable message.
+     *
+     * @return an UpdateMessage
+     */
+    UpdateMessage asMessage();
 
+    /**
+     *
+     * @param resource a SharedResource
+     * @param eObject the concerned EObject
+     */
+    void execute(SharedResource resource, EObject eObject);
 }

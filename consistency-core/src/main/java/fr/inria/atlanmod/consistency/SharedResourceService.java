@@ -14,9 +14,12 @@
 
 package fr.inria.atlanmod.consistency;
 
-import fr.inria.atlanmod.appa.activemq.PubSub;
 import fr.inria.atlanmod.appa.core.Service;
 import fr.inria.atlanmod.appa.datatypes.Id;
+import fr.inria.atlanmod.appa.datatypes.ServiceDescription;
+import fr.inria.atlanmod.appa.pubsub.Consumer;
+import fr.inria.atlanmod.appa.pubsub.Producer;
+import fr.inria.atlanmod.appa.pubsub.PubSub;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -36,8 +39,9 @@ public class SharedResourceService implements Service {
     }
 
 
+    @Nonnull
     @Override
-    public Id id() {
+    public ServiceDescription description() {
         return null;
     }
 
@@ -51,15 +55,6 @@ public class SharedResourceService implements Service {
 
     }
 
-    @Override
-    public int port() {
-        return 0;
-    }
-
-    @Override
-    public void run() {
-
-    }
 
     public SharedResource open(@Nonnull URI uri) {
         return null; //SharedResourceFactory.getInstance().createResource(uri);
@@ -67,7 +62,13 @@ public class SharedResourceService implements Service {
 
     public SharedResource share(Resource resource) {
         URI uri = resource.getURI();
-        return null;
+        String topic = uri.toString();
+        Producer producer = pubSub.createTopic(topic);
+        Consumer consumer = pubSub.consumeTopic(topic);
+
+        SharedResource result = new SharedResource(uri, producer, consumer);
+        resource.getContents().addAll(resource.getContents());
+        return result;
 
     }
 

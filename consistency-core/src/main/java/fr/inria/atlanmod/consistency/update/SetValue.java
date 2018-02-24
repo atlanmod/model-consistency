@@ -14,7 +14,13 @@
 
 package fr.inria.atlanmod.consistency.update;
 
+import fr.inria.atlanmod.consistency.SharedResource;
 import fr.inria.atlanmod.consistency.core.FeatureId;
+import fr.inria.atlanmod.consistency.message.MessageType;
+import fr.inria.atlanmod.consistency.message.UpdateMessage;
+import fr.inria.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * Created on 10/03/2017.
@@ -38,5 +44,16 @@ public class SetValue extends FeatureOperation {
                 ", value=" + value +
                 ", previous="+previous+
                 '}';
+    }
+
+    @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.Set, featureId(), value, previous);
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        EStructuralFeature feature = eObject.eClass().getEStructuralFeature(featureId().low().toInt());
+        eObject.eSet(feature, eObject);
     }
 }

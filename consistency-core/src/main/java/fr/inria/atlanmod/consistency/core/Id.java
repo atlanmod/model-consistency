@@ -12,6 +12,10 @@
 package fr.inria.atlanmod.consistency.core;
 
 public interface Id {
-    public CompositeId composeWith(Id id);
+    CompositeId composeWith(Id id);
+
+    String toString();
+
+    int toInt();
 
 }

@@ -15,7 +15,6 @@
 package fr.inria.atlanmod.consistency.update;
 
 import fr.inria.atlanmod.consistency.History;
-import fr.inria.atlanmod.consistency.SharedResource;
 import fr.inria.atlanmod.consistency.core.FeatureId;
 import fr.inria.atlanmod.consistency.core.Id;
 import fr.inria.atlanmod.consistency.core.InstanceId;
@@ -23,10 +22,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 import static fr.inria.atlanmod.consistency.util.ConsistencyUtil.identifierFor;

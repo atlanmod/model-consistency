@@ -12,21 +12,15 @@
  *
  */
 
-package fr.inria.atlanmod.consistency;
+package fr.inria.atlanmod.consistency.message;
 
-import fr.inria.atlanmod.consistency.core.Id;
-import fr.inria.atlanmod.consistency.message.UpdateMessage;
-import org.eclipse.emf.ecore.EClass;
-
-
-public class CreateEObject extends UpdateMessage {
-
-    private Id id;
-
-    public CreateEObject(EClass eClass, Id id) {
-        eClass.getClassifierID();
-        this.id = id;
-
-        //eClass.getEPackage().
-    }
+/**
+ * Created on 17/03/2017.
+ *
+ * @author AtlanMod team.
+ */
+public enum MessageType {
+    Attach,
+    Detach,
+    Set
 }

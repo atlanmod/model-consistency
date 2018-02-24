@@ -29,7 +29,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class History {
     private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<Operation>();
-    private Map<FeatureId, List<UpdateMessage>> changes;
+    private Map<FeatureId, List<Operation>> changes;
     private final SharedResource resource;
 
     public History(SharedResource resource) {
@@ -37,11 +37,19 @@ public class History {
     }
 
     public void integrate(Operation operation) {
+        resource.execute(operation);
 
     }
 
     public void add(Operation operation) {
-        incoming.offer(operation);
+        resource.broadcast(operation);
         System.out.println("New operation: " + operation);
+        incoming.offer(operation);
+    }
+
+    public void basicAdd(Operation operation) {
+        if (changes.containsKey(operation.instanceId())){
+            changes.get(operation.instanceId()).add(operation);
+        }
     }
 }

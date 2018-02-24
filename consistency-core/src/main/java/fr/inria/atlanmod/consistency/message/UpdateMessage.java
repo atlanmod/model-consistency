@@ -12,8 +12,26 @@
  *
  */
 
-package fr.inria.atlanmod.consistency;
+package fr.inria.atlanmod.consistency.message;
 
 
-public class UpdateMessage {
+import fr.inria.atlanmod.consistency.core.Id;
+
+import java.io.Serializable;
+
+public interface UpdateMessage extends Serializable {
+
+    MessageType type();
+
+    Id instanceId();
+
+    Id featureId();
+
+    Object value();
+
+    Object oldValue();
+
+    Id reference();
+
+    Id oldReference();
 }

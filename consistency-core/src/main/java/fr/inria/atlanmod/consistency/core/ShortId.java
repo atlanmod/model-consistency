@@ -44,4 +44,9 @@ public class ShortId extends DefaultId implements Id {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public int toInt() {
+        return id;
+    }
 }

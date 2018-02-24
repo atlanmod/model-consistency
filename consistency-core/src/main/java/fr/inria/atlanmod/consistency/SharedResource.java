@@ -15,12 +15,17 @@
 package fr.inria.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
+import fr.inria.atlanmod.appa.pubsub.Consumer;
+import fr.inria.atlanmod.appa.pubsub.Producer;
 import fr.inria.atlanmod.consistency.adapter.EObjectAdapter;
 import fr.inria.atlanmod.consistency.core.Id;
 import fr.inria.atlanmod.consistency.core.IdBuilder;
 import fr.inria.atlanmod.consistency.core.InstanceId;
 import fr.inria.atlanmod.consistency.core.ResourceId;
+import fr.inria.atlanmod.consistency.message.UpdateMessage;
+import fr.inria.atlanmod.consistency.update.Attach;
 import fr.inria.atlanmod.consistency.update.ChangeManager;
+import fr.inria.atlanmod.consistency.update.Detach;
 import fr.inria.atlanmod.consistency.update.Operation;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -41,29 +46,42 @@ public class SharedResource extends ResourceImpl {
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid = builder.generateRID();
+    private Producer producer;
+    private Consumer consumer;
 
 
 
-    public SharedResource(URI uri) {
+    public SharedResource(URI uri, Producer producer, Consumer consumer) {
         super(uri);
+        this.producer = producer;
+        this.consumer = consumer;
     }
 
     @Override
     protected void attachedHelper(EObject eObject) {
-        InstanceId id = rid.nextId();
-        eObject.eAdapters().add(new EObjectAdapter(manager,id));
-        contents.put(id, eObject);
-
-        System.out.println("Adding Id to: " + id);
+        InstanceId oid;
+        EObjectAdapter adapter = adapterFor(eObject);
+        if (Objects.isNull(adapter)) {
+            oid = rid.nextId();
+            eObject.eAdapters().add(new EObjectAdapter(manager,oid));
+            contents.put(oid, eObject);
+            history.add(new Attach(oid));
+        } else {
+            oid = adapter.id();
+            history.basicAdd(new Attach(oid));
+        }
+        System.out.println("Adding Id to: " + oid);
     }
 
     @Override
     protected void detachedHelper(EObject eObject) {
         EObjectAdapter adapter = adapterFor(eObject);
-        System.out.println("--detaching object "+adapter.id()+"--");
         if (Objects.nonNull(adapter)) {
+            Id oid = adapter.id();
+            System.out.println("--detaching object "+oid+"--");
             eObject.eAdapters().remove(adapter);
-            contents.remove(adapter.id());
+            contents.remove(oid);
+            history.add(new Detach(oid));
         }
         super.detachedHelper(eObject);
     }
@@ -78,13 +96,41 @@ public class SharedResource extends ResourceImpl {
         Id oid = operation.instanceId();
         EObject eObject = contents.get(oid);
         eObject.eSetDeliver(false);
-        // execute without notification
+        operation.execute(this,eObject);
         eObject.eSetDeliver(true);
 
     }
 
     public void cancel(Operation operation) {
 
+    }
+
+    public void broadcast(Operation operation) {
+        producer.send(operation.asMessage());
+    }
+
+    public void receive(UpdateMessage message) {
+        Operation operation = null;
+        switch (message.type()) {
+            case Attach:
+                operation = new Attach(message);
+                break;
+            case Detach:
+                operation = new Detach(message);
+        }
+
+        if(operation != null) {this.history.integrate(operation);}
+    }
+
+
+    public class ConsumerThread implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                UpdateMessage message = (UpdateMessage) consumer.receive(3000);
+            }
+
+        }
     }
 
 }

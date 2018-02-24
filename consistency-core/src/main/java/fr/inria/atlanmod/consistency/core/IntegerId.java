@@ -42,4 +42,9 @@ public class IntegerId extends DefaultId implements Id {
     public String toString() {
         return "[" +id+"]";
     }
+
+    @Override
+    public int toInt() {
+        return id;
+    }
 }

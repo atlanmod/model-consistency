@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import java.util.Optional;
+
 import static java.util.Objects.isNull;
 
 /**
@@ -49,4 +51,5 @@ public class ConsistencyUtil {
     public static boolean isEAttribute(EStructuralFeature feature) {
         return EAttribute.class.isAssignableFrom(feature.getClass());
     }
+
 }

@@ -12,31 +12,40 @@
  *
  */
 
-package fr.inria.atlanmod.consistency.update;
+package fr.inria.atlanmod.consistency.message;
 
 import fr.inria.atlanmod.consistency.core.FeatureId;
 import fr.inria.atlanmod.consistency.core.Id;
-import fr.inria.atlanmod.consistency.core.InstanceId;
 
 /**
- * Created on 15/03/2017.
+ * Created on 17/03/2017.
  *
  * @author AtlanMod team.
  */
-public abstract class FeatureOperation implements Operation {
-
+public class ValueMessage extends AbstractUpdateMessage {
+    private final Object value;
+    private final Object previous;
     private final FeatureId featureId;
 
-    public FeatureOperation(FeatureId featureId) {
+    public ValueMessage(MessageType type, FeatureId featureId, Object value, Object previous) {
+        super(type);
         this.featureId = featureId;
+        this.value = value;
+        this.previous = previous;
     }
 
     @Override
-    public Id instanceId() {
-        return featureId.asInstanceId();
+    public Id featureId() {
+        return featureId;
     }
 
-    public FeatureId featureId() {
-        return featureId;
+    @Override
+    public Object value() {
+        return value;
+    }
+
+    @Override
+    public Object oldValue() {
+        return previous;
     }
 }

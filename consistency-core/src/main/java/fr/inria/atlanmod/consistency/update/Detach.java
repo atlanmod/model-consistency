@@ -14,16 +14,41 @@
 
 package fr.inria.atlanmod.consistency.update;
 
+import fr.inria.atlanmod.consistency.SharedResource;
 import fr.inria.atlanmod.consistency.core.Id;
+import fr.inria.atlanmod.consistency.message.InstanceMessage;
+import fr.inria.atlanmod.consistency.message.MessageType;
+import fr.inria.atlanmod.consistency.message.UpdateMessage;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * Created on 09/03/2017.
  *
  * @author AtlanMod team.
  */
-public class Detach extends Operation {
+public class Detach implements Operation {
+    private final Id instanceId;
+
+    public Detach(Id instanceId) {
+        this.instanceId = instanceId;
+    }
+
+    public Detach(UpdateMessage message) {
+        instanceId = message.instanceId();
+    }
+
     @Override
     public Id instanceId() {
-        return null;
+        return instanceId;
+    }
+
+    @Override
+    public UpdateMessage asMessage() {
+        return new InstanceMessage(MessageType.Detach, this.instanceId);
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        resource.getContents().remove(eObject);
     }
 }

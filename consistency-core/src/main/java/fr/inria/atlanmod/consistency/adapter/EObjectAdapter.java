@@ -51,7 +51,7 @@ public class EObjectAdapter implements Adapter {
         return EObject.class.isAssignableFrom(o.getClass());
     }
 
-    public Id id() {
+    public InstanceId id() {
         return id;
     }
 }

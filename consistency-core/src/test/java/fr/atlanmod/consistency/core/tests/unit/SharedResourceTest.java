@@ -104,8 +104,8 @@ public class SharedResourceTest {
 
 
 		/*
-		 * String id = EcoreUtil.getID(graph); EcoreUtil.setID(graph, "id");
-		 * System.out.println(id);
+		 * String instanceId = EcoreUtil.getID(graph); EcoreUtil.setID(graph, "instanceId");
+		 * System.out.println(instanceId);
 		 */
 
 
