@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>consistency</artifactId>
-        <groupId>fr.inria.atlanmod</groupId>
+        <groupId>org.atlanmod</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,8 +13,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>fr.inria.atlanmod.appa</groupId>
+            <groupId>org.atlanmod.appa</groupId>
             <artifactId>appa-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
