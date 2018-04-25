@@ -14,19 +14,20 @@
 
 package org.atlanmod.consistency;
 
-import fr.inria.atlanmod.appa.Node;
-
 /**
  * Created on 09/03/2017.
  * @author AtlanMod team.
  */
-public class NeoNode extends Node {
+public class NeoNode //extends Node
+{
 
 
 
     public static void main(String[] args) {
+        /*
         NeoNode node = new NeoNode();
         node.start();
+        */
     }
 
 }

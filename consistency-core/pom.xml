@@ -71,12 +71,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.atlanmod.appa</groupId>
-            <artifactId>appa-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.atlanmod</groupId>
             <artifactId>graph-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>

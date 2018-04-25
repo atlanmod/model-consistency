@@ -15,8 +15,6 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
-import fr.inria.atlanmod.appa.pubsub.Consumer;
-import fr.inria.atlanmod.appa.pubsub.Producer;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
@@ -106,7 +104,7 @@ public class SharedResource extends ResourceImpl {
     }
 
     public void broadcast(Operation operation) {
-        producer.send(operation.asMessage());
+        //producer.send(operation.asMessage());
     }
 
     public void receive(UpdateMessage message) {
