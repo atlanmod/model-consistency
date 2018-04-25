@@ -46,7 +46,7 @@ public class SharedResource extends ResourceImpl {
     private IdBuilder builder = new IdBuilder();
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
-    private ResourceId rid = builder.generateRID();
+    private ResourceId rid = IdBuilder.generateRID();
     private Producer producer;
     private Consumer consumer;
 
@@ -125,30 +125,40 @@ public class SharedResource extends ResourceImpl {
     }
 
 
-    public Map<Id, EObject> contents() {
-        if (this.contents == null) {
-            this.contents = Maps.newHashMap();
-        }
-        return this.contents;
-    }
+    /**
+     * A basic output summary of what happened in this resource
+     */
+    public void summary() {
+        int counter;
 
-    public History history() {
-        return history;
-    }
+        System.out.println("\n\n------- RESOURCE " + uri + " SUMMARY -------");
 
-    public void listHistory() {
-        int counter = 0;
-        for (Operation op : history.queue()) {
-            System.out.println("Operation " + counter + " " + op + " in resource " + uri);
+
+        System.out.println("\nThere are " + contents.size() + " different EObjects in the resource :");
+
+        counter = 1;
+        for (EObject each : contents.values()) {
+            System.out.println("EObject " + counter++ + " : " + each);
         }
+
+
+        System.out.println("\nThere are " + history.queue().size() + " registered operations in the resource :\n");
+
+        counter = 1;
+        for (Operation each : history.queue()) {
+            System.out.println("Operation " + counter++ + " : " + each);
+        }
+
+
+        System.out.println("\n---------------------------------------------------------------------------");
     }
 
     public class ConsumerThread implements Runnable {
         @Override
         public void run() {
-            while (true) {
-                //UpdateMessage message = (UpdateMessage) consumer.receive(3000);
-            }
+            /*while (true) {
+                UpdateMessage message = (UpdateMessage) consumer.receive(3000);
+            }*/
 
         }
     }

@@ -33,15 +33,6 @@ import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 public class NeoNode //extends Node
 {
 
-
-    private static void contains(SharedResource res) {
-        System.out.println("There are " + res.contents().size() + " different EObjects in the resource " + res.getURI());
-    }
-
-    private static void historyCount(SharedResource res) {
-        System.out.println("There are " + res.history().queue().size() + " registered operations in the resource " + res.getURI());
-    }
-
     public static void main(String[] args) {
 
         SharedResource resource1 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
@@ -50,6 +41,7 @@ public class NeoNode //extends Node
 
         Vertex vertexA = new VertexImpl("X");
         Vertex vertexB = new VertexImpl();
+        Vertex vertexC = new VertexImpl();
         Edge edgeAB = new EdgeImpl();
 
         resource1.attachedHelper(vertexA);
@@ -61,21 +53,19 @@ public class NeoNode //extends Node
         resource1.detachedHelper(vertexB);
 
         resource2.attachedHelper(vertexB);
-        edgeAB.setFrom(vertexA);
-        edgeAB.setTo(vertexB);
 
+        resource1.attachedHelper(vertexC);
+        resource1.attachedHelper(edgeAB);
+        edgeAB.setFrom(vertexA);
+        edgeAB.setTo(vertexC);
+        vertexC.setLabel("C");
         Vertex vertexZ = new VertexImpl();
         vertexZ.setLabel("Z");
 
         resource2.attachedHelper(vertexZ);
 
-        System.out.println();
-        contains(resource1);
-        contains(resource2);
-
-        historyCount(resource1);
-        historyCount(resource2);
-
+        resource1.summary();
+        resource2.summary();
 
 
 
