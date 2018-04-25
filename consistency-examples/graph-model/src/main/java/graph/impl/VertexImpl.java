@@ -36,6 +36,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	/**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	 *
+	 *     feature #0
 	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
@@ -46,6 +48,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	 *
+	 *     feature #1
 	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
@@ -56,6 +60,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	/**
 	 * The default value of the '{@link #getWeight() <em>Weight</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	 *
+	 *     feature #2
 	 * <!-- end-user-doc -->
 	 * @see #getWeight()
 	 * @generated
@@ -66,6 +72,8 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	/**
 	 * The cached value of the '{@link #getWeight() <em>Weight</em>}' attribute.
 	 * <!-- begin-user-doc -->
+	 *
+	 *     feature #3
 	 * <!-- end-user-doc -->
 	 * @see #getWeight()
 	 * @generated
@@ -78,10 +86,13 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VertexImpl() {
+	public VertexImpl() {
 		super();
 	}
 
+	public VertexImpl(String label) {
+		this.label = label;
+	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

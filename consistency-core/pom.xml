@@ -25,7 +25,14 @@
             <version>4.12</version>
         </dependency>
 
-
+        <!-- Uncomment to work with APPA
+            Check classes NeoNode, SharedResource and SharedResourceService
+        <dependency>
+            <groupId>org.atlanmod.appa</groupId>
+            <artifactId>appa-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -71,16 +78,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.atlanmod.appa</groupId>
-            <artifactId>appa-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.atlanmod</groupId>
             <artifactId>graph-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>

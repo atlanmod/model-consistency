@@ -16,13 +16,13 @@
     <inceptionYear>2017</inceptionYear>
 
     <organization>
-        <name>Atlanmod INRIA LINA Mines Nantes</name>
-        <url>http://www.emn.fr/z-info/atlanmod/index.php/Main_Page</url>
+        <name>Atlanmod</name>
+        <url>http://atlanmod.org</url>
     </organization>
 
     <scm>
-        <connection>scm:git:https://github.com/sunye/NeoEMF.git</connection>
-        <developerConnection>scm:git:https://github.com/atlanmod/model-consistency.git</developerConnection>
+        <connection>scm:git:https://github.com/sunye/model-consistency.git</connection>
+        <developerConnection>scm:git:https://github.com/sunye/model-consistency.git</developerConnection>
         <url>https://github.com/sunye/model-consistencyF</url>
     </scm>
 
@@ -110,7 +110,6 @@
         <mockito.version>2.7.4</mockito.version>
         <tomp2p.version>5.0-Beta8</tomp2p.version>
         <artemis.version>2.0.0</artemis.version>
-        <appa.version>0.0.1-SNAPSHOT</appa.version>
 
     </properties>
 

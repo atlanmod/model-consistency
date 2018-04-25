@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>fr.inria.atlanmod.appa</groupId>
+            <groupId>org.atlanmod.appa</groupId>
             <artifactId>appa-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

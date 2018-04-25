@@ -14,12 +14,15 @@
 
 package org.atlanmod.consistency;
 
+/*
 import org.atlanmod.appa.core.Service;
 import org.atlanmod.appa.datatypes.Id;
 import org.atlanmod.appa.datatypes.ServiceDescription;
 import org.atlanmod.appa.pubsub.Consumer;
 import org.atlanmod.appa.pubsub.Producer;
 import org.atlanmod.appa.pubsub.PublishSubscribe;
+*/
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -30,8 +33,9 @@ import javax.annotation.Nonnull;
  *
  * @author AtlanMod team.
  */
-public class SharedResourceService implements Service {
-
+public class SharedResourceService // implements Service
+{
+/*
     private final PublishSubscribe pubSub;
 
     public SharedResourceService(@Nonnull PublishSubscribe pubSub) {
@@ -71,5 +75,5 @@ public class SharedResourceService implements Service {
         return result;
 
     }
-
+*/
 }

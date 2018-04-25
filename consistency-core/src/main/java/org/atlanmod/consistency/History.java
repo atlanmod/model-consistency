@@ -14,9 +14,11 @@
 
 package org.atlanmod.consistency;
 
+import com.google.common.collect.Maps;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.update.Operation;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -29,7 +31,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class History {
     private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<>();
-    private Map<FeatureId, List<Operation>> changes;
+    private Map<FeatureId, List<Operation>> changes = Maps.newHashMap();
     private final SharedResource resource;
 
     public History(SharedResource resource) {
@@ -51,6 +53,10 @@ public class History {
         if (changes.containsKey(operation.instanceId())){
             changes.get(operation.instanceId()).add(operation);
         }
+    }
+
+    public BlockingQueue<Operation> queue() {
+        return incoming;
     }
 
 }

@@ -15,8 +15,9 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
-import org.atlanmod.appa.pubsub.Consumer;
-import org.atlanmod.appa.pubsub.Producer;
+
+//import org.atlanmod.appa.pubsub.Consumer;
+//import org.atlanmod.appa.pubsub.Producer;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
@@ -70,6 +71,7 @@ public class SharedResource extends ResourceImpl {
             oid = adapter.id();
             history.basicAdd(new Attach(oid));
         }
+
         System.out.println("Adding Id to: " + oid);
     }
 
@@ -106,7 +108,7 @@ public class SharedResource extends ResourceImpl {
     }
 
     public void broadcast(Operation operation) {
-        producer.send(operation.asMessage());
+        //producer.send(operation.asMessage());
     }
 
     public void receive(UpdateMessage message) {
@@ -123,11 +125,29 @@ public class SharedResource extends ResourceImpl {
     }
 
 
+    public Map<Id, EObject> contents() {
+        if (this.contents == null) {
+            this.contents = Maps.newHashMap();
+        }
+        return this.contents;
+    }
+
+    public History history() {
+        return history;
+    }
+
+    public void listHistory() {
+        int counter = 0;
+        for (Operation op : history.queue()) {
+            System.out.println("Operation " + counter + " " + op + " in resource " + uri);
+        }
+    }
+
     public class ConsumerThread implements Runnable {
         @Override
         public void run() {
             while (true) {
-                UpdateMessage message = (UpdateMessage) consumer.receive(3000);
+                //UpdateMessage message = (UpdateMessage) consumer.receive(3000);
             }
 
         }
