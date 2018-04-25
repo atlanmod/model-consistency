@@ -65,7 +65,7 @@
 
     <modules>
         <module>consistency-core</module>
-        <module>consistency-bootstrapper</module>
+        <!--<module>consistency-bootstrapper</module>-->
         <module>consistency-examples</module>
     </modules>
 
