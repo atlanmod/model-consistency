@@ -28,7 +28,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author AtlanMod team.
  */
 public class History {
-    private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<Operation>();
+    private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<>();
     private Map<FeatureId, List<Operation>> changes;
     private final SharedResource resource;
 
@@ -52,4 +52,5 @@ public class History {
             changes.get(operation.instanceId()).add(operation);
         }
     }
+
 }

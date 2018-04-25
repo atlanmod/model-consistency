@@ -14,12 +14,12 @@
 
 package org.atlanmod.consistency;
 
-import fr.inria.atlanmod.appa.core.Service;
-import fr.inria.atlanmod.appa.datatypes.Id;
-import fr.inria.atlanmod.appa.datatypes.ServiceDescription;
-import fr.inria.atlanmod.appa.pubsub.Consumer;
-import fr.inria.atlanmod.appa.pubsub.Producer;
-import fr.inria.atlanmod.appa.pubsub.PublishSubscribe;
+import org.atlanmod.appa.core.Service;
+import org.atlanmod.appa.datatypes.Id;
+import org.atlanmod.appa.datatypes.ServiceDescription;
+import org.atlanmod.appa.pubsub.Consumer;
+import org.atlanmod.appa.pubsub.Producer;
+import org.atlanmod.appa.pubsub.PublishSubscribe;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 

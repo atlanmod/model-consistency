@@ -193,7 +193,7 @@
             </dependency>
 
             <dependency>
-                <groupId>fr.inria.atlanmod.appa</groupId>
+                <groupId>org.atlanmod.appa</groupId>
                 <artifactId>appa-core</artifactId>
                 <version>${appa.version}</version>
             </dependency>

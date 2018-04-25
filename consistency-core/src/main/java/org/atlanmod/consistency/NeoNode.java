@@ -14,7 +14,7 @@
 
 package org.atlanmod.consistency;
 
-import fr.inria.atlanmod.appa.Node;
+import org.atlanmod.appa.Node;
 
 /**
  * Created on 09/03/2017.
