@@ -18,6 +18,7 @@ import com.google.common.collect.Maps;
 
 //import org.atlanmod.appa.pubsub.Consumer;
 //import org.atlanmod.appa.pubsub.Producer;
+import graph.Graph;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
@@ -124,14 +125,22 @@ public class SharedResource extends ResourceImpl {
         if(operation != null) {this.history.integrate(operation);}
     }
 
+    /**
+     * Checks by semi-recursion whether an objects appears in the resource (sub)content
+     *
+     * @param object
+     * @return true if object is contained by the resource or one of its contents
+     */
 
     public boolean contains(EObject object) {
         boolean containment = contents.containsValue(object);
 
         if (!containment) {
             for (EObject each : contents.values()) {
-                if (each.eContents().contains(object))
+                if (each.eContents().contains(object)) {
                     containment = true;
+                    break;
+                }
             }
         }
 
@@ -143,17 +152,20 @@ public class SharedResource extends ResourceImpl {
      */
     public void summary() {
         int counter;
+        boolean plural;
 
         System.out.println("\n\n------- RESOURCE " + uri + " SUMMARY -------");
 
-        System.out.println("\nThere are " + contents.size() + " different EObjects in the resource :\n");
+        if (contents.size() > 1) plural = true; else plural = false;
+        System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
 
         counter = 1;
         for (EObject each : contents.values()) {
-            System.out.println("EObject " + counter++ + " : " + each);
+            System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
         }
 
-        System.out.println("\nThere are " + history.queue().size() + " registered operations in the resource :\n");
+        if (history.queue().size() > 1) plural = true; else plural = false;
+        System.out.println("\nThere " + (plural ? "are " : "is ") + history.queue().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
 
         counter = 1;
         for (Operation each : history.queue()) {

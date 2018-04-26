@@ -20,14 +20,7 @@ import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
 import graph.Vertex;
-import graph.impl.EdgeImpl;
-import graph.impl.GraphImpl;
-import graph.impl.VertexImpl;
-import org.atlanmod.consistency.update.Operation;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EAttributeImpl;
-import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 
 /**
  * Created on 09/03/2017.
@@ -43,34 +36,43 @@ public class NeoNode //extends Node
 
 
         GraphFactory factory = GraphFactory.eINSTANCE;
-        Graph graph = factory.createGraph();
+        Graph graph1 = factory.createGraph();
+        Graph graph2 = factory.createGraph();
 
 
         Vertex vertexA = factory.createVertex();
         Vertex vertexB = factory.createVertex();
         Vertex vertexC = factory.createVertex();
-        Edge edgeAB = factory.createEdge();
+        Edge edgeAC = factory.createEdge();
+
+        resource1.attachedHelper(graph1);
+
 
         vertexA.setLabel("X");
-        resource1.attachedHelper(vertexA);
+        graph1.getVertices().add(vertexA);
         vertexA.setLabel("A");
 
-        resource1.attachedHelper(vertexB);
+        graph1.getVertices().add(vertexB);
         vertexB.setLabel("B");
 
         resource1.detachedHelper(vertexB);
 
-        resource2.attachedHelper(vertexB);
+        resource2.attachedHelper(graph2);
 
-        resource1.attachedHelper(vertexC);
-        resource1.attachedHelper(edgeAB);
-        edgeAB.setFrom(vertexA);
-        edgeAB.setTo(vertexC);
+        graph2.getVertices().add(vertexB);
+
+        graph1.getVertices().add(vertexC);
+        graph1.getEdges().add(edgeAC);
+
+        edgeAC.setFrom(vertexA);
+        edgeAC.setTo(vertexC);
+
         vertexC.setLabel("C");
-        Vertex vertexZ = new VertexImpl();
+
+        Vertex vertexZ = factory.createVertex();
         vertexZ.setLabel("Z");
 
-        resource2.attachedHelper(vertexZ);
+        graph2.getVertices().add(vertexZ);
 
         resource1.summary();
         resource2.summary();

@@ -201,4 +201,21 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 		return super.eIsSet(featureID);
 	}
 
+	public String output() {
+	    String output = "";
+	    if (vertices != null) {
+            for (Vertex each : vertices) {
+                output += "\n\t" + each;
+            }
+        }
+
+        if (edges != null) {
+            for (Edge each : edges) {
+                output += "\n\t" + each;
+            }
+        }
+
+        return output;
+    }
+
 } //GraphImpl
