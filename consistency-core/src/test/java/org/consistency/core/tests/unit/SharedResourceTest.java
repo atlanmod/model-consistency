@@ -22,8 +22,10 @@ import graph.Vertex;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -66,13 +68,17 @@ public class SharedResourceTest {
     public void testContainment() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
+        Vertex v2 = factory.createVertex();
+        v2.setLabel("B");
+
         resource.attached(graph);
         graph.getVertices().add(v1);
 
         assertTrue(resource.contains(v1));
+        assertFalse(resource.contains(v2));
     }
 
-    //@Test
+    @Test
     public void testNotification() {
         Vertex v = factory.createVertex();
         resource.getContents().add(v);
@@ -82,7 +88,14 @@ public class SharedResourceTest {
         resource.getContents().add(e);
 
         e.setFrom(v);
-        e.setFrom(null);
+
+        try {
+            e.setFrom(null);
+            fail();
+        }
+        catch (AssertionError assertionError) {
+            assertTrue(assertionError.getMessage().equals("Set with a null value"));
+        }
 
         Graph g = factory.createGraph();
         resource.getContents().add(g);
@@ -108,6 +121,30 @@ public class SharedResourceTest {
         assertTrue(g.getVertices().size() == 2);
         assertTrue(g.getVertices().get(1).equals(v1));
         assertTrue(g.getVertices().get(0).equals(v3));
+    }
+
+
+    @Test
+    public void testRemoveMany() {
+        Graph g = factory.createGraph();
+        Vertex v1 = factory.createVertex();
+        v1.setLabel("A");
+        Vertex v2 = factory.createVertex();
+        Vertex v3 = factory.createVertex();
+        resource.getContents().add(g);
+
+        g.getVertices().add(v1);
+        g.getVertices().add(v2);
+        g.getVertices().add(v3);
+
+        List<Vertex> vertices = Arrays.asList(new Vertex[] {v1,v3});
+        System.out.println(vertices.getClass());
+        g.getVertices().removeAll(vertices);
+
+        assertFalse(g.eContents().contains(v1) && g.eContents().contains(v3));
+        assertFalse(resource.contains(v1));
+
+        assertTrue(resource.contains(v3) && g.getVertices().contains(v2));
     }
 
     @Test

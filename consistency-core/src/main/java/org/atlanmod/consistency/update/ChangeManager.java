@@ -14,14 +14,19 @@
 
 package org.atlanmod.consistency.update;
 
+import com.google.common.primitives.Ints;
 import org.atlanmod.consistency.History;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.InstanceId;
+import org.atlanmod.consistency.core.IntegerId;
+import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -194,6 +199,9 @@ public class ChangeManager {
             List<Object> values = (List<Object>) notification.getNewValue();
             return new RemoveManyValues(fid, values);
         } else if (isEReference(feature)) {
+
+            Object obj = notification.getNewValue(); // DEBUG PURPOSE
+
             List<EObject> values = (List<EObject>) notification.getNewValue();
             List<Id> ids = values.stream()
                     .map(each -> identifierFor(each))

@@ -16,11 +16,15 @@ package org.atlanmod.consistency;
 
 //import org.atlanmod.appa.Node;
 
-import graph.Edge;
-import graph.Graph;
-import graph.GraphFactory;
-import graph.Vertex;
+import graph.*;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created on 09/03/2017.
@@ -74,9 +78,6 @@ public class NeoNode //extends Node
 
         resource1.summary();
         resource2.summary();
-
-
-
 
         /*
         NeoNode node = new NeoNode();

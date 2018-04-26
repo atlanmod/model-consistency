@@ -148,7 +148,7 @@ public class SharedResource extends ResourceImpl {
     }
 
     /**
-     * A basic output summary of what happened in this resource
+     * A basic output summary of what happened in this resource for the session
      */
     public void summary() {
         int counter;
