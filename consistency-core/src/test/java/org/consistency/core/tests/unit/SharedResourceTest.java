@@ -124,7 +124,7 @@ public class SharedResourceTest {
     }
 
 
-    @Test
+    //@Test
     public void testRemoveMany() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
