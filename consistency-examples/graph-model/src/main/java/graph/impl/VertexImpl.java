@@ -90,9 +90,6 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 		super();
 	}
 
-	public VertexImpl(String label) {
-		this.label = label;
-	}
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

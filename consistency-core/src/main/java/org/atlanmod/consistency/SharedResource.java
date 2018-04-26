@@ -43,7 +43,7 @@ import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
-    private IdBuilder builder = new IdBuilder();
+    //private IdBuilder builder = new IdBuilder();
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid = IdBuilder.generateRID();
@@ -125,6 +125,19 @@ public class SharedResource extends ResourceImpl {
     }
 
 
+    public boolean contains(EObject object) {
+        boolean containment = contents.containsValue(object);
+
+        if (!containment) {
+            for (EObject each : contents.values()) {
+                if (each.eContents().contains(object))
+                    containment = true;
+            }
+        }
+
+        return containment;
+    }
+
     /**
      * A basic output summary of what happened in this resource
      */
@@ -133,14 +146,12 @@ public class SharedResource extends ResourceImpl {
 
         System.out.println("\n\n------- RESOURCE " + uri + " SUMMARY -------");
 
-
-        System.out.println("\nThere are " + contents.size() + " different EObjects in the resource :");
+        System.out.println("\nThere are " + contents.size() + " different EObjects in the resource :\n");
 
         counter = 1;
         for (EObject each : contents.values()) {
             System.out.println("EObject " + counter++ + " : " + each);
         }
-
 
         System.out.println("\nThere are " + history.queue().size() + " registered operations in the resource :\n");
 

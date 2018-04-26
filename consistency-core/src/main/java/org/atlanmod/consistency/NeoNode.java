@@ -17,8 +17,11 @@ package org.atlanmod.consistency;
 //import org.atlanmod.appa.Node;
 
 import graph.Edge;
+import graph.Graph;
+import graph.GraphFactory;
 import graph.Vertex;
 import graph.impl.EdgeImpl;
+import graph.impl.GraphImpl;
 import graph.impl.VertexImpl;
 import org.atlanmod.consistency.update.Operation;
 import org.eclipse.emf.common.util.URI;
@@ -39,11 +42,16 @@ public class NeoNode //extends Node
         SharedResource resource2 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource2"), null, null);
 
 
-        Vertex vertexA = new VertexImpl("X");
-        Vertex vertexB = new VertexImpl();
-        Vertex vertexC = new VertexImpl();
-        Edge edgeAB = new EdgeImpl();
+        GraphFactory factory = GraphFactory.eINSTANCE;
+        Graph graph = factory.createGraph();
 
+
+        Vertex vertexA = factory.createVertex();
+        Vertex vertexB = factory.createVertex();
+        Vertex vertexC = factory.createVertex();
+        Edge edgeAB = factory.createEdge();
+
+        vertexA.setLabel("X");
         resource1.attachedHelper(vertexA);
         vertexA.setLabel("A");
 

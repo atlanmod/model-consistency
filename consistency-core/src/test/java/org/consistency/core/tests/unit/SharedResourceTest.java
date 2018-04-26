@@ -22,12 +22,15 @@ import graph.Vertex;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.URI;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
 
 /**
  * Created on 10/03/2017.
@@ -52,7 +55,21 @@ public class SharedResourceTest {
 
     @Test
     public void testSharedResource() {
-        assert true;
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), null, null);
+
+        assertTrue(resource.getURI().equals(uri));
+
+        assertFalse(resource.equals(other));
+    }
+
+    @Test
+    public void testContainment() {
+        Vertex v1 = factory.createVertex();
+        v1.setLabel("A");
+        resource.attached(graph);
+        graph.getVertices().add(v1);
+
+        assertTrue(resource.contains(v1));
     }
 
     //@Test
@@ -87,6 +104,10 @@ public class SharedResourceTest {
         g.getVertices().move(0,2);
 
         g.getVertices().remove(v2);
+
+        assertTrue(g.getVertices().size() == 2);
+        assertTrue(g.getVertices().get(1).equals(v1));
+        assertTrue(g.getVertices().get(0).equals(v3));
     }
 
     @Test
@@ -97,6 +118,7 @@ public class SharedResourceTest {
         g.getVertices().add(v1);
 
         v1.setWeight(5);
+
     }
 
     private void write(Resource resource) throws IOException {
