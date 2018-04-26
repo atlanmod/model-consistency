@@ -55,8 +55,6 @@ public class NeoNode //extends Node
         graph1.getVertices().add(vertexB);
         vertexB.setLabel("B");
 
-        resource1.detachedHelper(vertexB);
-
         resource2.attachedHelper(graph2);
 
         graph2.getVertices().add(vertexB);
