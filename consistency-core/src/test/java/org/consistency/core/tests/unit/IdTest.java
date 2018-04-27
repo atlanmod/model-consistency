@@ -17,8 +17,8 @@ package org.consistency.core.tests.unit;
 import org.atlanmod.consistency.core.CompositeId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,7 +27,7 @@ public class IdTest {
     private CompositeId cid, opposite;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         Id i785 = IdBuilder.fromInt(785);
         Id i33 = IdBuilder.fromInt(33);

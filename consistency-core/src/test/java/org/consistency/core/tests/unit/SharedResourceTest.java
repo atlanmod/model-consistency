@@ -19,9 +19,10 @@ import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
 import graph.Vertex;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.Before;
-import org.junit.Test;
+//import org.eclipse.emf.ecore.resource.Resource;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +30,7 @@ import static org.junit.Assert.fail;
 
 import org.eclipse.emf.common.util.URI;
 
-import java.io.IOException;
+//import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,8 +48,9 @@ public class SharedResourceTest {
     private Graph graph = factory.createGraph();
 
 
-    @Before
-    public void setUp() throws IOException {
+    @BeforeEach
+    public void setUp() //throws IOException
+    {
         uri = URI.createURI("file://tmp/");
         resource = new SharedResource(uri, null, null);
         //this.write(resource);
@@ -65,13 +67,34 @@ public class SharedResourceTest {
     }
 
     @Test
+    public void testAttachDetach() {
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), null, null);
+
+        resource.attachedHelper(graph);
+
+        assertTrue(resource.contains(graph));
+
+        other.attachedHelper(graph);
+
+        assertTrue(resource.contains(graph));
+        assertFalse(other.contains(graph));
+
+        resource.detachedHelper(graph);
+        other.attachedHelper(graph);
+
+        assertFalse(resource.contains(graph));
+        assertTrue(other.contains(graph));
+
+    }
+
+    @Test
     public void testContainment() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
         v2.setLabel("B");
 
-        resource.attached(graph);
+        resource.attachedHelper(graph);
         graph.getVertices().add(v1);
 
         assertTrue(resource.contains(v1));
@@ -111,7 +134,7 @@ public class SharedResourceTest {
         Vertex v3 = factory.createVertex();
         resource.getContents().add(g);
 
-        List<Vertex> vertices = Arrays.asList(new Vertex[] {v1,v2});
+        List<Vertex> vertices = Arrays.asList(v1,v2);
         g.getVertices().addAll(vertices);
         g.getVertices().add(v3);
         g.getVertices().move(0,2);
@@ -123,7 +146,6 @@ public class SharedResourceTest {
         assertTrue(g.getVertices().get(0).equals(v3));
     }
 
-
     @Test
     public void testRemoveMany() {
         Graph g = factory.createGraph();
@@ -131,13 +153,13 @@ public class SharedResourceTest {
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
         Vertex v3 = factory.createVertex();
-        resource.getContents().add(g);
+        resource.attachedHelper(g);
 
         g.getVertices().add(v1);
         g.getVertices().add(v2);
         g.getVertices().add(v3);
 
-        List<Vertex> vertices = Arrays.asList(new Vertex[] {v1,v3});
+        List<Vertex> vertices = Arrays.asList(v1,v3);
 
         g.getVertices().removeAll(vertices);
 
@@ -158,13 +180,13 @@ public class SharedResourceTest {
 
     }
 
-    private void write(Resource resource) throws IOException {
+    /*private void write(Resource resource) throws IOException {
 
 
-		/*
+		*//*
 		 * String instanceId = EcoreUtil.getID(graph); EcoreUtil.setID(graph, "instanceId");
 		 * System.out.println(instanceId);
-		 */
+		 *//*
 
 
         Vertex v = factory.createVertex();
@@ -172,9 +194,9 @@ public class SharedResourceTest {
 
         for (int i = 0; i < 100; i++) {
             Vertex v1 = factory.createVertex();
-            v1.setLabel("Vertice " + i + "a");
+            v1.setLabel("Vertex " + i + "a");
             Vertex v2 = factory.createVertex();
-            v2.setLabel("Vertice " + i + "b");
+            v2.setLabel("Vertex " + i + "b");
             Edge e = factory.createEdge();
             e.setFrom(v1);
             e.setTo(v2);
@@ -183,7 +205,7 @@ public class SharedResourceTest {
             graph.getVertices().add(v2);
         }
         resource.getContents().add(graph);
-    }
+    }*/
 
 
 

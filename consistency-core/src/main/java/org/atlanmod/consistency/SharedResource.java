@@ -60,7 +60,7 @@ public class SharedResource extends ResourceImpl {
     }
 
     @Override
-    protected void attachedHelper(EObject eObject) {
+    public void attachedHelper(EObject eObject) {
         InstanceId oid;
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.isNull(adapter)) {
@@ -77,7 +77,7 @@ public class SharedResource extends ResourceImpl {
     }
 
     @Override
-    protected void detachedHelper(EObject eObject) {
+    public void detachedHelper(EObject eObject) {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
