@@ -203,7 +203,7 @@ public class ChangeManager {
             for (Integer i : values) {
                 ids.add(IdBuilder.fromInt(i));
             }
-            
+
             return new RemoveManyReferences(fid, ids);
         } else {
             return new Invalid();
