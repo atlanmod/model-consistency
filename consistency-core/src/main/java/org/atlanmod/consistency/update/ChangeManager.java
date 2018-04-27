@@ -20,6 +20,7 @@ import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
 import org.atlanmod.consistency.core.InstanceId;
+import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -176,7 +177,7 @@ public class ChangeManager {
         } else if (isEReference(feature)) {
             List<EObject> values = (List<EObject>) notification.getNewValue();
             List<Id> ids = values.stream()
-                    .map(each -> identifierFor(each))
+                    .map(ConsistencyUtil::identifierFor)
                     .collect(Collectors.toList());
 
             return new AddManyReferences(fid, ids);
