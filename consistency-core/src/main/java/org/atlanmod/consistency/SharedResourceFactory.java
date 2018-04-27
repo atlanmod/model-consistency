@@ -16,6 +16,7 @@ package org.atlanmod.consistency;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

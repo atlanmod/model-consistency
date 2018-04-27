@@ -15,9 +15,6 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
-
-//import org.atlanmod.appa.pubsub.Consumer;
-//import org.atlanmod.appa.pubsub.Producer;
 import graph.Graph;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
@@ -37,6 +34,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
+
+//import org.atlanmod.appa.pubsub.Consumer;
+//import org.atlanmod.appa.pubsub.Producer;
 
 /**
  * Created on 17/02/2017.

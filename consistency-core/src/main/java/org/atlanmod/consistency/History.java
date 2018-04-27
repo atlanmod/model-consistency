@@ -18,7 +18,6 @@ import com.google.common.collect.Maps;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.update.Operation;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;

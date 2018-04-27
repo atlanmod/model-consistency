@@ -14,10 +14,8 @@
 
 package org.atlanmod.consistency.update;
 
-import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * Created on 10/03/2017.

@@ -14,13 +14,16 @@
 
 package org.consistency.core.tests.unit;
 
+import graph.*;
+import graph.impl.VertexImpl;
 import org.atlanmod.consistency.SharedResource;
-import graph.Edge;
-import graph.Graph;
-import graph.GraphFactory;
-import graph.Vertex;
 //import org.eclipse.emf.ecore.resource.Resource;
 
+import org.atlanmod.consistency.update.Attach;
+import org.atlanmod.consistency.update.Operation;
+import org.atlanmod.consistency.update.RemoveManyValues;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -31,6 +34,7 @@ import static org.junit.Assert.fail;
 import org.eclipse.emf.common.util.URI;
 
 //import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -147,27 +151,53 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testRemoveMany() {
-        Graph g = factory.createGraph();
+    public void testRemoveManyReferences() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
         Vertex v3 = factory.createVertex();
-        resource.attachedHelper(g);
+        resource.attachedHelper(graph);
 
-        g.getVertices().add(v1);
-        g.getVertices().add(v2);
-        g.getVertices().add(v3);
+        graph.getVertices().add(v1);
+        graph.getVertices().add(v2);
+        graph.getVertices().add(v3);
 
         List<Vertex> vertices = Arrays.asList(v1,v3);
 
-        g.getVertices().removeAll(vertices);
+        graph.getVertices().removeAll(vertices);
 
-        assertFalse(g.eContents().contains(v1) && g.eContents().contains(v3));
+        assertFalse(graph.eContents().contains(v1) && graph.eContents().contains(v3));
         assertFalse(resource.contains(v1));
 
-        assertTrue(resource.contains(v2) && g.getVertices().contains(v2));
+        assertTrue(resource.contains(v2) && graph.getVertices().contains(v2));
     }
+/*
+
+    Not OK
+    I don't see the point actually ------
+
+
+    @Test
+    public void testRemoveManyValues() {
+        VertexImpl v1 = (VertexImpl) factory.createVertex();
+        v1.setLabel("A");
+        v1.setWeight(5);
+        v1.setOwner(graph);
+
+        assertTrue(v1.getLabel() != null);
+
+        List<Integer> delete = new ArrayList<>();
+        for (int i = 0; i < GraphPackage.VERTEX_FEATURE_COUNT; ++i) {
+            //Object feature = v1.eGet(i,true,true);
+            delete.add(i);
+        }
+
+
+
+        assertTrue(v1.getLabel() == null);
+    }
+
+    */
 
     @Test
     public void testBasicTypes() {
@@ -178,6 +208,23 @@ public class SharedResourceTest {
 
         v1.setWeight(5);
 
+    }
+
+    @Test
+    public void testClear() {
+
+        resource.attachedHelper(graph);
+        Vertex vertexA = factory.createVertex();
+        Vertex vertexB = factory.createVertex();
+        Vertex vertexC = factory.createVertex();
+
+        graph.getVertices().add(vertexA);
+        graph.getVertices().add(vertexB);
+        graph.getVertices().add(vertexC);
+
+        graph.getVertices().clear();
+
+        assertTrue(graph.getVertices().isEmpty());
     }
 
     /*private void write(Resource resource) throws IOException {

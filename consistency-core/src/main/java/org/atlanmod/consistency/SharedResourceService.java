@@ -23,11 +23,6 @@ import org.atlanmod.appa.pubsub.Producer;
 import org.atlanmod.appa.pubsub.PublishSubscribe;
 */
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-
-import javax.annotation.Nonnull;
-
 /**
  * Created on 15/03/2017.
  *
