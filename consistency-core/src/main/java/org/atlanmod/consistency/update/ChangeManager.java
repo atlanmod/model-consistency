@@ -16,10 +16,7 @@ package org.atlanmod.consistency.update;
 
 import com.google.common.primitives.Ints;
 import org.atlanmod.consistency.History;
-import org.atlanmod.consistency.core.FeatureId;
-import org.atlanmod.consistency.core.Id;
-import org.atlanmod.consistency.core.InstanceId;
-import org.atlanmod.consistency.core.IntegerId;
+import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -200,12 +197,13 @@ public class ChangeManager {
             return new RemoveManyValues(fid, values);
         } else if (isEReference(feature)) {
 
-            Object obj = notification.getNewValue(); // DEBUG PURPOSE
+            List<Integer> values =  Ints.asList((int[])notification.getNewValue());
 
-            List<EObject> values = (List<EObject>) notification.getNewValue();
-            List<Id> ids = values.stream()
-                    .map(each -> identifierFor(each))
-                    .collect(Collectors.toList());
+            List<Id> ids = new ArrayList<>();
+            for (Integer i : values) {
+                ids.add(IdBuilder.fromInt(i));
+            }
+            
             return new RemoveManyReferences(fid, ids);
         } else {
             return new Invalid();

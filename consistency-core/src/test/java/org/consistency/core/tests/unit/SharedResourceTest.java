@@ -124,7 +124,7 @@ public class SharedResourceTest {
     }
 
 
-    //@Test
+    @Test
     public void testRemoveMany() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
@@ -138,13 +138,13 @@ public class SharedResourceTest {
         g.getVertices().add(v3);
 
         List<Vertex> vertices = Arrays.asList(new Vertex[] {v1,v3});
-        System.out.println(vertices.getClass());
+
         g.getVertices().removeAll(vertices);
 
         assertFalse(g.eContents().contains(v1) && g.eContents().contains(v3));
         assertFalse(resource.contains(v1));
 
-        assertTrue(resource.contains(v3) && g.getVertices().contains(v2));
+        assertTrue(resource.contains(v2) && g.getVertices().contains(v2));
     }
 
     @Test
