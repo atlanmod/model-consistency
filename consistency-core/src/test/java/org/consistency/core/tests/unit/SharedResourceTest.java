@@ -223,6 +223,8 @@ class SharedResourceTest {
         graph.getVertices().add(vertexB);
         graph.getVertices().add(vertexC);
 
+        assertFalse(graph.getVertices().isEmpty());
+
         graph.getVertices().clear();
 
         assertTrue(graph.getVertices().isEmpty());
