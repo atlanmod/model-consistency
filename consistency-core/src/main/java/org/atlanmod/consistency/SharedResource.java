@@ -47,14 +47,15 @@ public class SharedResource extends ResourceImpl {
     //private IdBuilder builder = new IdBuilder();
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
-    private ResourceId rid = IdBuilder.generateRID();
+    private ResourceId rid; //= IdBuilder.generateRID();
     private Producer producer;
     private Consumer consumer;
 
 
 
-    public SharedResource(URI uri, Producer producer, Consumer consumer) {
+    public SharedResource(URI uri, ResourceId rid,Producer producer, Consumer consumer) {
         super(uri);
+        this.rid = rid;
         this.producer = producer;
         this.consumer = consumer;
     }
@@ -126,9 +127,9 @@ public class SharedResource extends ResourceImpl {
     }
 
     /**
-     * Checks by semi-recursion whether an objects appears in the resource (sub)content
+     * Checks by semi-recursion whether an object appears in the resource (sub)content
      *
-     * @param object
+     * @param object the object to search
      * @return true if object is contained by the resource or one of its contents
      */
 
@@ -154,7 +155,7 @@ public class SharedResource extends ResourceImpl {
         int counter;
         boolean plural;
 
-        System.out.println("\n\n------- RESOURCE " + uri + " SUMMARY -------");
+        System.out.println("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
 
         plural = contents.size() > 1;
         System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
@@ -173,7 +174,11 @@ public class SharedResource extends ResourceImpl {
         }
 
 
-        System.out.println("\n---------------------------------------------------------------------------");
+        System.out.println("\n---------------------------- END OF RESOURCE ----------------------------");
+    }
+
+    public History getHistory() {
+        return history;
     }
 
     public class ConsumerThread implements Runnable {

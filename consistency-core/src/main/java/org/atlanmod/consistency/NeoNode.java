@@ -16,11 +16,10 @@ package org.atlanmod.consistency;
 
 //import org.atlanmod.appa.Node;
 
-import graph.Edge;
-import graph.Graph;
-import graph.GraphFactory;
-import graph.Vertex;
+import org.atlanmod.consistency.core.NodeId;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * Created on 09/03/2017.
@@ -28,57 +27,27 @@ import org.eclipse.emf.common.util.URI;
  */
 public class NeoNode //extends Node
 {
+    private static short lastNodeId = 0;
 
-    public static void main(String[] args) {
+    private NodeId nid = new NodeId(lastNodeId++);
+    private SharedResourceSet resourceSet = new SharedResourceSet();
 
-        SharedResource resource1 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
-        SharedResource resource2 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource2"), null, null);
-
-
-        GraphFactory factory = GraphFactory.eINSTANCE;
-        Graph graph1 = factory.createGraph();
-        Graph graph2 = factory.createGraph();
-
-
-        Vertex vertexA = factory.createVertex();
-        Vertex vertexB = factory.createVertex();
-        Vertex vertexC = factory.createVertex();
-        Edge edgeAC = factory.createEdge();
-
-        resource1.attachedHelper(graph1);
-
-
-        vertexA.setLabel("X");
-        graph1.getVertices().add(vertexA);
-        vertexA.setLabel("A");
-
-        graph1.getVertices().add(vertexB);
-        vertexB.setLabel("B");
-
-        resource2.attachedHelper(graph2);
-
-        graph2.getVertices().add(vertexB);
-
-        graph1.getVertices().add(vertexC);
-        graph1.getEdges().add(edgeAC);
-
-        edgeAC.setFrom(vertexA);
-        edgeAC.setTo(vertexC);
-
-        vertexC.setLabel("C");
-
-        Vertex vertexZ = factory.createVertex();
-        vertexZ.setLabel("Z");
-
-        graph2.getVertices().add(vertexZ);
-
-        resource1.summary();
-        resource2.summary();
-
-        /*
-        NeoNode node = new NeoNode();
-        node.start();
-        */
+    public SharedResourceSet getSharedResourceSet() {
+        return resourceSet;
     }
 
+    public void attachResource(URI uri) {
+        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID(),null,null));
+    }
+
+    public void summary() {
+        int i = 0;
+
+        System.out.println("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
+        for (SharedResource each : resourceSet.getSharedResources()) {
+            System.out.println("Resource " + (++i) + " : " + each.getURI());
+            each.summary();
+        }
+        System.out.println("------------------------------ END OF NODE ------------------------------\n");
+    }
 }

@@ -17,7 +17,6 @@
 
     <description>Prototype for Model Consistency</description>
 
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -33,6 +32,22 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/apache-artemis -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>apache-artemis</artifactId>
+            <version>2.5.0</version>
+            <type>pom</type>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.fusesource.mqtt-client/mqtt-client -->
+        <dependency>
+            <groupId>org.fusesource.mqtt-client</groupId>
+            <artifactId>mqtt-client</artifactId>
+            <version>1.14</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -64,13 +79,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>${javax-annotations.version}</version>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.6.2</version>
@@ -82,6 +90,7 @@
             <artifactId>graph-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -95,5 +104,65 @@
             <url>http://tomp2p.net/dev/mvn/</url>
         </repository>
     </repositories>
+
+    <!--<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>artemis-maven-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>create</id>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>start</id>
+                        <goals>
+                            <goal>cli</goal>
+                        </goals>
+                        <configuration>
+                            &lt;!&ndash;<ignore>${noServer}</ignore>&ndash;&gt;
+                            <spawn>true</spawn>
+                            <testURI>tcp://localhost:61616</testURI>
+                            <args>
+                                <param>run</param>
+                            </args>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>runClient</id>
+                        <goals>
+                            <goal>runClient</goal>
+                        </goals>
+                        <configuration>
+                            <clientClass>org.atlanmod.consistency.App</clientClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <goals>
+                            <goal>cli</goal>
+                        </goals>
+                        <configuration>
+                            &lt;!&ndash;<ignore>${noServer}</ignore>&ndash;&gt;
+                            <args>
+                                <param>stop</param>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.activemq.examples.mqtt</groupId>
+                        <artifactId>publish-subscribe</artifactId>
+                        <version>2.5.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>-->
 
 </project>

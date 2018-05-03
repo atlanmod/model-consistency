@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -31,6 +32,14 @@ import java.util.Map;
 
 
 public class SharedResourceSet implements ResourceSet {
+
+    private EList<SharedResource> resources = new BasicEList<>();
+
+    //@Override
+    public EList<SharedResource> getSharedResources() {
+        return resources;
+    }
+
     @Override
     public EList<Resource> getResources() {
         return null;
@@ -53,12 +62,24 @@ public class SharedResourceSet implements ResourceSet {
 
     @Override
     public EObject getEObject(URI uri, boolean b) {
+        for (Resource each : resources) {
+            if (each.getURI().equals(uri))
+                return (EObject) each;
+        }
         return null;
     }
 
     @Override
     public Resource getResource(URI uri, boolean b) {
+        for (Resource each : resources) {
+            if (each.getURI().equals(uri))
+                return each;
+        }
         return null;
+    }
+
+    public SharedResource getSharedResource(URI uri) {
+        return (SharedResource) getResource(uri, true);
     }
 
     @Override
@@ -70,6 +91,7 @@ public class SharedResourceSet implements ResourceSet {
     public Resource createResource(URI uri, String s) {
         return null;
     }
+
 
     @Override
     public Resource.Factory.Registry getResourceFactoryRegistry() {
