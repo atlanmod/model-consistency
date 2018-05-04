@@ -7,6 +7,7 @@ import graph.Vertex;
 import org.apache.activemq.artemis.*;
 import org.atlanmod.consistency.core.IdBuilder;
 import org.atlanmod.consistency.update.Operation;
+import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.util.URI;
 import org.fusesource.mqtt.client.*;
 
@@ -32,33 +33,32 @@ public class App {
         URI uri1 = URI.createURI("org.atlanmod.consistency.NeoNode:resource1");
         URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
 
-        //SharedResource resource1 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
-        //SharedResource resource2 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
+        SharedResource resource1 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
 
-        node1.attachResource(uri1);
+        node1.attachResource(resource1); // Attach
         node2.attachResource(uri2);
 
-
         Vertex vertexA = factory.createVertex();
-        Vertex vertexB = factory.createVertex();
 
-
-        node1.getSharedResourceSet().getSharedResource(uri1).attachedHelper(graph1);
+        resource1.getContents().add(graph1); // Attach
         node2.getSharedResourceSet().getSharedResource(uri2).attachedHelper(graph2);
 
-        graph1.getVertices().add(vertexA);
-        graph2.getVertices().add(vertexB);
+        graph1.getVertices().add(vertexA); // SetReference to graph / AddReference from graph to this
 
-        vertexA.setLabel("A");
+        vertexA.setLabel("A"); // SetValue
 
 
-//        try {
-//            node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Operation last = node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().element();
-//        node2.getSharedResourceSet().getSharedResource(uri2).execute(last);
+        // In order to clear the Attachments to the resource (graph1 and vertexA) -- need to find a better way
+        /*try {
+            node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
+            node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        Operation last = node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().element();
+        System.out.println("Print : " + last.toString());
+        // Throws UnsupportedOperationException because BaseOperation needs to be implemented
+        //node2.getSharedResourceSet().getSharedResource(uri2).execute(last);
 
         node1.summary();
         node2.summary();

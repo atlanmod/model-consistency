@@ -23,6 +23,7 @@ import org.atlanmod.consistency.core.IdBuilder;
 import org.atlanmod.consistency.update.Attach;
 import org.atlanmod.consistency.update.Operation;
 import org.atlanmod.consistency.update.RemoveManyValues;
+import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ class SharedResourceTest {
     void setUp() //throws IOException
     {
         uri = URI.createURI("file://tmp/");
-        resource = new SharedResource(uri, IdBuilder.generateRID(), null, null);
+        resource = new SharedResource(uri, null, null);
         //this.write(resource);
 
     }
@@ -75,20 +76,20 @@ class SharedResourceTest {
     void testAttachDetach() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
-        resource.attachedHelper(graph);
+        resource.getContents().add(graph);
 
         assertTrue(resource.contains(graph));
 
-        other.attachedHelper(graph);
-
-        assertTrue(resource.contains(graph));
-        assertFalse(other.contains(graph));
-
-        resource.detachedHelper(graph);
-        other.attachedHelper(graph);
+        other.getContents().add(graph);
 
         assertFalse(resource.contains(graph));
         assertTrue(other.contains(graph));
+
+        other.getContents().remove(graph);
+        resource.getContents().add(graph);
+
+        assertFalse(other.contains(graph));
+        assertTrue(resource.contains(graph));
 
     }
 
@@ -99,7 +100,7 @@ class SharedResourceTest {
         Vertex v2 = factory.createVertex();
         v2.setLabel("B");
 
-        resource.attachedHelper(graph);
+        resource.getContents().add(graph);
         graph.getVertices().add(v1);
 
         assertTrue(resource.contains(v1));
@@ -157,7 +158,7 @@ class SharedResourceTest {
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
         Vertex v3 = factory.createVertex();
-        resource.attachedHelper(graph);
+        resource.getContents().add(graph);
 
         graph.getVertices().add(v1);
         graph.getVertices().add(v2);
@@ -214,7 +215,7 @@ class SharedResourceTest {
     @Test
     void testClear() {
 
-        resource.attachedHelper(graph);
+        resource.getContents().add(graph);
         Vertex vertexA = factory.createVertex();
         Vertex vertexB = factory.createVertex();
         Vertex vertexC = factory.createVertex();
@@ -228,6 +229,7 @@ class SharedResourceTest {
         graph.getVertices().clear();
 
         assertTrue(graph.getVertices().isEmpty());
+
     }
 
     /*private void write(Resource resource) throws IOException {
