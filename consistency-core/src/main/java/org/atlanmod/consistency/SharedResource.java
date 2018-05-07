@@ -168,11 +168,11 @@ public class SharedResource extends ResourceImpl {
             System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
         }
 
-        plural = history.queue().size() > 1;
-        System.out.println("\nThere " + (plural ? "are " : "is ") + history.queue().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
+        plural = history.basicHistory().size() > 1;
+        System.out.println("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
 
         counter = 1;
-        for (Operation each : history.queue()) {
+        for (Operation each : history.basicHistory()){
             System.out.println("Operation " + counter++ + " : " + each);
         }
 

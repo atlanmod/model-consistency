@@ -33,12 +33,13 @@ public class App {
         URI uri1 = URI.createURI("org.atlanmod.consistency.NeoNode:resource1");
         URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
 
-        SharedResource resource1 = new SharedResource(uri1, null, null);
+        //SharedResource resource1 = new SharedResource(uri1, null, null);
         //SharedResource resource2 = new SharedResource(uri2, null, null);
 
-        node1.attachResource(resource1); // Attach
+        node1.attachResource(uri1); // Attach
         node2.attachResource(uri2);
 
+        SharedResource resource1 = node1.getSharedResourceSet().getSharedResource(uri1);
         SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
 
         Vertex vertexA = factory.createVertex();

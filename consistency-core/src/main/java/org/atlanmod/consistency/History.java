@@ -18,6 +18,7 @@ import com.google.common.collect.Maps;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.update.Operation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
@@ -32,6 +33,7 @@ public class History {
     private BlockingQueue<Operation> incoming = new LinkedBlockingQueue<>();
     private Map<FeatureId, List<Operation>> changes = Maps.newHashMap();
     private final SharedResource resource;
+    private List<Operation> basicHistory = new ArrayList<>();
 
     public History(SharedResource resource) {
         this.resource = resource;
@@ -46,6 +48,7 @@ public class History {
         resource.broadcast(operation);
         System.out.println("New operation: " + operation);
         incoming.offer(operation);
+        basicHistory.add(operation);
     }
 
     public void basicAdd(Operation operation) {
@@ -58,4 +61,11 @@ public class History {
         return incoming;
     }
 
+    public Map<FeatureId, List<Operation>> getChanges() {
+        return changes;
+    }
+
+    public List<Operation> basicHistory() {
+        return basicHistory;
+    }
 }
