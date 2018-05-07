@@ -184,6 +184,10 @@ public class SharedResource extends ResourceImpl {
         return history;
     }
 
+    public Map<Id, EObject> contents() {
+        return contents;
+    }
+
     public class ConsumerThread implements Runnable {
         @Override
         public void run() {

@@ -33,32 +33,36 @@ public class App {
         URI uri1 = URI.createURI("org.atlanmod.consistency.NeoNode:resource1");
         URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
 
-        SharedResource resource1 = new SharedResource(URI.createURI("org.atlanmod.consistency.NeoNode:resource1"), null, null);
+        SharedResource resource1 = new SharedResource(uri1, null, null);
+        SharedResource resource2 = new SharedResource(uri2, null, null);
 
         node1.attachResource(resource1); // Attach
-        node2.attachResource(uri2);
+        node2.attachResource(resource2);
 
         Vertex vertexA = factory.createVertex();
+        Vertex vertexB = factory.createVertex();
 
         resource1.getContents().add(graph1); // Attach
-        node2.getSharedResourceSet().getSharedResource(uri2).attachedHelper(graph2);
+        resource2.getContents().add(graph2);
 
         graph1.getVertices().add(vertexA); // SetReference to graph / AddReference from graph to this
+        graph2.getVertices().add(vertexB);
 
         vertexA.setLabel("A"); // SetValue
 
 
         // In order to clear the Attachments to the resource (graph1 and vertexA) -- need to find a better way
-        /*try {
-            node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
-            node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
+        try {
+            for (int i = 0; i < 4; ++i) {
+                node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
         Operation last = node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().element();
         System.out.println("Print : " + last.toString());
         // Throws UnsupportedOperationException because BaseOperation needs to be implemented
-        //node2.getSharedResourceSet().getSharedResource(uri2).execute(last);
+        resource2.execute(last);
 
         node1.summary();
         node2.summary();
