@@ -54,6 +54,6 @@ public class SetValue extends FeatureOperation {
     @Override
     public void execute(SharedResource resource, EObject eObject) {
         EStructuralFeature feature = eObject.eClass().getEStructuralFeature(featureId().low().toInt());
-        eObject.eSet(feature, eObject);
+        eObject.eSet(feature, value);
     }
 }
