@@ -34,10 +34,12 @@ public class App {
         URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
 
         SharedResource resource1 = new SharedResource(uri1, null, null);
-        SharedResource resource2 = new SharedResource(uri2, null, null);
+        //SharedResource resource2 = new SharedResource(uri2, null, null);
 
         node1.attachResource(resource1); // Attach
-        node2.attachResource(resource2);
+        node2.attachResource(uri2);
+
+        SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
 
         Vertex vertexA = factory.createVertex();
         Vertex vertexB = factory.createVertex();
@@ -54,12 +56,12 @@ public class App {
         // In order to clear the Attachments to the resource (graph1 and vertexA) -- need to find a better way
         try {
             for (int i = 0; i < 4; ++i) {
-                node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().take();
+                resource1.getHistory().queue().take();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Operation last = node1.getSharedResourceSet().getSharedResource(uri1).getHistory().queue().element();
+        Operation last = resource1.getHistory().queue().element();
         System.out.println("Print : " + last.toString());
         // Throws UnsupportedOperationException because BaseOperation needs to be implemented
         resource2.execute(last);
