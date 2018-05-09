@@ -26,12 +26,9 @@ import org.atlanmod.consistency.update.RemoveManyValues;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -39,6 +36,7 @@ import org.eclipse.emf.common.util.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 
 
 /**
@@ -67,9 +65,8 @@ class SharedResourceTest {
     void testSharedResource() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
-        assertTrue(resource.getURI().equals(uri));
-
-        assertFalse(resource.equals(other));
+        assertThat(resource.getURI()).isEqualTo(uri);
+        assertThat(resource).isNotEqualTo(other);
     }
 
     @Test
@@ -78,18 +75,18 @@ class SharedResourceTest {
 
         resource.getContents().add(graph);
 
-        assertTrue(resource.contains(graph));
+        assertThat(resource.contains(graph)).isTrue();
 
         other.getContents().add(graph);
 
-        assertFalse(resource.contains(graph));
-        assertTrue(other.contains(graph));
+        assertThat(resource.contains(graph)).isFalse();
+        assertThat(other.contains(graph)).isTrue();
 
         other.getContents().remove(graph);
         resource.getContents().add(graph);
 
-        assertFalse(other.contains(graph));
-        assertTrue(resource.contains(graph));
+        assertThat(other.contains(graph)).isFalse();
+        assertThat(resource.contains(graph)).isTrue();
 
     }
 
@@ -103,8 +100,8 @@ class SharedResourceTest {
         resource.getContents().add(graph);
         graph.getVertices().add(v1);
 
-        assertTrue(resource.contains(v1));
-        assertFalse(resource.contains(v2));
+        assertThat(resource.contains(v1)).isTrue();
+        assertThat(resource.contains(v2)).isFalse();
     }
 
     @Test
@@ -120,10 +117,10 @@ class SharedResourceTest {
 
         try {
             e.setFrom(null);
-            fail();
+            Assertions.fail("");
         }
         catch (AssertionError assertionError) {
-            assertTrue(assertionError.getMessage().equals("Set with a null value"));
+            assertThat(assertionError.getMessage()).isEqualTo("Set with a null value");
         }
 
         Graph g = factory.createGraph();
@@ -147,9 +144,9 @@ class SharedResourceTest {
 
         g.getVertices().remove(v2);
 
-        assertTrue(g.getVertices().size() == 2);
-        assertTrue(g.getVertices().get(1).equals(v1));
-        assertTrue(g.getVertices().get(0).equals(v3));
+        assertThat(g.getVertices().size()).isEqualTo(2);
+        assertThat(g.getVertices().get(1)).isEqualTo(v1);
+        assertThat(g.getVertices().get(0)).isEqualTo(v3);
     }
 
     @Test
@@ -168,10 +165,10 @@ class SharedResourceTest {
 
         graph.getVertices().removeAll(vertices);
 
-        assertFalse(graph.eContents().contains(v1) && graph.eContents().contains(v3));
-        assertFalse(resource.contains(v1));
+        assertThat(graph.eContents().contains(v1) && graph.eContents().contains(v3)).isTrue();
+        assertThat(resource.contains(v1)).isFalse();
 
-        assertTrue(resource.contains(v2) && graph.getVertices().contains(v2));
+        assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
     }
 /*
 
@@ -224,11 +221,11 @@ class SharedResourceTest {
         graph.getVertices().add(vertexB);
         graph.getVertices().add(vertexC);
 
-        assertFalse(graph.getVertices().isEmpty());
+        assertThat(graph.getVertices()).isEmpty();
 
         graph.getVertices().clear();
 
-        assertTrue(graph.getVertices().isEmpty());
+        assertThat(graph.getVertices()).isEmpty();
 
     }
 

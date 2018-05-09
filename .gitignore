@@ -11,3 +11,6 @@ buildNumber.properties
 *.iml
 .project/
 .classpath/
+
+# Mac files
+.DS_Store
