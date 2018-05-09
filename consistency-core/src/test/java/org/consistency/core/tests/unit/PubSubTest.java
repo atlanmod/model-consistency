@@ -33,7 +33,7 @@ class PubSubTest {
 
     @Test
     void testInit() {
-        assertThat(broker.getTopics().size() == 2);
+        assertThat(broker.getTopics().size()).isEqualTo(2);
         assertThat(broker.containsTopic(topic1));
     }
     @Test
@@ -46,7 +46,7 @@ class PubSubTest {
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
 
-        assertThat(publisher.getMsgHistory().size() > 0);
+        assertThat(publisher.getMsgHistory().size()).isGreaterThan(0);
     }
 
     @Test
@@ -54,14 +54,14 @@ class PubSubTest {
         publisher.publish(topic1, "Hello");
 
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
-        assertThat(sub1.getMsgHistory().size() == 0);
-        assertThat(sub2.getMsgHistory().size() == 0);
+        assertThat(sub1.getMsgHistory().size()).isZero();
+        assertThat(sub2.getMsgHistory().size()).isZero();
 
         broker.topicPublish(topic1);
 
         assertThat(topic1.hasUnconsumedMessages()).isFalse();
-        assertThat(sub1.getMsgHistory().size() > 0);
-        assertThat(sub2.getMsgHistory().size() > 0);
+        assertThat(sub1.getMsgHistory().size()).isGreaterThan(0);
+        assertThat(sub2.getMsgHistory().size()).isGreaterThan(0);
     }
 
     @Test
@@ -82,6 +82,7 @@ class PubSubTest {
     void testUnsub() {
         sub2.unsubscribe(topic1);
 
-        assertThat(topic1.subCount() == 1 && topic2.subCount() == 0);
+        assertThat(topic1.subCount()).isEqualTo(1);
+        assertThat(topic2.subCount()).isEqualTo(1);
     }
 }
