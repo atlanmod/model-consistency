@@ -26,9 +26,9 @@ class PubSubTest {
         topic1 = new Topic(URI.createURI("topic1"));
         topic2 = new Topic(URI.createURI("topic2"));
 
-        broker.newSubscriber(sub1, topic1);
-        broker.newSubscriber(sub2, topic1);
-        broker.newSubscriber(sub2, topic2);
+        sub1.subscribe(topic1);
+        sub2.subscribe(topic1);
+        sub2.subscribe(topic2);
     }
 
     @Test

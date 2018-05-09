@@ -20,23 +20,11 @@ import graph.Graph;
 import graph.GraphFactory;
 import graph.Vertex;
 import org.atlanmod.consistency.SharedResource;
-import org.atlanmod.consistency.core.IdBuilder;
 import org.eclipse.emf.common.util.URI;
+
 import org.junit.jupiter.api.Assertions;
-
-import graph.*;
-import org.atlanmod.consistency.SharedResource;
-
-import org.atlanmod.consistency.core.IdBuilder;
-
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-
-import org.junit.jupiter.api.Assertions;
-import org.eclipse.emf.common.util.URI;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +55,7 @@ class SharedResourceTest {
 
     @Test
     void testSharedResource() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"),null, null);
 
         assertThat(resource.getURI()).isEqualTo(uri);
         assertThat(resource).isNotEqualTo(other);
@@ -75,7 +63,7 @@ class SharedResourceTest {
 
     @Test
     void testAttachDetach() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"),null, null);
 
         resource.getContents().add(graph);
 
