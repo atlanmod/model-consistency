@@ -26,14 +26,24 @@ import org.atlanmod.consistency.update.RemoveManyValues;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+
+/*
+import org.junit.Before;
+import org.junit.Test;
+*/
+
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.eclipse.emf.common.util.URI;
+
 
 //import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +56,7 @@ import java.util.List;
  *
  * @author AtlanMod team.
  */
-class SharedResourceTest {
+public class SharedResourceTest {
 
     private SharedResource resource;
     private URI uri;
@@ -55,7 +65,7 @@ class SharedResourceTest {
 
 
     @BeforeEach
-    void setUp() //throws IOException
+    public void setUp() //throws IOException
     {
         uri = URI.createURI("file://tmp/");
         resource = new SharedResource(uri, null, null);
@@ -64,7 +74,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testSharedResource() {
+    public void testSharedResource() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         assertTrue(resource.getURI().equals(uri));
@@ -73,7 +83,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testAttachDetach() {
+    public void testAttachDetach() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         resource.getContents().add(graph);
@@ -94,7 +104,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testContainment() {
+    public void testContainment() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -108,7 +118,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testNotification() {
+    public void testNotification() {
         Vertex v = factory.createVertex();
         resource.getContents().add(v);
         v.setLabel("A");
@@ -133,7 +143,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testAddMany() {
+    public void testAddMany() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         Vertex v2 = factory.createVertex();
@@ -153,7 +163,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testRemoveManyReferences() {
+    public void testRemoveManyReferences() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -202,7 +212,7 @@ class SharedResourceTest {
     */
 
     @Test
-    void testBasicTypes() {
+    public void testBasicTypes() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         resource.getContents().add(g);
@@ -213,7 +223,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testClear() {
+    public void testClear() {
 
         resource.getContents().add(graph);
         Vertex vertexA = factory.createVertex();

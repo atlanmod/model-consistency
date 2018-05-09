@@ -50,8 +50,9 @@ public class SetReference extends BaseOperation {
         return oid;
     }
 
-    @Override
+   /* @Override
     public void execute(SharedResource resource, EObject eObject) {
-        ((BasicEObjectImpl) (resource.contents().get(fid.asInstanceId()))).eSet(fid.toInt(),eObject);
-    }
+        BasicEObjectImpl obj = (BasicEObjectImpl) resource.contents().get(fid.asInstanceId());
+        obj.eSet(fid.toInt(),eObject);
+    }*/
 }
