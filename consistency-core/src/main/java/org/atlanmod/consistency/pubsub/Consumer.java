@@ -1,4 +1,4 @@
-package org.atlanmod.consistency;
+package org.atlanmod.consistency.pubsub;
 
 import java.io.Serializable;
 

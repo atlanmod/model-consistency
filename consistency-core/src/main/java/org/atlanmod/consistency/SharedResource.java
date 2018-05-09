@@ -22,6 +22,8 @@ import org.atlanmod.consistency.core.IdBuilder;
 import org.atlanmod.consistency.core.InstanceId;
 import org.atlanmod.consistency.core.ResourceId;
 import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.pubsub.Consumer;
+import org.atlanmod.consistency.pubsub.Producer;
 import org.atlanmod.consistency.update.Attach;
 import org.atlanmod.consistency.update.ChangeManager;
 import org.atlanmod.consistency.update.Detach;
