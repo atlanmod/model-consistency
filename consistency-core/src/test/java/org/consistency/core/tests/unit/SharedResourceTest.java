@@ -14,13 +14,25 @@
 
 package org.consistency.core.tests.unit;
 
+
+import graph.Edge;
+import graph.Graph;
+import graph.GraphFactory;
+import graph.Vertex;
+import org.atlanmod.consistency.SharedResource;
+import org.atlanmod.consistency.core.IdBuilder;
+import org.eclipse.emf.common.util.URI;
+import org.junit.jupiter.api.Assertions;
+
 import graph.*;
 import org.atlanmod.consistency.SharedResource;
 
 import org.atlanmod.consistency.core.IdBuilder;
 
 import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 import org.junit.jupiter.api.Assertions;
@@ -28,8 +40,8 @@ import org.eclipse.emf.common.util.URI;
 
 import java.util.Arrays;
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created on 10/03/2017.
@@ -157,7 +169,9 @@ class SharedResourceTest {
 
         graph.getVertices().removeAll(vertices);
 
-        assertThat(graph.eContents().contains(v1) && graph.eContents().contains(v3)).isFalse();
+        assertThat(graph.eContents().contains(v1)).isFalse();
+        assertThat(graph.eContents().contains(v3)).isFalse();
+
         assertThat(resource.contains(v1)).isFalse();
 
         assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
@@ -190,7 +204,7 @@ class SharedResourceTest {
 
         graph.getVertices().clear();
 
-        assertThat(graph.getVertices()).isEmpty();
+        assertThat(graph.getVertices().isEmpty()).isTrue();
 
     }
 
