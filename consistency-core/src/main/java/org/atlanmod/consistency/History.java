@@ -61,10 +61,6 @@ public class History {
         return incoming;
     }
 
-    public Map<FeatureId, List<Operation>> getChanges() {
-        return changes;
-    }
-
     public List<Operation> basicHistory() {
         return basicHistory;
     }
