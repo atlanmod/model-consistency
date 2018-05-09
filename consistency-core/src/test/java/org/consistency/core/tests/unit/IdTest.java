@@ -22,13 +22,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class IdTest {
+class IdTest {
 
     private CompositeId cid, opposite;
 
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         Id i785 = IdBuilder.fromInt(785);
         Id i33 = IdBuilder.fromInt(33);
         cid = i785.composeWith(i33);
@@ -36,18 +36,18 @@ public class IdTest {
     }
 
     @Test
-    public void testEqualsIntId() {
+    void testEqualsIntId() {
         assertThat(IdBuilder.fromInt(55)).isEqualTo(IdBuilder.fromInt(55));
     }
 
     @Test
-    public void testEqualsShortId() {
+    void testEqualsShortId() {
         short s = 23;
         assertThat(IdBuilder.fromShort(s)).isEqualTo(IdBuilder.fromShort(s));
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         assertThat(cid).isEqualTo(cid);
         assertThat(cid).isNotEqualTo(opposite);
         assertThat(cid).isEqualTo(IdBuilder.fromInt(785).composeWith(IdBuilder.fromInt(33)));

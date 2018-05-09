@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author AtlanMod team.
  */
-public class SharedResourceTest {
+class SharedResourceTest {
 
     private SharedResource resource;
     private URI uri;
@@ -45,7 +45,7 @@ public class SharedResourceTest {
 
 
     @BeforeEach
-    public void setUp() //throws IOException
+    void setUp() //throws IOException
     {
         uri = URI.createURI("file://tmp/");
         resource = new SharedResource(uri, null, null);
@@ -54,7 +54,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testSharedResource() {
+    void testSharedResource() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         assertThat(resource.getURI()).isEqualTo(uri);
@@ -62,7 +62,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testAttachDetach() {
+    void testAttachDetach() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         resource.getContents().add(graph);
@@ -83,7 +83,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testContainment() {
+    void testContainment() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -97,7 +97,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testNotification() {
+    void testNotification() {
         Vertex v = factory.createVertex();
         resource.getContents().add(v);
         v.setLabel("A");
@@ -122,7 +122,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testAddMany() {
+    void testAddMany() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         Vertex v2 = factory.createVertex();
@@ -142,7 +142,7 @@ public class SharedResourceTest {
     }
 
     @Test
-    public void testRemoveManyReferences() {
+    void testRemoveManyReferences() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -162,6 +162,39 @@ public class SharedResourceTest {
 
         assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
     }
+
+    @Test
+    void testBasicTypes() {
+        Graph g = factory.createGraph();
+        Vertex v1 = factory.createVertex();
+        resource.getContents().add(g);
+        g.getVertices().add(v1);
+
+        v1.setWeight(5);
+
+    }
+
+    @Test
+    void testClear() {
+
+        resource.getContents().add(graph);
+        Vertex vertexA = factory.createVertex();
+        Vertex vertexB = factory.createVertex();
+        Vertex vertexC = factory.createVertex();
+
+        graph.getVertices().add(vertexA);
+        graph.getVertices().add(vertexB);
+        graph.getVertices().add(vertexC);
+
+        assertThat(graph.getVertices()).isNotEmpty();
+
+        graph.getVertices().clear();
+
+        assertThat(graph.getVertices()).isEmpty();
+
+    }
+
+
 /*
 
     Not OK
@@ -190,36 +223,6 @@ public class SharedResourceTest {
 
     */
 
-    @Test
-    public void testBasicTypes() {
-        Graph g = factory.createGraph();
-        Vertex v1 = factory.createVertex();
-        resource.getContents().add(g);
-        g.getVertices().add(v1);
-
-        v1.setWeight(5);
-
-    }
-
-    @Test
-    public void testClear() {
-
-        resource.getContents().add(graph);
-        Vertex vertexA = factory.createVertex();
-        Vertex vertexB = factory.createVertex();
-        Vertex vertexC = factory.createVertex();
-
-        graph.getVertices().add(vertexA);
-        graph.getVertices().add(vertexB);
-        graph.getVertices().add(vertexC);
-
-        assertThat(graph.getVertices()).isNotEmpty();
-
-        graph.getVertices().clear();
-
-        assertThat(graph.getVertices()).isEmpty();
-
-    }
 
     /*private void write(Resource resource) throws IOException {
 
