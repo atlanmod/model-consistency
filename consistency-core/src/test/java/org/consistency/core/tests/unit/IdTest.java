@@ -24,7 +24,8 @@ import static org.assertj.core.api.Assertions.*;
 
 public class IdTest {
 
-    private CompositeId cid, opposite;
+    private CompositeId cid;
+    private CompositeId opposite;
 
 
     @BeforeEach
@@ -48,10 +49,22 @@ public class IdTest {
 
     @Test
     public void testEquals() {
-        assertThat(cid).isEqualTo(cid);
-        //assertThat(cid).isNotEqualTo(opposite);
-        //assertThat(cid).isEqualTo(IdBuilder.fromInt(785).composeWith(IdBuilder.fromInt(33)));
+
+        assertThat(cid).isEqualTo(IdBuilder.fromInt(785).composeWith(IdBuilder.fromInt(33)));
     }
+
+    @Test
+    public void testEqualsToHimself() {
+        assertThat(cid).isEqualTo(cid);
+    }
+
+    @Test
+    public void testNotEqual() {
+
+        assertThat(cid).isNotEqualTo(opposite);
+    }
+
+
 
 
 }

@@ -14,30 +14,21 @@
 
 package org.consistency.core.tests.unit;
 
-import graph.*;
-import graph.impl.VertexImpl;
+import graph.Edge;
+import graph.Graph;
+import graph.GraphFactory;
+import graph.Vertex;
 import org.atlanmod.consistency.SharedResource;
-//import org.eclipse.emf.ecore.resource.Resource;
-
 import org.atlanmod.consistency.core.IdBuilder;
-import org.atlanmod.consistency.update.Attach;
-import org.atlanmod.consistency.update.Operation;
-import org.atlanmod.consistency.update.RemoveManyValues;
-import org.atlanmod.consistency.util.ConsistencyUtil;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-
 import org.eclipse.emf.common.util.URI;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-//import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static org.assertj.core.api.Assertions.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created on 10/03/2017.
@@ -165,7 +156,8 @@ class SharedResourceTest {
 
         graph.getVertices().removeAll(vertices);
 
-        assertThat(graph.eContents().contains(v1) && graph.eContents().contains(v3)).isTrue();
+        assertThat(graph.eContents().contains(v1)).isFalse();
+        assertThat(graph.eContents().contains(v3)).isFalse();
         assertThat(resource.contains(v1)).isFalse();
 
         assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
@@ -221,11 +213,11 @@ class SharedResourceTest {
         graph.getVertices().add(vertexB);
         graph.getVertices().add(vertexC);
 
-        assertThat(graph.getVertices()).isEmpty();
+        assertThat(graph.getVertices()).isNotEmpty();
 
         graph.getVertices().clear();
 
-        assertThat(graph.getVertices()).isEmpty();
+        assertThat(graph.getVertices().isEmpty()).isTrue();
 
     }
 
