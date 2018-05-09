@@ -15,6 +15,7 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
+import graph.Graph;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.IdBuilder;
@@ -34,29 +35,36 @@ import java.util.Objects;
 
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 
+//import org.atlanmod.appa.pubsub.Consumer;
+//import org.atlanmod.appa.pubsub.Producer;
+
 /**
  * Created on 17/02/2017.
  */
 public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
-    private IdBuilder builder = new IdBuilder();
+    //private IdBuilder builder = new IdBuilder();
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
-    private ResourceId rid = builder.generateRID();
+    private ResourceId rid; //= IdBuilder.generateRID();
     private Producer producer;
     private Consumer consumer;
 
 
-
     public SharedResource(URI uri, Producer producer, Consumer consumer) {
+        this(uri, IdBuilder.generateRID(),producer,consumer);
+    }
+
+    public SharedResource(URI uri, ResourceId rid,Producer producer, Consumer consumer) {
         super(uri);
+        this.rid = rid;
         this.producer = producer;
         this.consumer = consumer;
     }
 
     @Override
-    protected void attachedHelper(EObject eObject) {
+    public void attachedHelper(EObject eObject) {
         InstanceId oid;
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.isNull(adapter)) {
@@ -68,11 +76,12 @@ public class SharedResource extends ResourceImpl {
             oid = adapter.id();
             history.basicAdd(new Attach(oid));
         }
+
         System.out.println("Adding Id to: " + oid);
     }
 
     @Override
-    protected void detachedHelper(EObject eObject) {
+    public void detachedHelper(EObject eObject) {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
@@ -120,13 +129,71 @@ public class SharedResource extends ResourceImpl {
         if(operation != null) {this.history.integrate(operation);}
     }
 
+    /**
+     * Checks by semi-recursion whether an object appears in the resource (sub)content
+     *
+     * @param object the object to search
+     * @return true if object is contained by the resource or one of its contents
+     */
+
+    public boolean contains(EObject object) {
+        boolean containment = contents.containsValue(object);
+
+        if (!containment) {
+            for (EObject each : contents.values()) {
+                if (each.eContents().contains(object)) {
+                    containment = true;
+                    break;
+                }
+            }
+        }
+
+        return containment;
+    }
+
+    /**
+     * A basic output summary of what happened in this resource for the session
+     */
+    public void summary() {
+        int counter;
+        boolean plural;
+
+        System.out.println("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
+
+        plural = contents.size() > 1;
+        System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
+
+        counter = 1;
+        for (EObject each : contents.values()) {
+            System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
+        }
+
+        plural = history.basicHistory().size() > 1;
+        System.out.println("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
+
+        counter = 1;
+        for (Operation each : history.basicHistory()){
+            System.out.println("Operation " + counter++ + " : " + each);
+        }
+
+
+        System.out.println("\n---------------------------- END OF RESOURCE ----------------------------");
+    }
+
+    public History getHistory() {
+        return history;
+    }
+
+    public Map<Id, EObject> contents() {
+        return contents;
+    }
 
     public class ConsumerThread implements Runnable {
         @Override
         public void run() {
-            while (true) {
+            /*while (true) {
                 UpdateMessage message = (UpdateMessage) consumer.receive(3000);
-            }
+            }*/
 
         }
     }

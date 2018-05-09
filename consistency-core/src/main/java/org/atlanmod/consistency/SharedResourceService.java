@@ -14,10 +14,14 @@
 
 package org.atlanmod.consistency;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-
-import javax.annotation.Nonnull;
+/*
+import org.atlanmod.appa.core.Service;
+import org.atlanmod.appa.datatypes.Id;
+import org.atlanmod.appa.datatypes.ServiceDescription;
+import org.atlanmod.appa.pubsub.Consumer;
+import org.atlanmod.appa.pubsub.Producer;
+import org.atlanmod.appa.pubsub.PublishSubscribe;
+*/
 
 /**
  * Created on 15/03/2017.

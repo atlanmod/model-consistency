@@ -14,13 +14,19 @@
 
 package org.atlanmod.consistency.update;
 
+import graph.Graph;
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
 /**
  * Created on 10/03/2017.
  *
  * @author AtlanMod team.
+ *
+ * Sets the object oid to the feature fid
  */
 public class SetReference extends BaseOperation {
     private final FeatureId fid;
@@ -42,5 +48,10 @@ public class SetReference extends BaseOperation {
     @Override
     public Id instanceId() {
         return oid;
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        ((BasicEObjectImpl) (resource.contents().get(fid.asInstanceId()))).eSet(fid.toInt(),eObject);
     }
 }

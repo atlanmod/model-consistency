@@ -50,6 +50,7 @@ public class EObjectAdapter implements Adapter {
         return EObject.class.isAssignableFrom(o.getClass());
     }
 
+
     public InstanceId id() {
         return id;
     }

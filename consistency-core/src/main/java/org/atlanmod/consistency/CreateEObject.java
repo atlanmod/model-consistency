@@ -16,7 +16,6 @@ package org.atlanmod.consistency;
 
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.message.AbstractUpdateMessage;
-import org.atlanmod.consistency.message.UpdateMessage;
 import org.eclipse.emf.ecore.EClass;
 
 

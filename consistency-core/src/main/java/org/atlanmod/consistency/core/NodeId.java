@@ -13,7 +13,13 @@ package org.atlanmod.consistency.core;
 
 public class NodeId extends ShortId {
 
+    private short lastId = 0;
+
     public NodeId(short s) {
         super(s);
+    }
+
+    public ResourceId nextRID() {
+        return new ResourceId(lastId++);
     }
 }

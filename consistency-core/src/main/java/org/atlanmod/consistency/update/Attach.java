@@ -39,7 +39,7 @@ public class Attach implements Operation {
 
     @Override
     public Id instanceId() {
-        return null;
+        return instanceId;
     }
 
     @Override

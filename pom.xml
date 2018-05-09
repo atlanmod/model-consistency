@@ -65,7 +65,7 @@
 
     <modules>
         <module>consistency-core</module>
-        <module>consistency-bootstrapper</module>
+        <!--<module>consistency-bootstrapper</module>-->
         <module>consistency-examples</module>
     </modules>
 
@@ -109,7 +109,7 @@
         <junit.version>4.12</junit.version>
         <mockito.version>2.7.4</mockito.version>
         <tomp2p.version>5.0-Beta8</tomp2p.version>
-        <artemis.version>2.0.0</artemis.version>
+        <artemis.version>2.5.0</artemis.version>
 
     </properties>
 
@@ -119,11 +119,20 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.9</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/tests/*</exclude>
-                    </excludes>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -205,6 +214,12 @@
                 <groupId>org.eclipse.emf</groupId>
                 <artifactId>org.eclipse.emf.ecore.xcore.lib</artifactId>
                 <version>${xcore.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.atlanmod.appa</groupId>
+                <artifactId>appa-core</artifactId>
+                <version>${appa.version}</version>
             </dependency>
 
             <!-- Test -->

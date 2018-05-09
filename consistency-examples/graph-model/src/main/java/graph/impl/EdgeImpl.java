@@ -54,9 +54,10 @@ public class EdgeImpl extends MinimalEObjectImpl.Container implements Edge {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EdgeImpl() {
+	public EdgeImpl() {
 		super();
 	}
+
 
 	/**
 	 * <!-- begin-user-doc -->

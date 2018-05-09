@@ -14,8 +14,10 @@
 
 package org.atlanmod.consistency;
 
+import org.atlanmod.consistency.core.IdBuilder;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -25,7 +27,7 @@ public class SharedResourceFactory implements Resource.Factory {
     /**
      * Constructs a new {@code PersistentResourceFactory}.
      */
-    protected SharedResourceFactory() {
+    SharedResourceFactory() {
     }
 
     /**
@@ -47,7 +49,7 @@ public class SharedResourceFactory implements Resource.Factory {
     @Override
     public Resource createResource(@Nonnull URI uri) {
         checkNotNull(uri);
-        return new SharedResource(uri, null, null);
+        return new SharedResource(uri, IdBuilder.generateRID(),null, null);
     }
 
     /**

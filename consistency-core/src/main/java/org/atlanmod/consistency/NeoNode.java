@@ -14,20 +14,44 @@
 
 package org.atlanmod.consistency;
 
+//import org.atlanmod.appa.Node;
+
+import org.atlanmod.consistency.core.NodeId;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+
 /**
  * Created on 09/03/2017.
  * @author AtlanMod team.
  */
 public class NeoNode //extends Node
 {
+    private static short lastNodeId = 0;
 
+    private NodeId nid = new NodeId(lastNodeId++);
+    private SharedResourceSet resourceSet = new SharedResourceSet();
 
-
-    public static void main(String[] args) {
-        /*
-        NeoNode node = new NeoNode();
-        node.start();
-        */
+    public SharedResourceSet getSharedResourceSet() {
+        return resourceSet;
     }
 
+    public void attachResource(URI uri) {
+        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID(),null,null));
+    }
+
+    public void summary() {
+        int i = 0;
+
+        System.out.println("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
+        for (SharedResource each : resourceSet.getSharedResources()) {
+            System.out.println("Resource " + (++i) + " : " + each.getURI());
+            each.summary();
+        }
+        System.out.println("------------------------------ END OF NODE ------------------------------\n");
+    }
+
+    public void attachResource(SharedResource resource1) {
+        resourceSet.getSharedResources().add(resource1);
+    }
 }
