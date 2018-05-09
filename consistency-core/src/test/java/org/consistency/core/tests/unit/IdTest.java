@@ -48,18 +48,18 @@ class IdTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
 
         assertThat(cid).isEqualTo(IdBuilder.fromInt(785).composeWith(IdBuilder.fromInt(33)));
     }
 
     @Test
-    public void testEqualsToHimself() {
+    void testEqualsToHimself() {
         assertThat(cid).isEqualTo(cid);
     }
 
     @Test
-    public void testNotEqual() {
+    void testNotEqual() {
 
         assertThat(cid).isNotEqualTo(opposite);
     }

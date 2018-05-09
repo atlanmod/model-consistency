@@ -1,38 +1,20 @@
-package org.atlanmod.consistency;
+package org.atlanmod.consistency.pubsub;
 
-import org.eclipse.emf.common.util.URI;
+import org.atlanmod.consistency.core.Id;
 
-import javax.ws.rs.core.UriBuilder;
-import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PubSub {
+    static Integer nextId = 0;
+    List<Object> msgHistory = new ArrayList<>();
+    Broker broker;
+    Id clientId;
 
-    private Broker broker = new Broker();
-
-    public PubSub(){}
-    public PubSub(Broker broker) {
+    PubSub(Broker broker) {
         this.broker = broker;
     }
-
-    public class Publisher extends PubSub {
-
-    }
-
-    public class Subscriber extends PubSub {
-
-    }
-
-    public class Broker {
-        private List<Publisher> publishers;
-        private List<Subscriber> subscribers;
-    }
-
-    public class Topic {
-        private URI uri;
-
-        public Topic(URI uri) {
-            this.uri = uri;
-        }
+    public List<Object> getMsgHistory() {
+        return msgHistory;
     }
 }
