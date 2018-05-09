@@ -2,9 +2,9 @@ package org.atlanmod.consistency.pubsub;
 
 import org.atlanmod.consistency.core.IntegerId;
 
-public class Publisher extends PubSub {
+public class Producer extends PubSub {
 
-    public Publisher(Broker broker) {
+    public Producer(Broker broker) {
         super(broker);
         clientId = new IntegerId(nextId++);
     }

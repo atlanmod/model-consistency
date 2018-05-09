@@ -1,7 +1,7 @@
 package org.consistency.core.tests.unit;
 
 import org.atlanmod.consistency.pubsub.Broker;
-import org.atlanmod.consistency.pubsub.Publisher;
+import org.atlanmod.consistency.pubsub.Producer;
 import org.atlanmod.consistency.pubsub.Subscriber;
 import org.atlanmod.consistency.pubsub.Topic;
 import org.eclipse.emf.common.util.URI;
@@ -12,14 +12,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PubSubTest {
 
     private Broker broker;
-    private Publisher publisher;
+    private Producer producer;
     private Topic topic1, topic2;
     private Subscriber sub1, sub2;
 
     @BeforeEach
     void setup() {
         broker = new Broker();
-        publisher = new Publisher(broker);
+        producer = new Producer(broker);
 
         sub1 = new Subscriber(broker);
         sub2 = new Subscriber(broker);
@@ -41,17 +41,17 @@ class PubSubTest {
         assertThat(topic1.hasUnconsumedMessages()).isFalse();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
 
-        publisher.publish(topic1, "Hello");
+        producer.publish(topic1, "Hello");
 
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
 
-        assertThat(publisher.getMsgHistory().size()).isGreaterThan(0);
+        assertThat(producer.getMsgHistory().size()).isGreaterThan(0);
     }
 
     @Test
     void testTopicPublish() {
-        publisher.publish(topic1, "Hello");
+        producer.publish(topic1, "Hello");
 
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
         assertThat(sub1.getMsgHistory().size()).isZero();
@@ -66,8 +66,8 @@ class PubSubTest {
 
     @Test
     void testTopicPublishAll() {
-        publisher.publish(topic1, "Hello topic 1");
-        publisher.publish(topic2, "Hello topic 2");
+        producer.publish(topic1, "Hello topic 1");
+        producer.publish(topic2, "Hello topic 2");
 
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
         assertThat(topic2.hasUnconsumedMessages()).isTrue();

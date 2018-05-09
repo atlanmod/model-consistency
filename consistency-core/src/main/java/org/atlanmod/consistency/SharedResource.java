@@ -58,7 +58,7 @@ public class SharedResource extends ResourceImpl {
         this(uri, IdBuilder.generateRID(),producer,consumer);
     }
 
-    public SharedResource(URI uri, ResourceId rid,Producer producer, Consumer consumer) {
+    public SharedResource(URI uri, ResourceId rid, Producer producer, Consumer consumer) {
         super(uri);
         this.rid = rid;
         this.producer = producer;
