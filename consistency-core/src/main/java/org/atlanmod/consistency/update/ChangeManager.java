@@ -188,7 +188,7 @@ public class ChangeManager {
 
     private Operation removeMany(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "RemoveMany of a null feature";
-        //assert nonNull(notification.getNewValue()) : "RemoveMany with a null value";
+        //assert nonNull(notification.getNewValue()) : "RemoveMany with a null value"; -- CLEAR
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);

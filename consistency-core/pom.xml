@@ -19,6 +19,7 @@
 
     <dependencies>
 
+
         <!-- Uncomment to work with APPA
             Check classes NeoNode, SharedResource and SharedResourceService
         <dependency>

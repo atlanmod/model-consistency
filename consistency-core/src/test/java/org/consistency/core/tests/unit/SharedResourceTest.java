@@ -14,6 +14,7 @@
 
 package org.consistency.core.tests.unit;
 
+
 import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
@@ -22,8 +23,20 @@ import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.IdBuilder;
 import org.eclipse.emf.common.util.URI;
 import org.junit.jupiter.api.Assertions;
+
+import graph.*;
+import org.atlanmod.consistency.SharedResource;
+
+import org.atlanmod.consistency.core.IdBuilder;
+
+import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+
+import org.junit.jupiter.api.Assertions;
+import org.eclipse.emf.common.util.URI;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +48,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author AtlanMod team.
  */
-class SharedResourceTest {
+public class SharedResourceTest {
 
     private SharedResource resource;
     private URI uri;
@@ -44,7 +57,7 @@ class SharedResourceTest {
 
 
     @BeforeEach
-    void setUp() //throws IOException
+    public void setUp() //throws IOException
     {
         uri = URI.createURI("file://tmp/");
         resource = new SharedResource(uri, null, null);
@@ -53,7 +66,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testSharedResource() {
+    public void testSharedResource() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         assertThat(resource.getURI()).isEqualTo(uri);
@@ -61,7 +74,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testAttachDetach() {
+    public void testAttachDetach() {
         SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"), IdBuilder.generateRID(),null, null);
 
         resource.getContents().add(graph);
@@ -82,7 +95,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testContainment() {
+    public void testContainment() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -96,7 +109,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testNotification() {
+    public void testNotification() {
         Vertex v = factory.createVertex();
         resource.getContents().add(v);
         v.setLabel("A");
@@ -121,7 +134,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testAddMany() {
+    public void testAddMany() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         Vertex v2 = factory.createVertex();
@@ -141,7 +154,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testRemoveManyReferences() {
+    public void testRemoveManyReferences() {
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -158,6 +171,7 @@ class SharedResourceTest {
 
         assertThat(graph.eContents().contains(v1)).isFalse();
         assertThat(graph.eContents().contains(v3)).isFalse();
+
         assertThat(resource.contains(v1)).isFalse();
 
         assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
@@ -191,7 +205,7 @@ class SharedResourceTest {
     */
 
     @Test
-    void testBasicTypes() {
+    public void testBasicTypes() {
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         resource.getContents().add(g);
@@ -202,7 +216,7 @@ class SharedResourceTest {
     }
 
     @Test
-    void testClear() {
+    public void testClear() {
 
         resource.getContents().add(graph);
         Vertex vertexA = factory.createVertex();

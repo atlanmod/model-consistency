@@ -105,6 +105,7 @@ public class SharedResource extends ResourceImpl {
         eObject.eSetDeliver(false);
         operation.execute(this,eObject);
         eObject.eSetDeliver(true);
+        history.add(operation);
 
     }
 

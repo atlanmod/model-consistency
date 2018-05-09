@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         //*
         /**
@@ -44,17 +44,25 @@ public class App {
 
         Vertex vertexA = factory.createVertex();
         Vertex vertexB = factory.createVertex();
+        Vertex vertexC = factory.createVertex();
+        Vertex vertexD = factory.createVertex();
 
         resource1.getContents().add(graph1); // Attach
         resource2.getContents().add(graph2);
 
-        graph1.getVertices().add(vertexA); // SetReference to graph / AddReference from graph to this
+        graph1.getVertices().add(vertexA); // SetReference to graph / AddReference from graph to vertex
+        graph1.getVertices().add(vertexC);
         graph2.getVertices().add(vertexB);
+        graph2.getVertices().add(vertexD);
 
         vertexA.setLabel("A"); // SetValue
+        vertexA.setWeight(12);
+        vertexA.setLabel("C");
+
+        Vertex x = graph1.getVertices().move(0, 1);
 
 
-        // In order to clear the Attachments to the resource (graph1 and vertexA) -- need to find a better way
+       /* // In order to clear the Attachments to the resource (graph1 and vertexA) -- need to find a better way
         try {
             for (int i = 0; i < 4; ++i) {
                 resource1.getHistory().queue().take();
@@ -62,10 +70,12 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Operation last = resource1.getHistory().queue().element();
-        System.out.println("Print : " + last.toString());
-        // Throws UnsupportedOperationException because BaseOperation needs to be implemented
-        resource2.execute(last);
+        while (resource1.getHistory().queue().size() > 0) {
+            Operation last = resource1.getHistory().queue().take();
+            System.out.println("Print : " + last.toString());
+            // Throws UnsupportedOperationException because BaseOperation needs to be implemented
+            resource2.execute(last);
+        }*/
 
         node1.summary();
         node2.summary();
