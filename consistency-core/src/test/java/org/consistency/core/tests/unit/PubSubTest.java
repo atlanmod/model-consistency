@@ -64,7 +64,7 @@ class PubSubTest {
         broker.topicPublish(topic1);
 
         try {
-            Thread.sleep(2);
+            Thread.sleep(3);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -78,7 +78,7 @@ class PubSubTest {
         broker.topicPublish(topic1);
 
         try {
-            Thread.sleep(2);
+            Thread.sleep(3);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
