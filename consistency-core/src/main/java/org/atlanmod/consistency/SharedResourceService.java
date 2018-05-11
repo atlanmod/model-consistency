@@ -19,7 +19,7 @@ import org.atlanmod.appa.core.Service;
 import org.atlanmod.appa.datatypes.Id;
 import org.atlanmod.appa.datatypes.ServiceDescription;
 import org.atlanmod.appa.pubsub.Consumer;
-import org.atlanmod.appa.pubsub.Producer;
+import org.atlanmod.appa.pubsub.ProducerImpl;
 import org.atlanmod.appa.pubsub.PublishSubscribe;
 */
 
@@ -62,7 +62,7 @@ public class SharedResourceService // implements Service
     public SharedResource share(Resource resource) {
         URI uri = resource.getURI();
         String topic = uri.toString();
-        Producer producer = pubSub.createTopic(topic);
+        ProducerImpl producer = pubSub.createTopic(topic);
         Consumer consumer = pubSub.consumeTopic(topic);
 
         SharedResource result = new SharedResource(uri, producer, consumer);

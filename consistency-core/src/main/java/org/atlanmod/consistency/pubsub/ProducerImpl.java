@@ -2,15 +2,22 @@ package org.atlanmod.consistency.pubsub;
 
 import org.atlanmod.consistency.core.IntegerId;
 
-public class Producer extends PubSub {
+import java.io.Serializable;
 
-    public Producer(Broker broker) {
+public class ProducerImpl extends PubSub implements Producer {
+
+    public ProducerImpl(Broker broker) {
         super(broker);
         clientId = new IntegerId(nextId++);
     }
 
-    public boolean publish(Topic topic,Object message) {
-        msgHistory.add(message);
-        return broker.receive(topic, message);
+    public boolean publish(Topic topic,Serializable message) {
+        return broker.receive(topic, message) && sentMsgHistory.add(message);
+    }
+
+    @Override
+    public void send(Serializable serializable) {
+        broker.receive(groupTopic, serializable);
+        sentMsgHistory.add(serializable);
     }
 }

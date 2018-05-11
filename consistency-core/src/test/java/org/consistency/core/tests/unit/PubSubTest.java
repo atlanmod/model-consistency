@@ -1,28 +1,32 @@
 package org.consistency.core.tests.unit;
 
 import org.atlanmod.consistency.pubsub.Broker;
-import org.atlanmod.consistency.pubsub.Producer;
-import org.atlanmod.consistency.pubsub.Subscriber;
+import org.atlanmod.consistency.pubsub.ProducerImpl;
+import org.atlanmod.consistency.pubsub.ConsumerImpl;
 import org.atlanmod.consistency.pubsub.Topic;
 import org.eclipse.emf.common.util.URI;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.CountDownLatch;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PubSubTest {
 
     private Broker broker;
-    private Producer producer;
+    private ProducerImpl producer;
     private Topic topic1, topic2;
-    private Subscriber sub1, sub2;
+    private ConsumerImpl sub1, sub2;
 
     @BeforeEach
     void setup() {
         broker = new Broker();
-        producer = new Producer(broker);
+        producer = new ProducerImpl(broker);
 
-        sub1 = new Subscriber(broker);
-        sub2 = new Subscriber(broker);
+        sub1 = new ConsumerImpl(broker);
+        sub2 = new ConsumerImpl(broker);
         topic1 = new Topic(URI.createURI("topic1"));
         topic2 = new Topic(URI.createURI("topic2"));
 
@@ -46,22 +50,42 @@ class PubSubTest {
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
 
-        assertThat(producer.getMsgHistory().size()).isGreaterThan(0);
+        assertThat(producer.getSent().size()).isGreaterThan(0);
     }
 
-    @Test
+    @RepeatedTest(100)
     void testTopicPublish() {
         producer.publish(topic1, "Hello");
 
         assertThat(topic1.hasUnconsumedMessages()).isTrue();
-        assertThat(sub1.getMsgHistory().size()).isZero();
-        assertThat(sub2.getMsgHistory().size()).isZero();
+        assertThat(sub1.getReceived().size()).isZero();
+        assertThat(sub2.getReceived().size()).isZero();
 
         broker.topicPublish(topic1);
 
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertThat(topic1.hasUnconsumedMessages()).isFalse();
-        assertThat(sub1.getMsgHistory().size()).isGreaterThan(0);
-        assertThat(sub2.getMsgHistory().size()).isGreaterThan(0);
+        assertThat(sub1.getReceived().size()).isEqualTo(1);
+        assertThat(sub2.getReceived().size()).isEqualTo(1);
+
+        producer.publish(topic1, "World");
+
+        broker.topicPublish(topic1);
+
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertThat(topic1.hasUnconsumedMessages()).isFalse();
+        assertThat(sub1.getReceived().size()).isEqualTo(2);
+        assertThat(sub2.getReceived().size()).isEqualTo(2);
     }
 
     @Test

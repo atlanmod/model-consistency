@@ -1,18 +1,19 @@
 package org.atlanmod.consistency.pubsub;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Broker {
     private List<Topic> topics = new ArrayList<>();
 
-    public boolean receive(Topic topic, Object message) {
+    public boolean receive(Topic topic, Serializable message) {
         int index = getTopicIndexOrAdd(topic);
 
         return topics.get(index).add(message);
     }
 
-    public boolean newSubscriber(Subscriber sub, Topic topic) {
+    public boolean newSubscriber(ConsumerImpl sub, Topic topic) {
         int index = getTopicIndexOrAdd(topic);
 
         return topics.get(index).newSub(sub);
@@ -31,7 +32,7 @@ public class Broker {
         }
     }
 
-    public boolean unsubscribe(Subscriber subscriber, Topic topic) {
+    public boolean unsubscribe(ConsumerImpl subscriber, Topic topic) {
         assert topics.contains(topic) : "This topic does not exist in this broker";
 
         int index = topics.indexOf(topic);

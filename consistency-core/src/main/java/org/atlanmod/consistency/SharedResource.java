@@ -23,7 +23,7 @@ import org.atlanmod.consistency.core.InstanceId;
 import org.atlanmod.consistency.core.ResourceId;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.pubsub.Consumer;
-import org.atlanmod.consistency.pubsub.Producer;
+import org.atlanmod.consistency.pubsub.ProducerImpl;
 import org.atlanmod.consistency.update.Attach;
 import org.atlanmod.consistency.update.ChangeManager;
 import org.atlanmod.consistency.update.Detach;
@@ -38,7 +38,7 @@ import java.util.Objects;
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 
 //import org.atlanmod.appa.pubsub.Consumer;
-//import org.atlanmod.appa.pubsub.Producer;
+//import org.atlanmod.appa.pubsub.ProducerImpl;
 
 /**
  * Created on 17/02/2017.
@@ -50,15 +50,15 @@ public class SharedResource extends ResourceImpl {
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid; //= IdBuilder.generateRID();
-    private Producer producer;
+    private ProducerImpl producer;
     private Consumer consumer;
 
 
-    public SharedResource(URI uri, Producer producer, Consumer consumer) {
+    public SharedResource(URI uri, ProducerImpl producer, Consumer consumer) {
         this(uri, IdBuilder.generateRID(),producer,consumer);
     }
 
-    public SharedResource(URI uri, ResourceId rid, Producer producer, Consumer consumer) {
+    public SharedResource(URI uri, ResourceId rid, ProducerImpl producer, Consumer consumer) {
         super(uri);
         this.rid = rid;
         this.producer = producer;
