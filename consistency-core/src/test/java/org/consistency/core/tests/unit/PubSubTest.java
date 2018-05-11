@@ -53,7 +53,7 @@ class PubSubTest {
         assertThat(producer.getSent().size()).isGreaterThan(0);
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(300)
     void testTopicPublish() {
         producer.publish(topic1, "Hello");
 
