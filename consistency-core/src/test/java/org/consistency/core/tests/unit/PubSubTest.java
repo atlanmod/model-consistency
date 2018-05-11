@@ -101,6 +101,13 @@ class PubSubTest {
 
         broker.publishAll();
 
+        // 1 or 2 ms for IntelliJ & Maven, 5ms for Travis
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertThat(topic1.hasUnconsumedMessages()).isFalse();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
 

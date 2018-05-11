@@ -190,10 +190,10 @@ public class EdgeImpl extends MinimalEObjectImpl.Container implements Edge {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case GraphPackage.EDGE__FROM:
-				setFrom((Vertex)null);
+				setFrom(null);
 				return;
 			case GraphPackage.EDGE__TO:
-				setTo((Vertex)null);
+				setTo(null);
 				return;
 		}
 		super.eUnset(featureID);

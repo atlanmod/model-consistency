@@ -286,7 +286,7 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case GraphPackage.VERTEX__OWNER:
-				setOwner((Graph)null);
+				setOwner(null);
 				return;
 			case GraphPackage.VERTEX__LABEL:
 				setLabel(LABEL_EDEFAULT);
