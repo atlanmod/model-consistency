@@ -6,10 +6,9 @@ import org.atlanmod.consistency.pubsub.ConsumerImpl;
 import org.atlanmod.consistency.pubsub.Topic;
 import org.eclipse.emf.common.util.URI;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
+//import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.CountDownLatch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -37,8 +36,9 @@ class PubSubTest {
 
     @Test
     void testInit() {
-        assertThat(broker.getTopics().size()).isEqualTo(2);
+        assertThat(broker.getTopics().size()).isEqualTo(3); // Unique groupTopic, topic1, topic2
         assertThat(broker.containsTopic(topic1));
+        assertThat(topic2.getUri()).isEqualTo(URI.createURI("topic2"));
     }
     @Test
     void testPublish() {
@@ -53,7 +53,8 @@ class PubSubTest {
         assertThat(producer.getSent().size()).isGreaterThan(0);
     }
 
-    @RepeatedTest(300)
+    //@RepeatedTest(300) // Debug purpose on Thread execution (assertion being executed before the end of receiving)
+    @Test
     void testTopicPublish() {
         producer.publish(topic1, "Hello");
 
@@ -63,6 +64,7 @@ class PubSubTest {
 
         broker.topicPublish(topic1);
 
+        // 1 or 2 ms for IntelliJ & Maven, 5ms for Travis
         try {
             Thread.sleep(5);
         } catch (InterruptedException e) {
@@ -77,6 +79,7 @@ class PubSubTest {
 
         broker.topicPublish(topic1);
 
+        // 1 or 2 ms for IntelliJ & Maven, 5ms for Travis
         try {
             Thread.sleep(5);
         } catch (InterruptedException e) {
@@ -100,6 +103,9 @@ class PubSubTest {
 
         assertThat(topic1.hasUnconsumedMessages()).isFalse();
         assertThat(topic2.hasUnconsumedMessages()).isFalse();
+
+        assertThat(sub1.getReceived().size()).isEqualTo(1);
+        assertThat(sub2.getReceived().size()).isEqualTo(2);
     }
 
     @Test
@@ -108,5 +114,22 @@ class PubSubTest {
 
         assertThat(topic1.subCount()).isEqualTo(1);
         assertThat(topic2.subCount()).isEqualTo(1);
+    }
+
+    @Test
+    void testUniqueTopic() {
+        producer.send("Hello");
+
+        broker.publishAll();
+
+        // 1 or 2 ms for IntelliJ & Maven, 5ms for Travis
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertThat(sub1.getReceived().size()).isEqualTo(1);
+        assertThat(sub2.getReceived().size()).isEqualTo(1);
     }
 }

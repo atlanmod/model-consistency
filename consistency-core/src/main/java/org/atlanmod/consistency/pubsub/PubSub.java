@@ -10,12 +10,12 @@ import java.util.List;
 public abstract class PubSub {
     static int TIMEOUT_MS = 10000;
     static Integer nextId = 0;
+    static Topic groupTopic = new Topic(URI.createURI("uniquegrouptopic"));
+
+    Id clientId;
     List<Serializable> sentMsgHistory = new ArrayList<>();
     List<Serializable> receivedMsgHistory = new ArrayList<>();
     Broker broker;
-    Id clientId;
-    Topic groupTopic = new Topic(URI.createURI("uniquegrouptopic"));
-
 
 
     PubSub(Broker broker) {

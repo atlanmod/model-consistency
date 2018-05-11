@@ -5,22 +5,21 @@ import org.eclipse.emf.common.util.URI;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Topic {
     private URI uri;
-    private BlockingQueue<Serializable> messages = new LinkedBlockingQueue<>();
+    private BlockingQueue<Serializable> unreadMessages = new LinkedBlockingQueue<>();
     private List<ConsumerImpl> subscribers = new ArrayList<>();
-
+    private List<Serializable> history = new ArrayList<>();
 
     public Topic(URI uri) {
         this.uri = uri;
     }
 
     public boolean add(Serializable message) {
-        return messages.offer(message);
+        return unreadMessages.offer(message) && history.add(message);
     }
 
     public boolean newSub(ConsumerImpl sub) {
@@ -28,11 +27,11 @@ public class Topic {
     }
 
     public void publish() {
-        for (Serializable msg : messages) {
+        for (Serializable msg : unreadMessages) {
             for (ConsumerImpl sub : subscribers) {
                 sub.receive(msg);
             }
-            messages.remove();
+            unreadMessages.remove();
         }
     }
 
@@ -45,10 +44,10 @@ public class Topic {
     }
 
     public boolean hasUnconsumedMessages() {
-        return messages.size() > 0;
+        return unreadMessages.size() > 0;
     }
 
-    public BlockingQueue<Serializable> getMessages() {
-        return messages;
+    public URI getUri() {
+        return uri;
     }
 }

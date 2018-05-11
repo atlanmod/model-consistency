@@ -17,7 +17,6 @@ public class ProducerImpl extends PubSub implements Producer {
 
     @Override
     public void send(Serializable serializable) {
-        broker.receive(groupTopic, serializable);
-        sentMsgHistory.add(serializable);
+        publish(groupTopic, serializable);
     }
 }

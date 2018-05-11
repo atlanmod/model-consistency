@@ -27,8 +27,9 @@ public class Broker {
     }
 
     public void publishAll() {
-        for (Topic tpc : topics) {
-            topicPublish(tpc);
+        for (Topic topic : topics) {
+            if (topic.hasUnconsumedMessages())
+                topicPublish(topic);
         }
     }
 

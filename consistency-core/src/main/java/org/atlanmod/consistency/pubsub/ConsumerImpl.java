@@ -15,6 +15,7 @@ public class ConsumerImpl extends PubSub implements Consumer {
     public ConsumerImpl(Broker broker) {
         super(broker);
         clientId = new IntegerId(nextId++);
+        subscribe(groupTopic);
         t = new Thread(new FetchMessage());
         t.start();
     }
@@ -51,7 +52,7 @@ public class ConsumerImpl extends PubSub implements Consumer {
             while(cpt < TIMEOUT_MS) {
                 message = receive(TIMEOUT_MS);
                 receivedMsgHistory.add(message);
-                System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + receivedMsgHistory.size() + " messages." + message);
+                // System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + receivedMsgHistory.size() + " messages." + message);
                 cpt += 100;
             }
         }
