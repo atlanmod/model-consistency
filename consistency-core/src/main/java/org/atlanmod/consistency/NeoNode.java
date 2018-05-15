@@ -17,9 +17,11 @@ package org.atlanmod.consistency;
 //import org.atlanmod.appa.Node;
 
 import org.atlanmod.consistency.core.NodeId;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.pubsub.*;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
+
+import java.io.Serializable;
 
 /**
  * Created on 09/03/2017.
@@ -30,15 +32,36 @@ public class NeoNode //extends Node
     private static short lastNodeId = 0;
 
     private NodeId nid = new NodeId(lastNodeId++);
+
+    private Producer pub;
+    private Consumer sub;
+
     private SharedResourceSet resourceSet = new SharedResourceSet();
+
+    public NeoNode(Broker broker) {
+        pub = new ProducerImpl(broker);
+        sub = new ConsumerImpl(broker);
+    }
+
+    public Producer getPub() {
+        return pub;
+    }
+
+    public Consumer getSub() {
+        return sub;
+    }
 
     public SharedResourceSet getSharedResourceSet() {
         return resourceSet;
     }
 
     public void attachResource(URI uri) {
-        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID(),null,null));
+        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID()));
     }
+
+    /**
+     * Short summary of what happened in the node during the session, for each resource contained in the node
+     */
 
     public void summary() {
         int i = 0;
@@ -53,5 +76,29 @@ public class NeoNode //extends Node
 
     public void attachResource(SharedResource resource1) {
         resourceSet.getSharedResources().add(resource1);
+    }
+
+    public void send(UpdateMessage message) {
+        pub.send(message);
+    }
+
+    /**
+     * Starts the process of receiving and dealing with a message
+     * @param message the message to deal with
+     */
+    public void receive(Serializable message) {
+        sub.receive(PubSub.TIMEOUT_MS);
+        for (SharedResource resource : resourceSet.getSharedResources()) {
+            resource.receive((UpdateMessage) message);
+        }
+    }
+
+    /**
+     * Receives all the messages sent to the node via the sub
+     */
+    public void receiveAll() {
+        for (Serializable message : sub.getReceived()) {
+            receive(message);
+        }
     }
 }

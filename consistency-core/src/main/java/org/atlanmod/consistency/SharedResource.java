@@ -17,21 +17,14 @@ package org.atlanmod.consistency;
 import com.google.common.collect.Maps;
 import graph.Graph;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
-import org.atlanmod.consistency.core.Id;
-import org.atlanmod.consistency.core.IdBuilder;
-import org.atlanmod.consistency.core.InstanceId;
-import org.atlanmod.consistency.core.ResourceId;
+import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
-import org.atlanmod.consistency.pubsub.Consumer;
-import org.atlanmod.consistency.pubsub.ProducerImpl;
-import org.atlanmod.consistency.update.Attach;
-import org.atlanmod.consistency.update.ChangeManager;
-import org.atlanmod.consistency.update.Detach;
-import org.atlanmod.consistency.update.Operation;
+import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -50,19 +43,15 @@ public class SharedResource extends ResourceImpl {
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid; //= IdBuilder.generateRID();
-    private ProducerImpl producer;
-    private Consumer consumer;
 
 
-    public SharedResource(URI uri, ProducerImpl producer, Consumer consumer) {
-        this(uri, IdBuilder.generateRID(),producer,consumer);
+    public SharedResource(URI uri) {
+        this(uri, IdBuilder.generateRID());
     }
 
-    public SharedResource(URI uri, ResourceId rid, ProducerImpl producer, Consumer consumer) {
+    public SharedResource(URI uri, ResourceId rid) {
         super(uri);
         this.rid = rid;
-        this.producer = producer;
-        this.consumer = consumer;
     }
 
     @Override
@@ -101,6 +90,11 @@ public class SharedResource extends ResourceImpl {
     }
 
 
+    /**
+     * Called by History.integrate(Operation)
+     * Used to recreate an operation locally
+     * @param operation the Operation to reproduce
+     */
     public void execute(Operation operation) {
         Id oid = operation.instanceId();
         EObject eObject = contents.get(oid);
@@ -119,6 +113,10 @@ public class SharedResource extends ResourceImpl {
         //producer.send(operation.asMessage());
     }
 
+    /**
+     * Receives and deals with and incoming message
+     * @param message the message to deal with
+     */
     public void receive(UpdateMessage message) {
         Operation operation = null;
         switch (message.type()) {
@@ -127,6 +125,9 @@ public class SharedResource extends ResourceImpl {
                 break;
             case Detach:
                 operation = new Detach(message);
+                break;
+            case Set:
+                operation = new SetValue((FeatureId) message.featureId(), message.value(), message.oldValue());
         }
 
         if(operation != null) {this.history.integrate(operation);}

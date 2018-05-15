@@ -3,8 +3,12 @@ package org.atlanmod.consistency.pubsub;
 import org.atlanmod.consistency.core.IntegerId;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProducerImpl extends PubSub implements Producer {
+
+    private List<Serializable> sentMsgHistory = new ArrayList<>();
 
     public ProducerImpl(Broker broker) {
         super(broker);
@@ -13,6 +17,10 @@ public class ProducerImpl extends PubSub implements Producer {
 
     public boolean publish(Topic topic,Serializable message) {
         return broker.receive(topic, message) && sentMsgHistory.add(message);
+    }
+
+    public List<Serializable> getSent() {
+        return sentMsgHistory;
     }
 
     @Override

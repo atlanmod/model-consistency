@@ -1,28 +1,78 @@
 package org.atlanmod.consistency;
 
-import graph.Edge;
-import graph.Graph;
-import graph.GraphFactory;
-import graph.Vertex;
+import graph.*;
 import org.apache.activemq.artemis.*;
 import org.atlanmod.consistency.core.IdBuilder;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.pubsub.Broker;
+import org.atlanmod.consistency.pubsub.PubSub;
 import org.atlanmod.consistency.update.Operation;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.util.URI;
 import org.fusesource.mqtt.client.*;
 
+import java.io.Serializable;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
 public class App {
     public static void main(String[] args) {
 
-        //*
-        /**
+        /*
+         * Version 3 test main
+         * (Inclusion of pubsub)
+         */
+
+        GraphFactory factory = GraphFactory.eINSTANCE;
+        Graph graph1 = factory.createGraph();
+        Graph graph2 = factory.createGraph();
+
+        Broker broker = new Broker();
+
+        NeoNode node1 = new NeoNode(broker);
+        NeoNode node2 = new NeoNode(broker);
+
+        URI uri1 = URI.createURI("org.atlanmod.consistency.NeoNode:resource1");
+        URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
+
+        node1.attachResource(uri1); // Attach
+        node2.attachResource(uri2);
+
+        SharedResource resource1 = node1.getSharedResourceSet().getSharedResource(uri1);
+        SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
+
+        resource1.getContents().add(graph1);
+        resource2.getContents().add(graph2);
+
+        graph1.getVertices().add(factory.createVertex());
+        graph2.getVertices().add(factory.createVertex());
+
+        graph1.getVertices().get(0).setLabel("B");
+
+
+        try {
+            for (int i = 0; i < 4; ++i) {
+                resource1.getHistory().queue().take();
+            }
+            node1.send(resource1.getHistory().queue().take().asMessage());
+            broker.topicPublish(PubSub.groupTopic);
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        node2.receiveAll();
+        node1.summary();
+        node2.summary();
+
+
+        /*
          * Version 2 test main
          * (Tries with nodes, operations spreading tries)
          */
 
+        /*
         GraphFactory factory = GraphFactory.eINSTANCE;
         Graph graph1 = factory.createGraph();
         Graph graph2 = factory.createGraph();
@@ -75,15 +125,15 @@ public class App {
             System.out.println("Print : " + last.toString());
             // Throws UnsupportedOperationException because BaseOperation needs to be implemented
             resource2.execute(last);
-        }*/
+        }//
 
         node1.summary();
         node2.summary();
 
-
+*/
 
         //*/
-        /**
+        /*
          * Version 1 test main
          * (No node, no spreading, only attachments and local modifications on resources)
          */

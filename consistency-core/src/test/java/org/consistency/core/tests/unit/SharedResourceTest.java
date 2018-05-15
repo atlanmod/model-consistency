@@ -48,14 +48,14 @@ class SharedResourceTest {
     void setUp() //throws IOException
     {
         uri = URI.createURI("file://tmp/");
-        resource = new SharedResource(uri, null, null);
+        resource = new SharedResource(uri);
         //this.write(resource);
 
     }
 
     @Test
     void testSharedResource() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"),null, null);
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"));
 
         assertThat(resource.getURI()).isEqualTo(uri);
         assertThat(resource).isNotEqualTo(other);
@@ -63,7 +63,7 @@ class SharedResourceTest {
 
     @Test
     void testAttachDetach() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"),null, null);
+        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"));
 
         resource.getContents().add(graph);
 

@@ -49,7 +49,7 @@ public class SharedResourceFactory implements Resource.Factory {
     @Override
     public Resource createResource(@Nonnull URI uri) {
         checkNotNull(uri);
-        return new SharedResource(uri, IdBuilder.generateRID(),null, null);
+        return new SharedResource(uri, IdBuilder.generateRID());
     }
 
     /**
