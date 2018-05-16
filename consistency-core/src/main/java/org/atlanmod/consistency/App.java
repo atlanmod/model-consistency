@@ -3,9 +3,6 @@ package org.atlanmod.consistency;
 import graph.Graph;
 import graph.GraphFactory;
 import org.atlanmod.consistency.pubsub.Broker;
-import org.atlanmod.consistency.update.Attach;
-import org.atlanmod.consistency.update.Detach;
-import org.atlanmod.consistency.update.SetValue;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -49,13 +46,11 @@ public class App {
                 resource1.getHistory().queue().take();
             }
             while (!resource1.getHistory().queue().isEmpty()) {
-                if (resource1.getHistory().queue().element() instanceof Attach || resource1.getHistory().queue().element() instanceof Detach || resource1.getHistory().queue().element() instanceof SetValue)
-                    node1.send(resource1.getHistory().queue().take().asMessage());
-                else
-                    resource1.getHistory().queue().take();
+                //if (resource1.getHistory().queue().element() instanceof Attach || resource1.getHistory().queue().element() instanceof Detach || resource1.getHistory().queue().element() instanceof SetValue)
+                node1.send(resource1.getHistory().queue().take().asMessage());
             }
             broker.publishAll(); // Equivalent to broker.topicPublish(PubSub.groupTopic) here
-            Thread.sleep(5);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -67,7 +62,7 @@ public class App {
 
         /*
          * Version 2 test main
-         * (Tries with nodes, operations spreading tries)
+         * (Nodes, operations spreading tries)
          */
 
         /*

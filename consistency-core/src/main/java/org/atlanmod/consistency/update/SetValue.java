@@ -48,7 +48,7 @@ public class SetValue extends FeatureOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.Set, featureId(), value, previous);
+        return new ValueMessage(MessageType.SetValue, featureId(), value, previous);
     }
 
     @Override

@@ -43,14 +43,6 @@ public class NeoNode //extends Node
         sub = new ConsumerImpl(broker);
     }
 
-    public Producer getPub() {
-        return pub;
-    }
-
-    public Consumer getSub() {
-        return sub;
-    }
-
     public SharedResourceSet getSharedResourceSet() {
         return resourceSet;
     }
@@ -72,10 +64,6 @@ public class NeoNode //extends Node
             each.summary();
         }
         System.out.println("------------------------------ END OF NODE ------------------------------\n");
-    }
-
-    public void attachResource(SharedResource resource) {
-        resourceSet.getSharedResources().add(resource);
     }
 
     public void send(UpdateMessage message) {

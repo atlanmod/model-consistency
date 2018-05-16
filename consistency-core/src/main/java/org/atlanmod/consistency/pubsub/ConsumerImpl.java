@@ -58,7 +58,7 @@ public class ConsumerImpl extends PubSub implements Consumer {
         public void run() {
             Serializable message;
             int cpt = 0;
-            while(cpt < 2) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
+            while(cpt < 7) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
                 message = receive(TIMEOUT_MS);
                 if (message != null)
                     receivedMsgHistory.add(message);

@@ -22,5 +22,7 @@ package org.atlanmod.consistency.message;
 public enum MessageType {
     Attach,
     Detach,
-    Set
+    SetValue,
+    SetReference,
+    AddReference
 }

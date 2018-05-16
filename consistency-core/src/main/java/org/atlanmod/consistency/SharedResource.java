@@ -20,6 +20,7 @@ import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.update.*;
+import org.codehaus.jackson.JsonParser;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -51,6 +52,10 @@ public class SharedResource extends ResourceImpl {
     public SharedResource(URI uri, ResourceId rid) {
         super(uri);
         this.rid = rid;
+    }
+
+    public Map<Id, EObject> contents() {
+        return contents;
     }
 
     @Override
@@ -97,6 +102,7 @@ public class SharedResource extends ResourceImpl {
     public void execute(Operation operation) {
         Id oid = operation.instanceId();
         EObject eObject;
+        // To recreate the object to be attached
         if (operation instanceof Attach) {
             eObject = new CreateEObject(oid, ((Attach) operation).getEClass()).getObject();
         } else {
@@ -105,7 +111,11 @@ public class SharedResource extends ResourceImpl {
         eObject.eSetDeliver(false);
         operation.execute(this, eObject);
         eObject.eSetDeliver(true);
-        history.add(operation);
+
+        // Because they call add() which automatically calls history.add()
+        if (!(operation instanceof Attach || operation instanceof SetReference)) {
+            history.add(operation);
+        }
 
     }
 
@@ -130,8 +140,14 @@ public class SharedResource extends ResourceImpl {
             case Detach:
                 operation = new Detach(message);
                 break;
-            case Set:
+            case SetValue:
                 operation = new SetValue((FeatureId) message.featureId(), message.value(), message.oldValue());
+                break;
+            case SetReference:
+                operation = new SetReference((FeatureId) message.featureId(), (Id) message.value());
+                break;
+            case AddReference:
+                operation = new AddReference((FeatureId) message.featureId(), (Id) message.value());
         }
         this.history.integrate(operation);
     }
