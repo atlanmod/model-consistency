@@ -62,7 +62,7 @@ public class ConsumerImpl extends PubSub implements Consumer {
                 message = receive(TIMEOUT_MS);
                 if (message != null)
                     receivedMsgHistory.add(message);
-                System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + receivedMsgHistory.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
+                //System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + receivedMsgHistory.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
                 ++cpt;
             }
         }

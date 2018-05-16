@@ -157,12 +157,13 @@ class SharedResourceTest {
 
         graph.getVertices().removeAll(vertices);
 
-        assertThat(graph.eContents().contains(v1)).isFalse();
-        assertThat(graph.eContents().contains(v3)).isFalse();
+        assertThat(graph.eContents()).doesNotContain(v1);
+        assertThat(graph.eContents()).doesNotContain(v3);
 
         assertThat(resource.contains(v1)).isFalse();
 
-        assertThat(resource.contains(v2) && graph.getVertices().contains(v2)).isTrue();
+        assertThat(resource.contains(v2)).isTrue();
+        assertThat(graph.getVertices()).contains(v2);
     }
 
     @Test

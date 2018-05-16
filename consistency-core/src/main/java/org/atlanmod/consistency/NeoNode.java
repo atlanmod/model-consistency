@@ -70,11 +70,23 @@ public class NeoNode //extends Node
         pub.send(message);
     }
 
+    public void sendAll() {
+        for (SharedResource resource : resourceSet.getSharedResources()) {
+            while (resource.getHistory().queue().size() > 0) {
+                try {
+                    send(resource.getHistory().queue().take().asMessage());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     /**
      * Starts the process of receiving and dealing with a message
      * @param message the message to deal with
      */
-    public void receive(Serializable message) {
+    private void receive(Serializable message) {
         sub.receive(PubSub.TIMEOUT_MS);
         for (SharedResource resource : resourceSet.getSharedResources()) {
             resource.receive((UpdateMessage) message);

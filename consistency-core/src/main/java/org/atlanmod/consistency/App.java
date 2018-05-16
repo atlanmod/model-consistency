@@ -23,8 +23,8 @@ public class App {
         NeoNode node1 = new NeoNode(broker);
         NeoNode node2 = new NeoNode(broker);
 
-        URI uri1 = URI.createURI("org.atlanmod.consistency.NeoNode:resource1");
-        URI uri2 = URI.createURI("org.atlanmod.consistency.NeoNode:resource2");
+        URI uri1 = URI.createURI("org.atlanmod.consistency.App:resource1");
+        URI uri2 = URI.createURI("org.atlanmod.consistency.App:resource2");
 
         node1.attachResource(uri1); // Attach
         node2.attachResource(uri2);
@@ -42,7 +42,7 @@ public class App {
 
 
         try {
-            for (int i = 0; i < 0; ++i) { // To bypass the Attach messages (put i<4 for the SetValue)
+            for (int i = 0; i < 4; ++i) { // To bypass the Attach messages (put i<4 for the SetValue, i<0 for every operation)
                 resource1.getHistory().queue().take();
             }
             while (!resource1.getHistory().queue().isEmpty()) {

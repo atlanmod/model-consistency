@@ -20,13 +20,11 @@ import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.update.*;
-import org.codehaus.jackson.JsonParser;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 
@@ -112,11 +110,12 @@ public class SharedResource extends ResourceImpl {
         operation.execute(this, eObject);
         eObject.eSetDeliver(true);
 
-        // Because they call add() which automatically calls history.add()
-        if (!(operation instanceof Attach || operation instanceof SetReference)) {
+        // Because they call add() which automatically calls history.add(). Probably incomplete
+        if (!(operation instanceof Attach ||
+                operation instanceof SetReference ||
+                operation instanceof Detach)) {
             history.add(operation);
         }
-
     }
 
     public void cancel(Operation operation) {
@@ -205,6 +204,13 @@ public class SharedResource extends ResourceImpl {
 
     public History getHistory() {
         return history;
+    }
+
+    public EObject contentAt(int i) {
+        EObject[] elts = contents.values().toArray(new EObject[0]);
+        List<EObject> objects = new ArrayList<>(Arrays.asList(elts));
+
+        return objects.get(i);
     }
 
     public class ConsumerThread implements Runnable {
