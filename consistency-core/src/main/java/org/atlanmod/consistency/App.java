@@ -30,7 +30,7 @@ public class App {
         node2.attachResource(uri2);
 
         SharedResource resource1 = node1.getSharedResourceSet().getSharedResource(uri1);
-        SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
+        //SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
 
         resource1.getContents().add(graph1);
         //resource2.getContents().add(graph2);
@@ -42,7 +42,7 @@ public class App {
 
 
         try {
-            for (int i = 0; i < 4; ++i) { // To bypass the Attach messages (put i<4 for the SetValue, i<0 for every operation)
+            for (int i = 0; i < 4; ++i) { // To bypass the Attach messages (put i<4 for the SetValue (uncomment lines 33-36-39), i<0 for every operation)
                 resource1.getHistory().queue().take();
             }
             while (!resource1.getHistory().queue().isEmpty()) {
