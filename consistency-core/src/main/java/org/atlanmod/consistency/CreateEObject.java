@@ -14,21 +14,29 @@
 
 package org.atlanmod.consistency;
 
+import graph.Graph;
+import graph.GraphFactory;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.message.AbstractUpdateMessage;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 
 public class CreateEObject extends AbstractUpdateMessage {
 
     private Id id;
+    private EObject eObject;
 
-    public CreateEObject(EClass eClass, Id id) {
+    public CreateEObject(Id id, EClass eClass) {
 
         super(null);
-        eClass.getClassifierID();
+        //eClass.getClassifierID();
         this.id = id;
 
-        //eClass.getEPackage().
+         if (eClass != null) this.eObject = eClass.getEPackage().getEFactoryInstance().create(eClass);
+    }
+
+    public EObject getObject() {
+        return eObject;
     }
 }

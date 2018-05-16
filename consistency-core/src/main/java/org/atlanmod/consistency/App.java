@@ -1,19 +1,12 @@
 package org.atlanmod.consistency;
 
-import graph.*;
-import org.apache.activemq.artemis.*;
-import org.atlanmod.consistency.core.IdBuilder;
-import org.atlanmod.consistency.message.UpdateMessage;
+import graph.Graph;
+import graph.GraphFactory;
 import org.atlanmod.consistency.pubsub.Broker;
-import org.atlanmod.consistency.pubsub.PubSub;
-import org.atlanmod.consistency.update.Operation;
-import org.atlanmod.consistency.util.ConsistencyUtil;
+import org.atlanmod.consistency.update.Attach;
+import org.atlanmod.consistency.update.Detach;
+import org.atlanmod.consistency.update.SetValue;
 import org.eclipse.emf.common.util.URI;
-import org.fusesource.mqtt.client.*;
-
-import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class App {
@@ -43,21 +36,26 @@ public class App {
         SharedResource resource2 = node2.getSharedResourceSet().getSharedResource(uri2);
 
         resource1.getContents().add(graph1);
-        resource2.getContents().add(graph2);
+        //resource2.getContents().add(graph2);
 
         graph1.getVertices().add(factory.createVertex());
-        graph2.getVertices().add(factory.createVertex());
+        //graph2.getVertices().add(factory.createVertex());
 
         graph1.getVertices().get(0).setLabel("B");
 
 
         try {
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 0; ++i) { // To bypass the Attach messages (put i<4 for the SetValue)
                 resource1.getHistory().queue().take();
             }
-            node1.send(resource1.getHistory().queue().take().asMessage());
-            broker.topicPublish(PubSub.groupTopic);
-            Thread.sleep(100);
+            while (!resource1.getHistory().queue().isEmpty()) {
+                if (resource1.getHistory().queue().element() instanceof Attach || resource1.getHistory().queue().element() instanceof Detach || resource1.getHistory().queue().element() instanceof SetValue)
+                    node1.send(resource1.getHistory().queue().take().asMessage());
+                else
+                    resource1.getHistory().queue().take();
+            }
+            broker.publishAll(); // Equivalent to broker.topicPublish(PubSub.groupTopic) here
+            Thread.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

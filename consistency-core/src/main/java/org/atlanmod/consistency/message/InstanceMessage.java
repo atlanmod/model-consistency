@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.message;
 
 import org.atlanmod.consistency.core.Id;
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * Created on 17/03/2017.
@@ -23,14 +24,25 @@ import org.atlanmod.consistency.core.Id;
  */
 public class InstanceMessage extends AbstractUpdateMessage {
     private Id instanceId;
+    private EClass eClass;
+
 
     public InstanceMessage(MessageType type, Id instanceId) {
         super(type);
         this.instanceId = instanceId;
     }
 
+    public InstanceMessage(MessageType type, Id instanceId, EClass eClass) {
+        this(type, instanceId);
+        this.eClass = eClass;
+    }
+
     @Override
     public Id instanceId() {
         return instanceId;
+    }
+
+    public EClass getEClass() {
+        return eClass;
     }
 }

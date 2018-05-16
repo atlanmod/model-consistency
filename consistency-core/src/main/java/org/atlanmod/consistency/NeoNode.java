@@ -74,8 +74,8 @@ public class NeoNode //extends Node
         System.out.println("------------------------------ END OF NODE ------------------------------\n");
     }
 
-    public void attachResource(SharedResource resource1) {
-        resourceSet.getSharedResources().add(resource1);
+    public void attachResource(SharedResource resource) {
+        resourceSet.getSharedResources().add(resource);
     }
 
     public void send(UpdateMessage message) {

@@ -16,9 +16,11 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.InstanceId;
 import org.atlanmod.consistency.message.InstanceMessage;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class Attach implements Operation {
     private Id instanceId;
+    private EClass eClass;
 
     public Attach(Id instanceId) {
         this.instanceId = instanceId;
@@ -35,6 +38,12 @@ public class Attach implements Operation {
 
     public Attach(UpdateMessage message) {
         this.instanceId = message.instanceId();
+        this.eClass = message.getEClass();
+    }
+
+    public Attach(InstanceId oid, EClass eClass) {
+        this.instanceId = oid;
+        this.eClass = eClass;
     }
 
     @Override
@@ -44,12 +53,16 @@ public class Attach implements Operation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new InstanceMessage(MessageType.Attach, this.instanceId);
+        return new InstanceMessage(MessageType.Attach, this.instanceId, this.eClass);
     }
 
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
         resource.getContents().add(eObject);
+    }
+
+    public EClass getEClass() {
+        return eClass;
     }
 }

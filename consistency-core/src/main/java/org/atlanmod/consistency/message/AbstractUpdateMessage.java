@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.message;
 
 import org.atlanmod.consistency.core.Id;
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * Created on 17/03/2017.
@@ -60,6 +61,11 @@ public class AbstractUpdateMessage implements UpdateMessage {
 
     @Override
     public Id oldReference() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public EClass getEClass() {
         throw new UnsupportedOperationException();
     }
 }

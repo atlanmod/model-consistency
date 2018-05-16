@@ -24,7 +24,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -62,10 +61,10 @@ public class SharedResource extends ResourceImpl {
             oid = rid.nextId();
             eObject.eAdapters().add(new EObjectAdapter(manager,oid));
             contents.put(oid, eObject);
-            history.add(new Attach(oid));
+            history.add(new Attach(oid, eObject.eClass()));
         } else {
             oid = adapter.id();
-            history.basicAdd(new Attach(oid));
+            history.basicAdd(new Attach(oid, eObject.eClass()));
         }
 
         System.out.println("Adding Id to: " + oid);
@@ -97,9 +96,14 @@ public class SharedResource extends ResourceImpl {
      */
     public void execute(Operation operation) {
         Id oid = operation.instanceId();
-        EObject eObject = contents.get(oid);
+        EObject eObject;
+        if (operation instanceof Attach) {
+            eObject = new CreateEObject(oid, ((Attach) operation).getEClass()).getObject();
+        } else {
+            eObject = contents.get(oid);
+        }
         eObject.eSetDeliver(false);
-        operation.execute(this,eObject);
+        operation.execute(this, eObject);
         eObject.eSetDeliver(true);
         history.add(operation);
 
@@ -129,15 +133,14 @@ public class SharedResource extends ResourceImpl {
             case Set:
                 operation = new SetValue((FeatureId) message.featureId(), message.value(), message.oldValue());
         }
-
-        if(operation != null) {this.history.integrate(operation);}
+        this.history.integrate(operation);
     }
 
     /**
      * Checks by semi-recursion whether an object appears in the resource (sub)content
      *
      * @param object the object to search
-     * @return true if object is contained by the resource or one of its contents
+     * @return true if object is contained by the resource or one of its contents, else false
      */
 
     public boolean contains(EObject object) {
@@ -186,10 +189,6 @@ public class SharedResource extends ResourceImpl {
 
     public History getHistory() {
         return history;
-    }
-
-    public Map<Id, EObject> contents() {
-        return contents;
     }
 
     public class ConsumerThread implements Runnable {
