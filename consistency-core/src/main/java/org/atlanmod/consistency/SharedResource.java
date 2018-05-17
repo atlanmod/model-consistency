@@ -147,6 +147,10 @@ public class SharedResource extends ResourceImpl {
                 break;
             case AddReference:
                 operation = new AddReference((FeatureId) message.featureId(), (Id) message.value());
+                break;
+            case Unset:
+                operation = new Unset((FeatureId) message.featureId());
+                break;
         }
         this.history.integrate(operation);
     }

@@ -2,13 +2,16 @@ package org.consistency.core.tests.unit;
 
 import graph.Graph;
 import graph.GraphFactory;
+import graph.GraphPackage;
 import graph.Vertex;
+import graph.impl.VertexImpl;
 import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -121,14 +124,14 @@ class OperationDuplicationTest {
     /*@Test
     void AddValueTest() {
 
-    }
+    }*/
 
     /*@Test
     void AddManyReferencesTest() {
-        assertThat(false).isTrue();
-    }
 
-    @Test
+    }*/
+
+    /*@Test
     void AddManyValuesTest() {
         assertThat(false).isTrue();
     }
@@ -151,18 +154,36 @@ class OperationDuplicationTest {
     @Test
     void RemoveValueTest() {
         assertThat(false).isTrue();
-    }
+    }*/
 
     @Test
     void UnsetTest() {
-        assertThat(false).isTrue();
-    }*/
+        VertexImpl vA = new VertexImpl();
+        resource.getContents().add(graph);
+        graph.getVertices().add(vA);
+
+        vA.setLabel("A");
+
+        broadcast();
+
+        Vertex vB = (Vertex) resource2.contentAt(1);
+        assertThat(vB.getLabel()).isNotNull();
+
+        vA.unsetLabel();
+
+        broadcast();
+
+        node1.summary();
+        node2.summary();
+        assertThat(vB.getLabel()).isNullOrEmpty();
+
+    }
 
     private void broadcast() {
         node1.sendAll();
         broker.publishAll();
         try {
-            Thread.sleep(5);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

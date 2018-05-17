@@ -97,8 +97,12 @@ public class NeoNode //extends Node
      * Receives all the messages sent to the node via the sub
      */
     public void receiveAll() {
-        for (Serializable message : sub.getReceived()) {
-            receive(message);
+        while (!sub.getReceived().isEmpty()) {
+            try {
+                receive(sub.getReceived().take());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

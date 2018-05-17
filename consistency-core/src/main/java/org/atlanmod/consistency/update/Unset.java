@@ -14,7 +14,13 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
+import org.atlanmod.consistency.message.MessageType;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * Created on 10/03/2017.
@@ -32,5 +38,16 @@ public class Unset extends FeatureOperation {
         return "Unset{" +
                 "fid=" + featureId() +
                 '}';
+    }
+
+    @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.Unset, featureId(), null, null);
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        EStructuralFeature feature = eObject.eClass().getEStructuralFeature(featureId().low().toInt());
+        eObject.eUnset(feature);
     }
 }

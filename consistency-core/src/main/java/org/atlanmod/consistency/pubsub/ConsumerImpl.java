@@ -11,9 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsumerImpl extends PubSub implements Consumer {
 
-    private BlockingQueue<Serializable> messagesBQ = new LinkedBlockingQueue<>();
+    private BlockingQueue<Serializable> mailBox = new LinkedBlockingQueue<>(); // Just arrived from a topic/broker
+    private BlockingQueue<Serializable> waitingMessages= new LinkedBlockingQueue<>(); // Waiting to be treated
     private Thread t;
-    private List<Serializable> receivedMsgHistory = new ArrayList<>();
+    private List<Serializable> archivedMessages = new ArrayList<>(); // Treated messages (just an history)
 
     public ConsumerImpl(Broker broker) {
         super(broker);
@@ -32,14 +33,14 @@ public class ConsumerImpl extends PubSub implements Consumer {
     }
 
     public boolean receive(Serializable message) {
-        return messagesBQ.offer(message);
+        return mailBox.offer(message);
     }
 
     @Override
     public Serializable receive(int timeout) {
         Serializable message = null;
         try {
-            message = messagesBQ.poll(timeout, TimeUnit.MILLISECONDS);
+            message = mailBox.poll(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -48,8 +49,8 @@ public class ConsumerImpl extends PubSub implements Consumer {
 
 
     @Override
-    public List<Serializable> getReceived() {
-        return receivedMsgHistory;
+    public BlockingQueue<Serializable> getReceived() {
+        return waitingMessages;
     }
 
     public class FetchMessage implements Runnable {
@@ -58,13 +59,14 @@ public class ConsumerImpl extends PubSub implements Consumer {
         public void run() {
             Serializable message;
             int cpt = 0;
-            while(cpt < 7) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
+            while(cpt < 100) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
                 message = receive(TIMEOUT_MS);
                 if (message != null)
-                    receivedMsgHistory.add(message);
+                    waitingMessages.offer(message);
                 //System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + receivedMsgHistory.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
                 ++cpt;
             }
+            //System.out.println(Thread.currentThread().getName() + " of client " + clientId + " stopped.");
         }
     }
 }

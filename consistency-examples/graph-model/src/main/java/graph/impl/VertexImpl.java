@@ -1,5 +1,4 @@
-/**
- */
+
 package graph.impl;
 
 import graph.Graph;
@@ -148,7 +147,14 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__OWNER, newOwner, newOwner));
+			if (newOwner != null)
+				eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__OWNER, newOwner, newOwner));
+			else
+				eNotify(new ENotificationImpl(this, Notification.UNSET, GraphPackage.VERTEX__OWNER, null, null));
+	}
+
+	public void unsetOwner() {
+		this.eUnset(GraphPackage.VERTEX__OWNER);
 	}
 
 	/**
@@ -172,6 +178,13 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__LABEL, oldLabel, label));
 	}
 
+	public void unsetLabel() {
+		String oldLabel = label;
+		label = LABEL_EDEFAULT;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, GraphPackage.VERTEX__LABEL, oldLabel, label));
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -191,6 +204,10 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 		weight = newWeight;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, GraphPackage.VERTEX__WEIGHT, oldWeight, weight));
+	}
+
+	public void unsetWeight() {
+		this.eUnset(GraphPackage.VERTEX__WEIGHT);
 	}
 
 	/**
@@ -289,7 +306,7 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 				setOwner(null);
 				return;
 			case GraphPackage.VERTEX__LABEL:
-				setLabel(LABEL_EDEFAULT);
+				unsetLabel();
 				return;
 			case GraphPackage.VERTEX__WEIGHT:
 				setWeight(WEIGHT_EDEFAULT);
@@ -309,7 +326,7 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 			case GraphPackage.VERTEX__OWNER:
 				return basicGetOwner() != null;
 			case GraphPackage.VERTEX__LABEL:
-				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+				return !label.equals(LABEL_EDEFAULT);
 			case GraphPackage.VERTEX__WEIGHT:
 				return weight != WEIGHT_EDEFAULT;
 		}

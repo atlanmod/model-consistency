@@ -24,5 +24,6 @@ public enum MessageType {
     Detach,
     SetValue,
     SetReference,
-    AddReference
+    AddReference,
+    Unset
 }
