@@ -14,9 +14,20 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.IdBuilder;
+import org.atlanmod.consistency.core.IntegerId;
+import org.atlanmod.consistency.message.MessageType;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,7 +53,24 @@ public class RemoveManyReferences extends BaseOperation {
     }
 
     @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.RemoveManyReferences, fid, oids, null);
+    }
+
+    @Override
     public Id instanceId() {
         return fid.asInstanceId();
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+
+        List<EObject> objects = new ArrayList<>();
+        EStructuralFeature feature = eObject.eClass().getEStructuralFeature(fid.toInt());
+
+        for (Id id : oids) {
+            objects.add(feature.eContents().get(id.toInt()));
+        }
+
     }
 }

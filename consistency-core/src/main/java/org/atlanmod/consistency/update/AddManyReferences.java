@@ -14,10 +14,20 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.message.MessageType;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
 
 /**
  * Created on 10/03/2017.
@@ -42,7 +52,21 @@ public class AddManyReferences extends BaseOperation {
     }
 
     @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.AddManyReferences, fid, oids, null);
+    }
+
+    @Override
     public Id instanceId() {
         return fid.asInstanceId();
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        List<EObject> objects = new ArrayList<>();
+        for (Id id : oids) {
+            objects.add(resource.contents().get(id));
+        }
+        ((Collection) ((BasicEObjectImpl) eObject).eGet(fid.toInt(),true,true)).addAll(objects);
     }
 }

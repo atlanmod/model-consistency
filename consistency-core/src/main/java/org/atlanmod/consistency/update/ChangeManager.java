@@ -214,13 +214,16 @@ public class ChangeManager {
                 return new RemoveManyValues(fid, values);
             } else if (isEReference(feature)) {
 
+                /*List<EObject> values = (List<EObject>) notification.getNewValue();
+                List<Id> ids = values.stream()
+                        .map(ConsistencyUtil::identifierFor)
+                        .collect(Collectors.toList());*/
                 List<Integer> values = Ints.asList((int[]) notification.getNewValue());
 
                 List<Id> ids = new ArrayList<>();
                 for (Integer i : values) {
                     ids.add(IdBuilder.fromInt(i));
                 }
-
                 return new RemoveManyReferences(fid, ids);
             } else {
                 return new Invalid();

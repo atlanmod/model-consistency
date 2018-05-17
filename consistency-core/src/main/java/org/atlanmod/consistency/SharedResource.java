@@ -106,6 +106,7 @@ public class SharedResource extends ResourceImpl {
         } else {
             eObject = contents.get(oid);
         }
+
         eObject.eSetDeliver(false);
         operation.execute(this, eObject);
         eObject.eSetDeliver(true);
@@ -150,6 +151,12 @@ public class SharedResource extends ResourceImpl {
                 break;
             case Unset:
                 operation = new Unset((FeatureId) message.featureId());
+                break;
+            case AddManyReferences:
+                operation = new AddManyReferences((FeatureId) message.featureId(), (List<Id>) message.value());
+                break;
+            case RemoveManyReferences:
+                operation = new RemoveManyReferences((FeatureId) message.featureId(), (List<Id>) message.value());
                 break;
         }
         this.history.integrate(operation);

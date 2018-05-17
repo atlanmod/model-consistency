@@ -37,7 +37,7 @@ class PubSubTest {
     @Test
     void testInit() {
         assertThat(broker.getTopics().size()).isEqualTo(3); // Unique groupTopic, topic1, topic2
-        assertThat(broker.containsTopic(topic1));
+        assertThat(broker.containsTopic(topic1)).isTrue();
         assertThat(topic2.getUri()).isEqualTo(URI.createURI("topic2"));
     }
     @Test

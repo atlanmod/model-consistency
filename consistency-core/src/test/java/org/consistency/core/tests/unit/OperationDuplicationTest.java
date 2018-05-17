@@ -2,7 +2,6 @@ package org.consistency.core.tests.unit;
 
 import graph.Graph;
 import graph.GraphFactory;
-import graph.GraphPackage;
 import graph.Vertex;
 import graph.impl.VertexImpl;
 import org.atlanmod.consistency.NeoNode;
@@ -11,10 +10,11 @@ import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -121,14 +121,39 @@ class OperationDuplicationTest {
 
     }
 
-    /*@Test
-    void AddValueTest() {
 
-    }*/
 
-    /*@Test
+    @Test
     void AddManyReferencesTest() {
+        Vertex vA = factory.createVertex();
+        Vertex vB = factory.createVertex();
+        resource.getContents().add(graph);
 
+        graph.getVertices().addAll(Arrays.asList(vA, vB));
+
+        broadcast();
+
+        assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(2);
+
+        assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(AddManyReferences.class);
+    }
+
+
+/*    @Test
+    void RemoveManyReferencesTest() {
+        Vertex vA = factory.createVertex();
+        Vertex vB = factory.createVertex();
+        resource.getContents().add(graph);
+
+        graph.getVertices().addAll(Arrays.asList(vA, vB));
+        graph.getVertices().removeAll(Arrays.asList(vA, vB));
+
+        broadcast();
+
+        node1.summary();
+
+        assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(0);
+        assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveManyReferences.class);
     }*/
 
     /*@Test
@@ -136,9 +161,10 @@ class OperationDuplicationTest {
         assertThat(false).isTrue();
     }
 
+
     @Test
-    void RemoveManyReferencesTest() {
-        assertThat(false).isTrue();
+    void AddValueTest() {
+
     }
 
     @Test
