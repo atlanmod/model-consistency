@@ -14,12 +14,10 @@
 
 package org.atlanmod.consistency.update;
 
-import com.sun.xml.internal.bind.marshaller.NoEscapeHandler;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.NodeId;
-import org.atlanmod.consistency.message.InstanceMessage;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;

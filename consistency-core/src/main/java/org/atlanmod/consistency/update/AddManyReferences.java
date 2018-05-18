@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
-
 /**
  * Created on 10/03/2017.
  *
