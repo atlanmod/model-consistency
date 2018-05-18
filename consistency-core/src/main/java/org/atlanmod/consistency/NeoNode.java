@@ -100,7 +100,7 @@ public class NeoNode //extends Node
         UpdateMessage message;
         while (!sub.getReceived().isEmpty()) {
             message = (UpdateMessage) sub.getReceived().element();
-            if (!nid.equals(message.getOriginator())) {
+            if (!nid.equals(message.getOriginator()) && !(message.getOriginator() == null)) {
                 sub.archive();
                 receive(message);
             } else {

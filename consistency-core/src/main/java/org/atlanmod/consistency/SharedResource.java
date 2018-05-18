@@ -38,9 +38,9 @@ public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
     private History history = new History(this);
-    private ChangeManager manager = new ChangeManager(history);
     private ResourceId rid;
     private NodeId parentNid = new NodeId((short) 0);
+    private ChangeManager manager = new ChangeManager(history);
 
 
     public SharedResource(URI uri) {
