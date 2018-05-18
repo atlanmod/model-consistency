@@ -139,7 +139,7 @@ class OperationDuplicationTest {
     }
 
 
-/*    @Test
+    @Test
     void RemoveManyReferencesTest() {
         Vertex vA = factory.createVertex();
         Vertex vB = factory.createVertex();
@@ -150,11 +150,16 @@ class OperationDuplicationTest {
 
         broadcast();
 
-        node1.summary();
+        node2.summary();
 
         assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(0);
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveManyReferences.class);
-    }*/
+    }
+
+    @Test
+    void RemoveReferenceTest() {
+        //assertThat(false).isTrue();
+    }
 
     /*@Test
     void AddManyValuesTest() {
@@ -172,10 +177,7 @@ class OperationDuplicationTest {
         assertThat(false).isTrue();
     }
 
-    @Test
-    void RemoveReferenceTest() {
-        assertThat(false).isTrue();
-    }
+
 
     @Test
     void RemoveValueTest() {

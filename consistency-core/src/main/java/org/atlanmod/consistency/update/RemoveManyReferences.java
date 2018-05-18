@@ -64,13 +64,10 @@ public class RemoveManyReferences extends BaseOperation {
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
-
-        List<EObject> objects = new ArrayList<>();
         EStructuralFeature feature = eObject.eClass().getEStructuralFeature(fid.toInt());
+        List<Object> ftr = (List<Object>) eObject.eGet(feature);
 
-        for (Id id : oids) {
-            objects.add(feature.eContents().get(id.toInt()));
-        }
+        ((Collection) ((BasicEObjectImpl) eObject).eGet(fid.toInt(),true,true)).removeAll(ftr);
 
     }
 }
