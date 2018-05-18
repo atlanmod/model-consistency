@@ -48,7 +48,7 @@ public class NeoNode //extends Node
     }
 
     public void attachResource(URI uri) {
-        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID()));
+        resourceSet.getSharedResources().add(new SharedResource(uri, nid.nextRID(), nid));
     }
 
     /**
@@ -86,10 +86,10 @@ public class NeoNode //extends Node
      * Starts the process of receiving and dealing with a message
      * @param message the message to deal with
      */
-    private void receive(Serializable message) {
-        sub.receive(PubSub.TIMEOUT_MS);
+    private void receive(UpdateMessage message) {
+        //sub.receive(PubSub.TIMEOUT_MS);
         for (SharedResource resource : resourceSet.getSharedResources()) {
-            resource.receive((UpdateMessage) message);
+            resource.receive(message);
         }
     }
 
@@ -97,11 +97,14 @@ public class NeoNode //extends Node
      * Receives all the messages sent to the node via the sub
      */
     public void receiveAll() {
+        UpdateMessage message;
         while (!sub.getReceived().isEmpty()) {
-            try {
-                receive(sub.getReceived().take());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            message = (UpdateMessage) sub.getReceived().element();
+            if (!nid.equals(message.getOriginator())) {
+                sub.archive();
+                receive(message);
+            } else {
+                sub.getReceived().remove();
             }
         }
     }

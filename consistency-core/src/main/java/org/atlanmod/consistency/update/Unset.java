@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
@@ -29,8 +30,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public class Unset extends FeatureOperation {
 
-    public Unset(FeatureId fid) {
-        super(fid);
+    public Unset(FeatureId fid, NodeId originator) {
+        super(fid, originator);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class Unset extends FeatureOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.Unset, featureId(), null, null);
+        return new ValueMessage(MessageType.Unset, featureId(), null, null, getOriginator());
     }
 
     @Override

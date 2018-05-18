@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.message;
 
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -27,13 +28,13 @@ public class InstanceMessage extends AbstractUpdateMessage {
     private EClass eClass;
 
 
-    public InstanceMessage(MessageType type, Id instanceId) {
-        super(type);
+    public InstanceMessage(MessageType type, Id instanceId, NodeId originator) {
+        super(type, originator);
         this.instanceId = instanceId;
     }
 
-    public InstanceMessage(MessageType type, Id instanceId, EClass eClass) {
-        this(type, instanceId);
+    public InstanceMessage(MessageType type, Id instanceId, EClass eClass, NodeId originator) {
+        this(type, instanceId, originator);
         this.eClass = eClass;
     }
 

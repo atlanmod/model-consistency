@@ -17,6 +17,7 @@ package org.atlanmod.consistency.update;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -29,7 +30,8 @@ public class MoveValue extends BaseOperation {
     private final Object from;
     private final Object to;
 
-    public MoveValue(FeatureId fid, Object from, Object to) {
+    public MoveValue(FeatureId fid, Object from, Object to, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.from = from;
         this.to = to;
@@ -52,6 +54,5 @@ public class MoveValue extends BaseOperation {
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
-        return;
     }
 }

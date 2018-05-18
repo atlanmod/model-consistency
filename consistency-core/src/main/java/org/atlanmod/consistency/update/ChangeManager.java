@@ -16,10 +16,7 @@ package org.atlanmod.consistency.update;
 
 import com.google.common.primitives.Ints;
 import org.atlanmod.consistency.History;
-import org.atlanmod.consistency.core.FeatureId;
-import org.atlanmod.consistency.core.Id;
-import org.atlanmod.consistency.core.IdBuilder;
-import org.atlanmod.consistency.core.InstanceId;
+import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -37,10 +34,12 @@ import static org.atlanmod.consistency.util.ConsistencyUtil.*;
 public class ChangeManager {
 
     private final History history;
+    private final NodeId nid;
 
 
     public ChangeManager(History history) {
         this.history = history;
+        this.nid = history.getResource().getParentNid();
     }
 
 
@@ -107,11 +106,11 @@ public class ChangeManager {
         notification.isReset();
 
         if (isEAttribute(feature)) {
-            return new SetValue(fid, notification.getNewValue(), notification.getOldValue());
+            return new SetValue(fid, notification.getNewValue(), notification.getOldValue(), nid);
         } else if (isEReference(feature)) {
-            return new SetReference(fid, identifierFor((EObject) notification.getNewValue()));
+            return new SetReference(fid, identifierFor((EObject) notification.getNewValue()), nid);
         } else {
-            return new Invalid();
+            return new Invalid(nid);
         }
     }
 
@@ -120,7 +119,7 @@ public class ChangeManager {
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);
-        return new Unset(fid);
+        return new Unset(fid, nid);
     }
 
     private Operation add(InstanceId oid, Notification notification) {
@@ -131,11 +130,11 @@ public class ChangeManager {
         FeatureId fid = oid.withFeature(feature);
 
         if (isEAttribute(feature)) {
-            return new AddValue(fid, notification.getNewValue());
+            return new AddValue(fid, notification.getNewValue(), nid);
         } else if (isEReference(feature)) {
-            return new AddReference(fid, identifierFor((EObject) notification.getNewValue()));
+            return new AddReference(fid, identifierFor((EObject) notification.getNewValue()), nid);
         } else {
-            return new Invalid();
+            return new Invalid(nid);
         }
     }
 
@@ -147,11 +146,11 @@ public class ChangeManager {
         FeatureId fid = oid.withFeature(feature);
 
         if (isEAttribute(feature)) {
-            return new RemoveValue(fid, notification.getOldValue());
+            return new RemoveValue(fid, notification.getOldValue(), nid);
         } else if (isEReference(feature)) {
-            return new RemoveReference(fid, identifierFor((EObject) notification.getOldValue()));
+            return new RemoveReference(fid, identifierFor((EObject) notification.getOldValue()), nid);
         } else {
-            return new Invalid();
+            return new Invalid(nid);
         }
     }
 
@@ -161,7 +160,7 @@ public class ChangeManager {
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);
-        return new MoveValue(fid, notification.getOldValue(), notification.getPosition());
+        return new MoveValue(fid, notification.getOldValue(), notification.getPosition(), nid);
     }
 
     private Operation addMany(InstanceId oid, Notification notification) {
@@ -173,16 +172,16 @@ public class ChangeManager {
 
         if (isEAttribute(feature)) {
             List<Object> values = (List<Object>) notification.getNewValue();
-             return new AddManyValues(fid, values);
+             return new AddManyValues(fid, values, nid);
         } else if (isEReference(feature)) {
             List<EObject> values = (List<EObject>) notification.getNewValue();
             List<Id> ids = values.stream()
                     .map(ConsistencyUtil::identifierFor)
                     .collect(Collectors.toList());
 
-            return new AddManyReferences(fid, ids);
+            return new AddManyReferences(fid, ids, nid);
         } else {
-            return new Invalid();
+            return new Invalid(nid);
         }
     }
 
@@ -197,21 +196,21 @@ public class ChangeManager {
             if (isEAttribute(feature)) {
                 List<EObject> values = ((EStructuralFeature) notification.getFeature()).eContents();
 
-                return new RemoveManyValues(fid, values);
+                return new RemoveManyValues(fid, values, nid);
 
             } else if (isEReference(feature)) {
 
                 EList<EObject> values = ((EStructuralFeature) notification.getFeature()).eContents();
-                return new RemoveManyValues(fid,values);
+                return new RemoveManyValues(fid,values, nid);
 
             } else {
-                return new Invalid();
+                return new Invalid(nid);
             }
         } else {
 
             if (isEAttribute(feature)) {
                 List<Object> values = (List<Object>) notification.getNewValue();
-                return new RemoveManyValues(fid, values);
+                return new RemoveManyValues(fid, values, nid);
             } else if (isEReference(feature)) {
 
                 /*List<EObject> values = (List<EObject>) notification.getNewValue();
@@ -224,9 +223,9 @@ public class ChangeManager {
                 for (Integer i : values) {
                     ids.add(IdBuilder.fromInt(i));
                 }
-                return new RemoveManyReferences(fid, ids);
+                return new RemoveManyReferences(fid, ids, nid);
             } else {
-                return new Invalid();
+                return new Invalid(nid);
             }
         }
     }

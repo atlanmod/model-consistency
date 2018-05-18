@@ -14,9 +14,11 @@
 
 package org.atlanmod.consistency.update;
 
+import com.sun.xml.internal.bind.marshaller.NoEscapeHandler;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.InstanceMessage;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
@@ -35,7 +37,8 @@ public class AddReference extends BaseOperation {
     private final FeatureId fid;
     private final Id oid;
 
-    public AddReference(FeatureId fid, Id oid) {
+    public AddReference(FeatureId fid, Id oid, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.oid = oid;
     }
@@ -55,7 +58,7 @@ public class AddReference extends BaseOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.AddReference, fid, oid, null);
+        return new ValueMessage(MessageType.AddReference, fid, oid, null, getOriginator());
     }
 
     @Override

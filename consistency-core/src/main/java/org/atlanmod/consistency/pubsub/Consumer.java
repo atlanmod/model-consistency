@@ -1,7 +1,6 @@
 package org.atlanmod.consistency.pubsub;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -14,4 +13,6 @@ public interface Consumer {
     Serializable receive(int timeout);
 
     BlockingQueue<Serializable> getReceived();
+
+    Serializable archive();
 }

@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 
 /**
  * Created on 10/03/2017.
@@ -26,7 +27,8 @@ public class RemoveValue extends BaseOperation {
     private final FeatureId fid;
     private final Object value;
 
-    public RemoveValue(FeatureId fid, Object value) {
+    public RemoveValue(FeatureId fid, Object value, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.value = value;
     }

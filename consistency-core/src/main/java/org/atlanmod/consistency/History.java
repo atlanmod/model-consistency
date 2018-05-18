@@ -39,6 +39,10 @@ public class History {
         this.resource = resource;
     }
 
+    public SharedResource getResource() {
+        return resource;
+    }
+
     public void integrate(Operation operation) {
         resource.execute(operation);
 

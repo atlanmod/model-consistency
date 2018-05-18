@@ -1,5 +1,6 @@
 package org.atlanmod.consistency.pubsub;
 
+
 import java.io.Serializable;
 
 /**
@@ -9,5 +10,5 @@ import java.io.Serializable;
  */
 public interface Producer {
 
-    void send(Serializable serializable);
+    void send(Serializable message);
 }

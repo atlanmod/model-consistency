@@ -53,6 +53,18 @@ public class ConsumerImpl extends PubSub implements Consumer {
         return waitingMessages;
     }
 
+    @Override
+    public Serializable archive() {
+        Serializable message = null;
+        try {
+            message = waitingMessages.take();
+            archivedMessages.add(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+
     public class FetchMessage implements Runnable {
 
         @Override

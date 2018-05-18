@@ -16,6 +16,7 @@ package org.atlanmod.consistency.message;
 
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 
 /**
  * Created on 17/03/2017.
@@ -27,8 +28,8 @@ public class ValueMessage extends AbstractUpdateMessage {
     private final Object previous;
     private final FeatureId featureId;
 
-    public ValueMessage(MessageType type, FeatureId featureId, Object value, Object previous) {
-        super(type);
+    public ValueMessage(MessageType type, FeatureId featureId, Object value, Object previous, NodeId originator) {
+        super(type, originator);
         this.featureId = featureId;
         this.value = value;
         this.previous = previous;

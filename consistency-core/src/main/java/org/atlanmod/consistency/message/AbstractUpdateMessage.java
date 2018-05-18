@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.message;
 
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -24,9 +25,15 @@ import org.eclipse.emf.ecore.EClass;
  */
 public class AbstractUpdateMessage implements UpdateMessage {
     private final MessageType type;
+    private final NodeId originator;
 
     public AbstractUpdateMessage(MessageType type) {
+        this(type, new NodeId((short) 0));
+    }
+
+    public AbstractUpdateMessage(MessageType type, NodeId originator) {
         this.type = type;
+        this.originator = originator;
     }
 
     @Override
@@ -67,5 +74,10 @@ public class AbstractUpdateMessage implements UpdateMessage {
     @Override
     public EClass getEClass() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public NodeId getOriginator() {
+        return this.originator;
     }
 }

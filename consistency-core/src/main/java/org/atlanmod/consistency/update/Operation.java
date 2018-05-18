@@ -18,6 +18,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.eclipse.emf.ecore.EObject;
 
@@ -47,4 +48,6 @@ public interface Operation {
      * @param eObject the concerned EObject
      */
     void execute(SharedResource resource, EObject eObject);
+
+    NodeId getOriginator();
 }

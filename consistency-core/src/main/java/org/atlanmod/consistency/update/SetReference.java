@@ -18,6 +18,7 @@ import graph.Graph;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
@@ -35,7 +36,8 @@ public class SetReference extends BaseOperation {
     private final FeatureId fid;
     private final Id oid;
 
-    public SetReference(FeatureId fid, Id oid) {
+    public SetReference(FeatureId fid, Id oid, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.oid = oid;
     }
@@ -55,7 +57,7 @@ public class SetReference extends BaseOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.SetReference, fid, oid, null);
+        return new ValueMessage(MessageType.SetReference, fid, oid, null, getOriginator());
     }
 
     @Override

@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 
 /**
  * Created on 15/03/2017.
@@ -26,7 +27,8 @@ public abstract class FeatureOperation extends BaseOperation {
 
     private final FeatureId featureId;
 
-    public FeatureOperation(FeatureId featureId) {
+    public FeatureOperation(FeatureId featureId, NodeId originator) {
+        super(originator);
         this.featureId = featureId;
     }
 
@@ -38,4 +40,5 @@ public abstract class FeatureOperation extends BaseOperation {
     public FeatureId featureId() {
         return featureId;
     }
+
 }

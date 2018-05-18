@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.InstanceMessage;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
@@ -26,14 +27,16 @@ import org.eclipse.emf.ecore.EObject;
  *
  * @author AtlanMod team.
  */
-public class Detach implements Operation {
+public class Detach extends BaseOperation {
     private final Id instanceId;
 
-    public Detach(Id instanceId) {
+    public Detach(Id instanceId, NodeId originator) {
+        super(originator);
         this.instanceId = instanceId;
     }
 
-    public Detach(UpdateMessage message) {
+    public Detach(UpdateMessage message, NodeId originator) {
+        super(originator);
         instanceId = message.instanceId();
     }
 
@@ -44,7 +47,7 @@ public class Detach implements Operation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new InstanceMessage(MessageType.Detach, this.instanceId);
+        return new InstanceMessage(MessageType.Detach, this.instanceId, getOriginator());
     }
 
     @Override

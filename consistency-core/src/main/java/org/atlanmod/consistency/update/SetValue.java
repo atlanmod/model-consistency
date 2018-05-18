@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
@@ -31,8 +32,8 @@ public class SetValue extends FeatureOperation {
     private final Object value;
     private final Object previous;
 
-    public SetValue(FeatureId fid, Object value, Object previous) {
-        super(fid);
+    public SetValue(FeatureId fid, Object value, Object previous, NodeId originator) {
+        super(fid, originator);
         this.value = value;
         this.previous = previous;
     }
@@ -48,7 +49,7 @@ public class SetValue extends FeatureOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.SetValue, featureId(), value, previous);
+        return new ValueMessage(MessageType.SetValue, featureId(), value, previous, getOriginator());
     }
 
     @Override

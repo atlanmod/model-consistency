@@ -15,6 +15,9 @@
 package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.core.FeatureId;
+import org.atlanmod.consistency.core.NodeId;
+
+import javax.xml.soap.Node;
 
 /**
  * Created on 10/03/2017.
@@ -24,8 +27,8 @@ import org.atlanmod.consistency.core.FeatureId;
 public class AddValue extends FeatureOperation {
     private final Object value;
 
-    public AddValue(FeatureId fid, Object value) {
-        super(fid);
+    public AddValue(FeatureId fid, Object value, NodeId originator) {
+        super(fid, originator);
         this.value = value;
     }
 

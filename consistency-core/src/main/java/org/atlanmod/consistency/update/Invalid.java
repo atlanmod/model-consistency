@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 
 /**
  * Created on 09/03/2017.
@@ -22,6 +23,10 @@ import org.atlanmod.consistency.core.Id;
  * @author AtlanMod team.
  */
 public class Invalid extends BaseOperation {
+    public Invalid(NodeId originator) {
+        super(originator);
+    }
+
     @Override
     public Id instanceId() {
         return null;

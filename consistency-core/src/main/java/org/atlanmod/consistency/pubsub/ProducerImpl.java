@@ -15,7 +15,7 @@ public class ProducerImpl extends PubSub implements Producer {
         clientId = new IntegerId(nextId++);
     }
 
-    public boolean publish(Topic topic,Serializable message) {
+    public boolean publish(Topic topic, Serializable message) {
         return broker.receive(topic, message) && sentMsgHistory.add(message);
     }
 
@@ -24,7 +24,7 @@ public class ProducerImpl extends PubSub implements Producer {
     }
 
     @Override
-    public void send(Serializable serializable) {
-        publish(groupTopic, serializable);
+    public void send(Serializable message) {
+        publish(groupTopic, message);
     }
 }

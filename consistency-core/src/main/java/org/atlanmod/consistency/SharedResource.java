@@ -37,10 +37,10 @@ import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
-    //private IdBuilder builder = new IdBuilder();
     private History history = new History(this);
     private ChangeManager manager = new ChangeManager(history);
-    private ResourceId rid; //= IdBuilder.generateRID();
+    private ResourceId rid;
+    private NodeId parentNid = new NodeId((short) 0);
 
 
     public SharedResource(URI uri) {
@@ -50,6 +50,16 @@ public class SharedResource extends ResourceImpl {
     public SharedResource(URI uri, ResourceId rid) {
         super(uri);
         this.rid = rid;
+    }
+
+    public SharedResource(URI uri, ResourceId rid, NodeId nid) {
+        super(uri);
+        this.rid = rid;
+        this.parentNid = nid;
+    }
+
+    public NodeId getParentNid() {
+        return parentNid;
     }
 
     public Map<Id, EObject> contents() {
@@ -64,10 +74,10 @@ public class SharedResource extends ResourceImpl {
             oid = rid.nextId();
             eObject.eAdapters().add(new EObjectAdapter(manager,oid));
             contents.put(oid, eObject);
-            history.add(new Attach(oid, eObject.eClass()));
+            history.add(new Attach(oid, eObject.eClass(), parentNid));
         } else {
             oid = adapter.id();
-            history.basicAdd(new Attach(oid, eObject.eClass()));
+            history.basicAdd(new Attach(oid, eObject.eClass(), parentNid));
         }
 
         System.out.println("Adding Id to: " + oid);
@@ -81,7 +91,7 @@ public class SharedResource extends ResourceImpl {
             System.out.println("--detaching object "+oid+"--");
             eObject.eAdapters().remove(adapter);
             contents.remove(oid);
-            history.add(new Detach(oid));
+            history.add(new Detach(oid, parentNid));
         }
         super.detachedHelper(eObject);
     }
@@ -135,28 +145,28 @@ public class SharedResource extends ResourceImpl {
         Operation operation = null;
         switch (message.type()) {
             case Attach:
-                operation = new Attach(message);
+                operation = new Attach(message, parentNid);
                 break;
             case Detach:
-                operation = new Detach(message);
+                operation = new Detach(message, parentNid);
                 break;
             case SetValue:
-                operation = new SetValue((FeatureId) message.featureId(), message.value(), message.oldValue());
+                operation = new SetValue((FeatureId) message.featureId(), message.value(), message.oldValue(), parentNid);
                 break;
             case SetReference:
-                operation = new SetReference((FeatureId) message.featureId(), (Id) message.value());
+                operation = new SetReference((FeatureId) message.featureId(), (Id) message.value(), parentNid);
                 break;
             case AddReference:
-                operation = new AddReference((FeatureId) message.featureId(), (Id) message.value());
+                operation = new AddReference((FeatureId) message.featureId(), (Id) message.value(), parentNid);
                 break;
             case Unset:
-                operation = new Unset((FeatureId) message.featureId());
+                operation = new Unset((FeatureId) message.featureId(), parentNid);
                 break;
             case AddManyReferences:
-                operation = new AddManyReferences((FeatureId) message.featureId(), (List<Id>) message.value());
+                operation = new AddManyReferences((FeatureId) message.featureId(), (List<Id>) message.value(), parentNid);
                 break;
             case RemoveManyReferences:
-                operation = new RemoveManyReferences((FeatureId) message.featureId(), (List<Id>) message.value());
+                operation = new RemoveManyReferences((FeatureId) message.featureId(), (List<Id>) message.value(), parentNid);
                 break;
         }
         this.history.integrate(operation);

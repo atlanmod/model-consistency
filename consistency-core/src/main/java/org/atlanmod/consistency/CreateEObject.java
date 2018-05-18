@@ -14,8 +14,6 @@
 
 package org.atlanmod.consistency;
 
-import graph.Graph;
-import graph.GraphFactory;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.message.AbstractUpdateMessage;
 import org.eclipse.emf.ecore.EClass;

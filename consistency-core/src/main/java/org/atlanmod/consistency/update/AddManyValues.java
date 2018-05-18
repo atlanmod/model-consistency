@@ -16,6 +16,7 @@ package org.atlanmod.consistency.update;
 
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class AddManyValues extends BaseOperation {
     private final FeatureId fid;
     private final List<Object> values;
 
-    public AddManyValues(FeatureId fid, List<Object> values) {
+    public AddManyValues(FeatureId fid, List<Object> values, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.values = values;
     }

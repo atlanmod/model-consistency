@@ -14,11 +14,9 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
-import org.atlanmod.consistency.core.FeatureId;
-import org.atlanmod.consistency.core.Id;
-import org.atlanmod.consistency.core.IdBuilder;
-import org.atlanmod.consistency.core.IntegerId;
+import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
@@ -39,7 +37,8 @@ public class RemoveManyReferences extends BaseOperation {
     private final FeatureId fid;
     private final List<Id> oids;
 
-    public RemoveManyReferences(FeatureId fid, List<Id> oids) {
+    public RemoveManyReferences(FeatureId fid, List<Id> oids, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.oids = oids;
     }
@@ -54,7 +53,7 @@ public class RemoveManyReferences extends BaseOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.RemoveManyReferences, fid, oids, null);
+        return new ValueMessage(MessageType.RemoveManyReferences, fid, oids, null, getOriginator());
     }
 
     @Override

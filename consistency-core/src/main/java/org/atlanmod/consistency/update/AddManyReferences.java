@@ -17,6 +17,7 @@ package org.atlanmod.consistency.update;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
@@ -38,7 +39,8 @@ public class AddManyReferences extends BaseOperation {
     private final FeatureId fid;
     private final List<Id> oids;
 
-    public AddManyReferences(FeatureId fid, List<Id> oids) {
+    public AddManyReferences(FeatureId fid, List<Id> oids, NodeId originator) {
+        super(originator);
         this.fid = fid;
         this.oids = oids;
     }
@@ -53,7 +55,7 @@ public class AddManyReferences extends BaseOperation {
 
     @Override
     public UpdateMessage asMessage() {
-        return new ValueMessage(MessageType.AddManyReferences, fid, oids, null);
+        return new ValueMessage(MessageType.AddManyReferences, fid, oids, null, getOriginator());
     }
 
     @Override

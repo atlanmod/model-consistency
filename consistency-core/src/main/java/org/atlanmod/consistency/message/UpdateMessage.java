@@ -16,6 +16,7 @@ package org.atlanmod.consistency.message;
 
 
 import org.atlanmod.consistency.core.Id;
+import org.atlanmod.consistency.core.NodeId;
 import org.eclipse.emf.ecore.EClass;
 
 import java.io.Serializable;
@@ -37,4 +38,6 @@ public interface UpdateMessage extends Serializable {
     Id oldReference();
 
     EClass getEClass();
+
+    NodeId getOriginator();
 }
