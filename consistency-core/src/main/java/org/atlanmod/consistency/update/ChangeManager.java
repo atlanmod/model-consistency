@@ -15,6 +15,7 @@
 package org.atlanmod.consistency.update;
 
 import com.google.common.primitives.Ints;
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.History;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.util.ConsistencyUtil;
@@ -84,7 +85,7 @@ public class ChangeManager {
                 history.add(op);
                 break;
             case Notification.REMOVING_ADAPTER:
-                System.out.println("--removing adapter--");
+                Log.info("--removing adapter--");
                 break;
             case Notification.NO_FEATURE_ID: break;
             case Notification.RESOLVE: break;
@@ -156,7 +157,7 @@ public class ChangeManager {
 
     private Operation move(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "Move of a null feature";
-        System.out.println(notification);
+        Log.info(notification);
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);

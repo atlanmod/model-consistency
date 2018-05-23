@@ -15,11 +15,14 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
+import fr.inria.atlanmod.commons.log.Level;
 import graph.Graph;
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.update.*;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -80,6 +83,7 @@ public class SharedResource extends ResourceImpl {
             history.basicAdd(new Attach(oid, eObject.eClass(), parentNid));
         }
 
+        //Log.info("Adding Id to: " + oid);
         System.out.println("Adding Id to: " + oid);
     }
 
@@ -88,12 +92,24 @@ public class SharedResource extends ResourceImpl {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
+            //Log.info("--detaching object "+oid+"--");
             System.out.println("--detaching object "+oid+"--");
-            eObject.eAdapters().remove(adapter);
             contents.remove(oid);
+            eObject.eAdapters().remove(adapter);
             history.add(new Detach(oid, parentNid));
         }
         super.detachedHelper(eObject);
+    }
+
+    @Override
+    public void detached(EObject eObject) {
+
+        this.detachedHelper(eObject);
+        TreeIterator tree = this.getAllProperContents(eObject);
+
+        while(tree.hasNext()) {
+            this.detachedHelper((EObject)tree.next());
+        }
     }
 
     @Override
@@ -168,6 +184,9 @@ public class SharedResource extends ResourceImpl {
             case RemoveManyReferences:
                 operation = new RemoveManyReferences((FeatureId) message.featureId(), (List<Id>) message.value(), parentNid);
                 break;
+            case RemoveReference:
+                operation = new RemoveReference((FeatureId) message.featureId(), (Id) message.value(), parentNid);
+                break;
         }
         this.history.integrate(operation);
     }
@@ -201,25 +220,30 @@ public class SharedResource extends ResourceImpl {
         int counter;
         boolean plural;
 
+        //Log.info("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
         System.out.println("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
 
         plural = contents.size() > 1;
+        //Log.info("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
         System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
 
         counter = 1;
         for (EObject each : contents.values()) {
+            //Log.info("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
             System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
         }
 
         plural = history.basicHistory().size() > 1;
+        //Log.info("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
         System.out.println("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
 
         counter = 1;
         for (Operation each : history.basicHistory()){
+            //Log.info("Operation " + counter++ + " : " + each);
             System.out.println("Operation " + counter++ + " : " + each);
         }
 
-
+        //Log.info("\n---------------------------- END OF RESOURCE ----------------------------");
         System.out.println("\n---------------------------- END OF RESOURCE ----------------------------");
     }
 

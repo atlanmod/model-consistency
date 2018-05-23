@@ -15,6 +15,7 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.update.Operation;
 
@@ -51,6 +52,7 @@ public class History {
     public void add(Operation operation) {
         resource.broadcast(operation);
         System.out.println("New operation: " + operation);
+        Log.info("New operation: " + operation);
         incoming.offer(operation);
         basicHistory.add(operation);
     }

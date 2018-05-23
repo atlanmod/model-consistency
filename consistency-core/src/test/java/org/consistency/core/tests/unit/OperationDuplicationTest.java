@@ -1,11 +1,12 @@
 package org.consistency.core.tests.unit;
 
-import graph.Graph;
-import graph.GraphFactory;
-import graph.Vertex;
+import graph.*;
+import graph.impl.MutliValuesExampleImpl;
 import graph.impl.VertexImpl;
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
+import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
@@ -17,16 +18,19 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
 
 class OperationDuplicationTest {
 
     private NeoNode node1, node2;
     private Broker broker;
+    private MultiValuesExample multival;
     private GraphFactory factory;
     private Graph graph;
     private SharedResource resource, resource2;
     private final URI uri1 = URI.createURI("org.atlanmod.consistency.core.OperationDuplicationTest:resource1");
     private final URI uri2 = URI.createURI("org.atlanmod.consistency.core.OperationDuplicationTest:resource2");
+
 
     @BeforeEach
     void setup() {
@@ -145,6 +149,7 @@ class OperationDuplicationTest {
         Vertex vB = factory.createVertex();
         resource.getContents().add(graph);
 
+        graph.getVertices().add(factory.createVertex());
         graph.getVertices().addAll(Arrays.asList(vA, vB));
         graph.getVertices().removeAll(Arrays.asList(vA, vB));
 
@@ -153,13 +158,28 @@ class OperationDuplicationTest {
         node1.summary();
         node2.summary();
 
-        assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(0);
+        assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(1);
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveManyReferences.class);
     }
 
     @Test
     void RemoveReferenceTest() {
-        //assertThat(false).isTrue();
+        Vertex vA = factory.createVertex();
+        resource.getContents().add(graph);
+        graph.getVertices().add(vA);
+        graph.getVertices().add(factory.createVertex());
+        graph.getVertices().remove(vA);
+
+        node1.summary();
+
+        broadcast();
+
+        Graph graph2 = (Graph) resource2.contentAt(0);
+        Vertex vB = (Vertex) resource2.contentAt(1);
+
+        assertThat(resource2.contents().size()).isEqualTo(2);
+        assertThat(graph2.getVertices()).contains(vB);
+        assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveReference.class);
     }
 
     /*@Test
@@ -215,6 +235,7 @@ class OperationDuplicationTest {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Log.warn(e);
         }
         node2.receiveAll();
         //node1.receiveAll();
