@@ -125,7 +125,11 @@ public class VertexImpl extends MinimalEObjectImpl.Container implements Vertex {
 	 * @generated
 	 */
 	public NotificationChain basicSetOwner(Graph newOwner, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newOwner, GraphPackage.VERTEX__OWNER, msgs);
+		//if (newOwner == null) {
+			//msgs = eBasicRemoveFromContainer(msgs);
+		//} else {
+			msgs = eBasicSetContainer((InternalEObject) newOwner, GraphPackage.VERTEX__OWNER, msgs);
+		//}
 		return msgs;
 	}
 

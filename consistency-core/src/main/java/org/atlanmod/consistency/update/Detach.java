@@ -57,6 +57,6 @@ public class Detach extends BaseOperation {
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
-        resource.getContents().remove(eObject);
+        resource.detachedHelper(eObject);
     }
 }

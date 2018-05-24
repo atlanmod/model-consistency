@@ -66,14 +66,14 @@ public class NeoNode //extends Node
     public void summary() {
         int i = 0;
 
-        //Log.info("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
+        Log.info("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
         System.out.println("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
         for (SharedResource each : resourceSet.getSharedResources()) {
             //Log.info("Resource " + (++i) + " : " + each.getURI());
             System.out.println("Resource " + (++i) + " : " + each.getURI());
             each.summary();
         }
-        //Log.info("------------------------------ END OF NODE ------------------------------\n");
+        Log.info("------------------------------ END OF NODE ------------------------------\n");
         System.out.println("------------------------------ END OF NODE ------------------------------\n");
     }
 
@@ -88,8 +88,8 @@ public class NeoNode //extends Node
                 try {
                     send(resource.getHistory().queue().take().asMessage());
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    //Log.trace(e);
+                    //e.printStackTrace();
+                    Log.trace(e);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class NeoNode //extends Node
      * Receives all the messages sent to the node via the sub
      */
     public void receiveAll() {
-        List<UpdateMessage> detachments = new ArrayList<>();
+//        List<UpdateMessage> detachments = new ArrayList<>();
         UpdateMessage message;
 
 
@@ -118,17 +118,17 @@ public class NeoNode //extends Node
             message = (UpdateMessage) sub.getReceived().element();
             if (!nid.equals(message.getOriginator()) && !(message.getOriginator() == null)) {
                 sub.archive();
-                if (message.type().equals(MessageType.Detach)) {
-                    detachments.add(message);
-                } else {
+//                if (message.type().equals(MessageType.Detach)) {
+//                    detachments.add(message);
+//                } else {
                     receive(message);
-                }
+//                }
             } else {
                 sub.getReceived().remove();
             }
         }
-        for (UpdateMessage eachDetach : detachments) {
-            receive(eachDetach);
-        }
+//        for (UpdateMessage eachDetach : detachments) {
+//            receive(eachDetach);
+//        }
     }
 }

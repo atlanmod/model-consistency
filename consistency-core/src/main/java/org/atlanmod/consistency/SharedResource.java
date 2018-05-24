@@ -15,7 +15,6 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
-import fr.inria.atlanmod.commons.log.Level;
 import graph.Graph;
 import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
@@ -44,6 +43,7 @@ public class SharedResource extends ResourceImpl {
     private ResourceId rid;
     private NodeId parentNid = new NodeId((short) 0);
     private ChangeManager manager = new ChangeManager(history);
+    private List<EObjectAdapter> detached = new ArrayList<>();
 
 
     public SharedResource(URI uri) {
@@ -83,8 +83,8 @@ public class SharedResource extends ResourceImpl {
             history.basicAdd(new Attach(oid, eObject.eClass(), parentNid));
         }
 
-        //Log.info("Adding Id to: " + oid);
-        System.out.println("Adding Id to: " + oid);
+        Log.info("Adding Id to: " + oid);
+        //System.out.println("Adding Id to: " + oid);
     }
 
     @Override
@@ -92,16 +92,17 @@ public class SharedResource extends ResourceImpl {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
-            //Log.info("--detaching object "+oid+"--");
+            Log.info("--detaching object "+oid+"--");
             System.out.println("--detaching object "+oid+"--");
-            contents.remove(oid);
+            detached.add(adapter);
             eObject.eAdapters().remove(adapter);
+            contents.remove(oid);
             history.add(new Detach(oid, parentNid));
         }
         super.detachedHelper(eObject);
     }
 
-    @Override
+    /*@Override
     public void detached(EObject eObject) {
 
         this.detachedHelper(eObject);
@@ -110,7 +111,7 @@ public class SharedResource extends ResourceImpl {
         while(tree.hasNext()) {
             this.detachedHelper((EObject)tree.next());
         }
-    }
+    }*/
 
     @Override
     protected boolean isAttachedDetachedHelperRequired() {
@@ -139,8 +140,9 @@ public class SharedResource extends ResourceImpl {
 
         // Because they call add() which automatically calls history.add(). Probably incomplete
         if (!(operation instanceof Attach ||
-                operation instanceof SetReference ||
-                operation instanceof Detach)) {
+                operation instanceof SetReference
+                || operation instanceof Detach
+                )) {
             history.add(operation);
         }
     }
@@ -220,7 +222,7 @@ public class SharedResource extends ResourceImpl {
         int counter;
         boolean plural;
 
-        //Log.info("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
+        Log.info("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
         System.out.println("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
 
         plural = contents.size() > 1;
@@ -243,7 +245,7 @@ public class SharedResource extends ResourceImpl {
             System.out.println("Operation " + counter++ + " : " + each);
         }
 
-        //Log.info("\n---------------------------- END OF RESOURCE ----------------------------");
+        Log.info("\n---------------------------- END OF RESOURCE ----------------------------");
         System.out.println("\n---------------------------- END OF RESOURCE ----------------------------");
     }
 
