@@ -34,8 +34,8 @@ import java.util.List;
  * @author AtlanMod team.
  */
 public class RemoveManyReferences extends BaseOperation {
-    private final FeatureId fid;
-    private final List<Id> oids;
+    protected final FeatureId fid;
+    protected final List<Id> oids;
 
     public RemoveManyReferences(FeatureId fid, List<Id> oids, NodeId originator) {
         super(originator);

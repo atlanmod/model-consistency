@@ -22,6 +22,7 @@ import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
 
 class OperationDuplicationTest {
 
+    private static final int MILLIS_WAIT = 10;
     private NeoNode node1, node2;
     private Broker broker;
     private MultiValuesExample multival;
@@ -40,6 +41,8 @@ class OperationDuplicationTest {
 
         factory = GraphFactory.eINSTANCE;
         graph = factory.createGraph();
+
+        multival = new MutliValuesExampleImpl();
 
         node1.attachResource(uri1);
         node2.attachResource(uri2);
@@ -163,7 +166,7 @@ class OperationDuplicationTest {
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveManyReferences.class);
     }
 
-    //@Test
+    @Test
     void RemoveReferenceTest() {
         Vertex vA = factory.createVertex();
         resource.getContents().add(graph);
@@ -233,7 +236,7 @@ class OperationDuplicationTest {
         node1.sendAll();
         broker.publishAll();
         try {
-            Thread.sleep(10);
+            Thread.sleep(MILLIS_WAIT);
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.warn(e);

@@ -95,8 +95,9 @@ public class SharedResource extends ResourceImpl {
             Log.info("--detaching object "+oid+"--");
             System.out.println("--detaching object "+oid+"--");
             detached.add(adapter);
-            eObject.eAdapters().remove(adapter);
             contents.remove(oid);
+            eObject.eAdapters().remove(adapter);
+            detached.add(adapter);
             history.add(new Detach(oid, parentNid));
         }
         super.detachedHelper(eObject);
@@ -258,6 +259,10 @@ public class SharedResource extends ResourceImpl {
         List<EObject> objects = new ArrayList<>(Arrays.asList(elts));
 
         return objects.get(i);
+    }
+
+    public List<EObjectAdapter> getDetachments() {
+        return detached;
     }
 
     public class ConsumerThread implements Runnable {
