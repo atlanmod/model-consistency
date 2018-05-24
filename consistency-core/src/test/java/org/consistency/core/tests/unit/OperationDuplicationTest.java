@@ -1,12 +1,11 @@
 package org.consistency.core.tests.unit;
 
 import graph.*;
-import graph.impl.MutliValuesExampleImpl;
+import graph.impl.MultiValuesExampleImpl;
 import graph.impl.VertexImpl;
 import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
-import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
 
 class OperationDuplicationTest {
 
@@ -42,7 +40,7 @@ class OperationDuplicationTest {
         factory = GraphFactory.eINSTANCE;
         graph = factory.createGraph();
 
-        multival = new MutliValuesExampleImpl();
+        multival = new MultiValuesExampleImpl();
 
         node1.attachResource(uri1);
         node2.attachResource(uri2);
@@ -188,16 +186,29 @@ class OperationDuplicationTest {
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveReference.class);
     }
 
+    @Test
+    void AddValueTest() {
+
+        System.out.println("\n----------------- AddValueTest -----------------");
+
+        Integer i1 = 5;
+
+        resource.getContents().add(multival);
+        multival.getNumbers().add(i1);
+
+        node1.summary();
+
+        broadcast();
+
+        node2.summary();
+    }
+
     /*@Test
     void AddManyValuesTest() {
         assertThat(false).isTrue();
     }
 
 
-    @Test
-    void AddValueTest() {
-
-    }
 
     @Test
     void RemoveManyValuesTest() {
@@ -250,7 +261,7 @@ class OperationDuplicationTest {
         System.out.println();
 
         node2.receiveAll();
-        //node1.receiveAll();
+        node1.receiveAll();
 
     }
 }

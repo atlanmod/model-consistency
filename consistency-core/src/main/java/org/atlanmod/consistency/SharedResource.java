@@ -17,6 +17,7 @@ package org.atlanmod.consistency;
 import com.google.common.collect.Maps;
 import graph.Graph;
 import fr.inria.atlanmod.commons.log.Log;
+import graph.MultiValuesExample;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
@@ -193,6 +194,9 @@ public class SharedResource extends ResourceImpl {
             case RemoveReference:
                 operation = new RemoveReference((FeatureId) message.featureId(), (Id) message.value(), parentNid);
                 break;
+            case AddValue:
+                operation = new AddValue((FeatureId) message.featureId(), message.value(), parentNid);
+                break;
         }
         this.history.integrate(operation);
     }
@@ -234,9 +238,19 @@ public class SharedResource extends ResourceImpl {
         System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
 
         counter = 1;
+        String objectsOutput;
         for (EObject each : contents.values()) {
-            //Log.info("EObject " + counter++ + " : " + ((each instanceof Graph) ? (identifierFor(each) + " " + each + ((Graph)each).output()) : (identifierFor(each) + " " + each)));
-            System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (identifierFor(each) + " " + each + ((Graph)each).output()) : (identifierFor(each) + " " + each)));
+            objectsOutput = "EObject " + counter++ + " : " + identifierFor(each) + " " + each;
+
+            if (each instanceof Graph) {
+                objectsOutput += ((Graph)each).output();
+            } else if (each instanceof MultiValuesExample) {
+                objectsOutput += ((MultiValuesExample)each).output();
+            }
+
+            //Log.info(output);
+            System.out.println(objectsOutput);
+
         }
 
         plural = history.basicHistory().size() > 1;

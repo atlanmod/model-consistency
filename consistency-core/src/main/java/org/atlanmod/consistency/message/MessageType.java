@@ -25,5 +25,5 @@ public enum MessageType {
     SetValue,
     SetReference,
     AddReference,
-    AddManyReferences, RemoveManyReferences, RemoveReference, Unset
+    AddManyReferences, RemoveManyReferences, RemoveReference, AddValue, Unset
 }
