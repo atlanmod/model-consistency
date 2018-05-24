@@ -26,10 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created on 10/03/2017.
@@ -41,14 +38,14 @@ public class RemoveReference extends RemoveManyReferences {
     //private final Id oid;
 
     public RemoveReference(FeatureId fid, Id oid, NodeId originator) {
-        super(fid, Arrays.asList(oid), originator);
+        super(fid, Collections.singletonList(oid), originator);
         //this.fid = fid;
         //this.oid = oid;
     }
 
     @Override
     public String toString() {
-        return "RemoveReference{" +
+        return getOriginator() + " RemoveReference{" +
                 "fid=" + super.fid +
                 ", oid=" + super.oids +
                 '}';

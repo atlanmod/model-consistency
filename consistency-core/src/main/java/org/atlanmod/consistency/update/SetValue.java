@@ -40,7 +40,7 @@ public class SetValue extends FeatureOperation {
 
     @Override
     public String toString() {
-        return "SetValue{" +
+        return getOriginator() + " SetValue{" +
                 "fid=" + featureId() +
                 ", value=" + value +
                 ", previous="+previous+

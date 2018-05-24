@@ -52,7 +52,7 @@ public class Attach extends BaseOperation {
 
     @Override
     public String toString() {
-        return "Attach{oid=" + instanceId + "}";
+        return getOriginator() + " Attach{oid=" + instanceId + "}";
     }
 
     @Override

@@ -43,7 +43,7 @@ public class AddReference extends BaseOperation {
 
     @Override
     public String toString() {
-        return "AddReference{" +
+        return getOriginator() + " AddReference{" +
                 "fid=" + fid +
                 ", oid=" + oid +
                 '}';

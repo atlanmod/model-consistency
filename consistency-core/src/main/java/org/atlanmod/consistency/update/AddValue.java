@@ -27,14 +27,14 @@ import javax.xml.soap.Node;
 public class AddValue extends FeatureOperation {
     private final Object value;
 
-    public AddValue(FeatureId fid, Object value, NodeId originator) {
+    AddValue(FeatureId fid, Object value, NodeId originator) {
         super(fid, originator);
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return "AddValue{" +
+        return getOriginator() + " AddValue{" +
                 "fid=" + featureId() +
                 ", value=" + value +
                 '}';

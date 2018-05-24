@@ -27,7 +27,7 @@ public class RemoveManyValues extends BaseOperation {
     private final FeatureId fid;
     private final Object value;
 
-    public RemoveManyValues(FeatureId fid, Object value, NodeId originator) {
+    RemoveManyValues(FeatureId fid, Object value, NodeId originator) {
         super(originator);
         this.fid = fid;
         this.value = value;
@@ -35,7 +35,7 @@ public class RemoveManyValues extends BaseOperation {
 
     @Override
     public String toString() {
-        return "RemoveManyValues{" +
+        return getOriginator() + " RemoveManyValues{" +
                 "fid=" + fid +
                 ", value=" + value +
                 '}';

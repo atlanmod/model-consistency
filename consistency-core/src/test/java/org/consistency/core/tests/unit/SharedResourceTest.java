@@ -19,7 +19,9 @@ import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
 import graph.Vertex;
+import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
+import org.atlanmod.consistency.pubsub.Broker;
 import org.eclipse.emf.common.util.URI;
 
 import org.junit.jupiter.api.Assertions;
@@ -38,8 +40,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class SharedResourceTest {
 
+    private NeoNode node;
     private SharedResource resource;
-    private URI uri;
+    private URI uri, otherUri;
     private GraphFactory factory = GraphFactory.eINSTANCE;
     private Graph graph = factory.createGraph();
 
@@ -47,15 +50,20 @@ class SharedResourceTest {
     @BeforeEach
     void setUp() //throws IOException
     {
+        node = new NeoNode(new Broker());
         uri = URI.createURI("file://tmp/");
-        resource = new SharedResource(uri);
+        otherUri = URI.createURI("sharedresourcetest:other");
+        node.attachResource(uri);
+        resource = node.getSharedResourceSet().getSharedResource(uri);
+        //resource = new SharedResource(uri);
         //this.write(resource);
 
     }
 
     @Test
     void testSharedResource() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"));
+        node.attachResource(otherUri);
+        SharedResource other =node.getSharedResourceSet().getSharedResource(otherUri);
 
         assertThat(resource.getURI()).isEqualTo(uri);
         assertThat(resource).isNotEqualTo(other);
@@ -63,7 +71,8 @@ class SharedResourceTest {
 
     @Test
     void testAttachDetach() {
-        SharedResource other = new SharedResource(URI.createURI("sharedresourcetest:other"));
+        node.attachResource(otherUri);
+        SharedResource other =node.getSharedResourceSet().getSharedResource(otherUri);
 
         resource.getContents().add(graph);
 

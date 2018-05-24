@@ -44,7 +44,7 @@ public class SetReference extends BaseOperation {
 
     @Override
     public String toString() {
-        return "SetReference{" +
+        return getOriginator() + " SetReference{" +
                 "fid=" + fid +
                 ", oid=" + oid +
                 '}';

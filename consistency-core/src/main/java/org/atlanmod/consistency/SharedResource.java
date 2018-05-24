@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import java.util.*;
 
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
+import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
 
 //import org.atlanmod.appa.pubsub.Consumer;
 //import org.atlanmod.appa.pubsub.ProducerImpl;
@@ -39,16 +40,16 @@ import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 public class SharedResource extends ResourceImpl {
 
     private Map<Id, EObject> contents = Maps.newHashMap();
-    private History history = new History(this);
+    private History history;
     private ResourceId rid;
-    private NodeId parentNid = new NodeId((short) 0);
-    private ChangeManager manager = new ChangeManager(history);
+    private NodeId parentNid;// = new NodeId((short) 0);
+    private ChangeManager manager;
     private List<EObjectAdapter> detached = new ArrayList<>();
 
 
-    public SharedResource(URI uri) {
+    /*public SharedResource(URI uri) {
         this(uri, IdBuilder.generateRID());
-    }
+    }*/
 
     public SharedResource(URI uri, ResourceId rid) {
         super(uri);
@@ -59,6 +60,8 @@ public class SharedResource extends ResourceImpl {
         super(uri);
         this.rid = rid;
         this.parentNid = nid;
+        history = new History(this);
+        manager = new ChangeManager(history);
     }
 
     public NodeId getParentNid() {
@@ -232,8 +235,8 @@ public class SharedResource extends ResourceImpl {
 
         counter = 1;
         for (EObject each : contents.values()) {
-            //Log.info("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
-            System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (each + ((Graph)each).output()) : each));
+            //Log.info("EObject " + counter++ + " : " + ((each instanceof Graph) ? (identifierFor(each) + " " + each + ((Graph)each).output()) : (identifierFor(each) + " " + each)));
+            System.out.println("EObject " + counter++ + " : " + ((each instanceof Graph) ? (identifierFor(each) + " " + each + ((Graph)each).output()) : (identifierFor(each) + " " + each)));
         }
 
         plural = history.basicHistory().size() > 1;

@@ -42,7 +42,7 @@ public class Detach extends BaseOperation {
 
     @Override
     public String toString() {
-        return "Detach{oid=" + instanceId + "}";
+        return getOriginator() + " Detach{oid=" + instanceId + "}";
     }
 
     @Override

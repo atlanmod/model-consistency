@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class RemoveManyReferences extends BaseOperation {
     protected final FeatureId fid;
-    protected final List<Id> oids;
+    final List<Id> oids;
 
     public RemoveManyReferences(FeatureId fid, List<Id> oids, NodeId originator) {
         super(originator);
@@ -45,7 +45,7 @@ public class RemoveManyReferences extends BaseOperation {
 
     @Override
     public String toString() {
-        return "RemoveManyReferences{" +
+        return getOriginator() + " RemoveManyReferences{" +
                 "fid=" + fid +
                 ", value=" + oids +
                 '}';

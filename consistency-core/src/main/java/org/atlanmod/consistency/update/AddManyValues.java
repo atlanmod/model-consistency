@@ -29,7 +29,7 @@ public class AddManyValues extends BaseOperation {
     private final FeatureId fid;
     private final List<Object> values;
 
-    public AddManyValues(FeatureId fid, List<Object> values, NodeId originator) {
+    AddManyValues(FeatureId fid, List<Object> values, NodeId originator) {
         super(originator);
         this.fid = fid;
         this.values = values;
@@ -37,7 +37,7 @@ public class AddManyValues extends BaseOperation {
 
     @Override
     public String toString() {
-        return "AddManyValues{" +
+        return getOriginator() + " AddManyValues{" +
                 "fid=" + fid +
                 ", value=" + values +
                 '}';
