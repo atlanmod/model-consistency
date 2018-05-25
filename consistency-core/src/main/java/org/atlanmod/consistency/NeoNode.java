@@ -16,12 +16,20 @@ package org.atlanmod.consistency;
 
 //import org.atlanmod.appa.Node;
 
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.NodeId;
+import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.pubsub.*;
+import org.atlanmod.consistency.update.Detach;
+import org.atlanmod.consistency.update.Operation;
 import org.eclipse.emf.common.util.URI;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Objects.isNull;
 
 /**
  * Created on 09/03/2017.
@@ -58,13 +66,17 @@ public class NeoNode //extends Node
     public void summary() {
         int i = 0;
 
+        Log.info("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
         System.out.println("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
         for (SharedResource each : resourceSet.getSharedResources()) {
+            //Log.info("Resource " + (++i) + " : " + each.getURI());
             System.out.println("Resource " + (++i) + " : " + each.getURI());
             each.summary();
         }
+        Log.info("------------------------------ END OF NODE ------------------------------\n");
         System.out.println("------------------------------ END OF NODE ------------------------------\n");
     }
+
 
     public void send(UpdateMessage message) {
         pub.send(message);
@@ -76,7 +88,8 @@ public class NeoNode //extends Node
                 try {
                     send(resource.getHistory().queue().take().asMessage());
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    Log.trace(e);
                 }
             }
         }
@@ -97,15 +110,25 @@ public class NeoNode //extends Node
      * Receives all the messages sent to the node via the sub
      */
     public void receiveAll() {
+//        List<UpdateMessage> detachments = new ArrayList<>();
         UpdateMessage message;
+
+
         while (!sub.getReceived().isEmpty()) {
             message = (UpdateMessage) sub.getReceived().element();
             if (!nid.equals(message.getOriginator()) && !(message.getOriginator() == null)) {
                 sub.archive();
-                receive(message);
+//                if (message.type().equals(MessageType.Detach)) {
+//                    detachments.add(message);
+//                } else {
+                    receive(message);
+//                }
             } else {
                 sub.getReceived().remove();
             }
         }
+//        for (UpdateMessage eachDetach : detachments) {
+//            receive(eachDetach);
+//        }
     }
 }

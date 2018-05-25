@@ -68,6 +68,5 @@
         <Logger name="DataNodeMetricsLog" level="ERROR" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>
-
     </Loggers>
 </Configuration>

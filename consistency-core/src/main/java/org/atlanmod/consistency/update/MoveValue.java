@@ -30,7 +30,7 @@ public class MoveValue extends BaseOperation {
     private final Object from;
     private final Object to;
 
-    public MoveValue(FeatureId fid, Object from, Object to, NodeId originator) {
+    MoveValue(FeatureId fid, Object from, Object to, NodeId originator) {
         super(originator);
         this.fid = fid;
         this.from = from;
@@ -40,7 +40,7 @@ public class MoveValue extends BaseOperation {
 
     @Override
     public String toString() {
-        return "MoveValue{" +
+        return getOriginator() + " MoveValue{" +
                 "fid=" + fid +
                 ", from=" + from +
                 ", to=" + to +

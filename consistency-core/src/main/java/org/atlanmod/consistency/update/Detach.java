@@ -41,6 +41,11 @@ public class Detach extends BaseOperation {
     }
 
     @Override
+    public String toString() {
+        return getOriginator() + " Detach{oid=" + instanceId + "}";
+    }
+
+    @Override
     public Id instanceId() {
         return instanceId;
     }
@@ -52,6 +57,6 @@ public class Detach extends BaseOperation {
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
-        resource.getContents().remove(eObject);
+        resource.detachedHelper(eObject);
     }
 }

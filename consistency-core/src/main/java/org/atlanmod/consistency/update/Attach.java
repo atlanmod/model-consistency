@@ -51,6 +51,11 @@ public class Attach extends BaseOperation {
     }
 
     @Override
+    public String toString() {
+        return getOriginator() + " Attach{oid=" + instanceId + "}";
+    }
+
+    @Override
     public Id instanceId() {
         return instanceId;
     }

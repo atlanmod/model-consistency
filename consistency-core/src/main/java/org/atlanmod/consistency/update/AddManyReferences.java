@@ -45,7 +45,7 @@ public class AddManyReferences extends BaseOperation {
 
     @Override
     public String toString() {
-        return "AddManyReferences{" +
+        return getOriginator() + " AddManyReferences{" +
                 "fid=" + fid +
                 ", value=" + oids +
                 '}';

@@ -36,7 +36,7 @@ public class Unset extends FeatureOperation {
 
     @Override
     public String toString() {
-        return "Unset{" +
+        return getOriginator() + " Unset{" +
                 "fid=" + featureId() +
                 '}';
     }

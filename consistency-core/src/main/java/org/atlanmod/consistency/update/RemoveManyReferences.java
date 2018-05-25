@@ -34,8 +34,8 @@ import java.util.List;
  * @author AtlanMod team.
  */
 public class RemoveManyReferences extends BaseOperation {
-    private final FeatureId fid;
-    private final List<Id> oids;
+    protected final FeatureId fid;
+    final List<Id> oids;
 
     public RemoveManyReferences(FeatureId fid, List<Id> oids, NodeId originator) {
         super(originator);
@@ -45,7 +45,7 @@ public class RemoveManyReferences extends BaseOperation {
 
     @Override
     public String toString() {
-        return "RemoveManyReferences{" +
+        return getOriginator() + " RemoveManyReferences{" +
                 "fid=" + fid +
                 ", value=" + oids +
                 '}';
@@ -64,7 +64,12 @@ public class RemoveManyReferences extends BaseOperation {
     @Override
     public void execute(SharedResource resource, EObject eObject) {
         EStructuralFeature feature = eObject.eClass().getEStructuralFeature(fid.toInt());
-        List<Object> ftr = (List<Object>) eObject.eGet(feature);
+        List<Object> tmp = (List<Object>) eObject.eGet(feature);
+        List<Object> ftr = new ArrayList<>();
+        
+        for (Id id : oids) {
+            ftr.add(tmp.get(id.toInt()));
+        }
 
         ((Collection) ((BasicEObjectImpl) eObject).eGet(fid.toInt(),true,true)).removeAll(ftr);
 

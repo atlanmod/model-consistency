@@ -15,7 +15,9 @@
 package org.atlanmod.consistency.update;
 
 import com.google.common.primitives.Ints;
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.History;
+import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.util.ConsistencyUtil;
 import org.eclipse.emf.common.notify.Notification;
@@ -84,7 +86,7 @@ public class ChangeManager {
                 history.add(op);
                 break;
             case Notification.REMOVING_ADAPTER:
-                System.out.println("--removing adapter--");
+                Log.info("--removing adapter--");
                 break;
             case Notification.NO_FEATURE_ID: break;
             case Notification.RESOLVE: break;
@@ -148,7 +150,14 @@ public class ChangeManager {
         if (isEAttribute(feature)) {
             return new RemoveValue(fid, notification.getOldValue(), nid);
         } else if (isEReference(feature)) {
-            return new RemoveReference(fid, identifierFor((EObject) notification.getOldValue()), nid);
+            Id newOid = identifierFor((EObject) notification.getOldValue());
+            if (isNull(newOid)) {
+                newOid = history.getResource().getDetachments().stream()
+                        .filter(EObjectAdapter.class::isInstance)
+                        .map(EObjectAdapter.class::cast)
+                        .findFirst().orElse(null).id();
+            }
+            return new RemoveReference(fid, newOid, nid);
         } else {
             return new Invalid(nid);
         }
@@ -156,7 +165,7 @@ public class ChangeManager {
 
     private Operation move(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "Move of a null feature";
-        System.out.println(notification);
+        Log.info(notification);
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);
