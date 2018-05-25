@@ -20,12 +20,6 @@
     <dependencies>
 
 
-        <dependency>
-            <groupId>fr.inria.atlanmod.commons</groupId>
-            <artifactId>commons-core</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
-        </dependency>
-
         <!-- Uncomment to work with APPA
             Check classes NeoNode, SharedResource and SharedResourceService
         <dependency>
@@ -41,6 +35,16 @@
             <artifactId>apache-artemis</artifactId>
             <version>2.5.0</version>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.slf4j</groupId>
+                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.fusesource.mqtt-client/mqtt-client -->
@@ -102,6 +106,38 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>fr.inria.atlanmod.commons</groupId>
+            <artifactId>commons-core</artifactId>
+        </dependency>
+
+        <!-- Logging -->
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jul</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
         </dependency>
 
     </dependencies>
