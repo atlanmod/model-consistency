@@ -197,6 +197,12 @@
     <dependencyManagement>
         <dependencies>
 
+            <dependency>
+                <groupId>fr.inria.atlanmod.commons</groupId>
+                <artifactId>commons-core</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
             <!-- Cache -->
 
             <dependency>
@@ -331,12 +337,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>tomp2p.net</id>
-            <url>http://tomp2p.net/dev/mvn/</url>
-        </repository>
-    </repositories>
 
 </project>

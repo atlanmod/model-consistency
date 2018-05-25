@@ -108,11 +108,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>fr.inria.atlanmod.commons</groupId>
-            <artifactId>commons-core</artifactId>
-        </dependency>
-
         <!-- Logging -->
 
         <dependency>
@@ -140,13 +135,12 @@
             <artifactId>log4j-1.2-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>fr.inria.atlanmod.commons</groupId>
+            <artifactId>commons-core</artifactId>
+        </dependency>
+
     </dependencies>
-    <repositories>
-        <repository>
-            <id>tomp2p.net</id>
-            <url>http://tomp2p.net/dev/mvn/</url>
-        </repository>
-    </repositories>
 
     <!--<build>
         <plugins>
