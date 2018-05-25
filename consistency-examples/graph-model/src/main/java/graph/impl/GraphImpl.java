@@ -1,3 +1,5 @@
+/**
+ */
 package graph.impl;
 
 import graph.Edge;
@@ -81,11 +83,10 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 	 */
 	public EList<Vertex> getVertices() {
 		if (vertices == null) {
-			vertices = new EObjectContainmentWithInverseEList<>(Vertex.class, this, GraphPackage.GRAPH__VERTICES, GraphPackage.VERTEX__OWNER);
+			vertices = new EObjectContainmentWithInverseEList<Vertex>(Vertex.class, this, GraphPackage.GRAPH__VERTICES, GraphPackage.VERTEX__OWNER);
 		}
 		return vertices;
 	}
-
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -94,7 +95,7 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 	 */
 	public EList<Edge> getEdges() {
 		if (edges == null) {
-			edges = new EObjectContainmentEList<>(Edge.class, this, GraphPackage.GRAPH__EDGES);
+			edges = new EObjectContainmentEList<Edge>(Edge.class, this, GraphPackage.GRAPH__EDGES);
 		}
 		return edges;
 	}
@@ -200,22 +201,5 @@ public class GraphImpl extends MinimalEObjectImpl.Container implements Graph {
 		}
 		return super.eIsSet(featureID);
 	}
-
-	public String output() {
-	    String output = "";
-	    if (vertices != null) {
-            for (Vertex each : vertices) {
-                output += "\n\t" + each;
-            }
-        }
-
-        if (edges != null) {
-            for (Edge each : edges) {
-                output += "\n\t" + each;
-            }
-        }
-
-        return output;
-    }
 
 } //GraphImpl
