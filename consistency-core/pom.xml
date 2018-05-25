@@ -111,6 +111,7 @@
         <dependency>
             <groupId>fr.inria.atlanmod.commons</groupId>
             <artifactId>commons-core</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
         <!-- Logging -->

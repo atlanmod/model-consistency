@@ -165,7 +165,7 @@ public class ChangeManager {
 
     private Operation move(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "Move of a null feature";
-        Log.info(notification);
+        Log.info((CharSequence) notification);
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);

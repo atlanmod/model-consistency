@@ -66,15 +66,12 @@ public class NeoNode //extends Node
     public void summary() {
         int i = 0;
 
-        Log.info("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
-        System.out.println("---------------------------- NODE " + nid + " SUMMARY ---------------------------");
+        Log.info("------------------------- NODE {0} SUMMARY ------------------------", nid);
         for (SharedResource each : resourceSet.getSharedResources()) {
-            //Log.info("Resource " + (++i) + " : " + each.getURI());
-            System.out.println("Resource " + (++i) + " : " + each.getURI());
+            Log.info("Resource {0} : {1}", (++i), each.getURI());
             each.summary();
         }
-        Log.info("------------------------------ END OF NODE ------------------------------\n");
-        System.out.println("------------------------------ END OF NODE ------------------------------\n");
+        Log.info("--------------------------- END OF NODE ---------------------------\n");
     }
 
 
@@ -88,7 +85,6 @@ public class NeoNode //extends Node
                 try {
                     send(resource.getHistory().queue().take().asMessage());
                 } catch (InterruptedException e) {
-                    //e.printStackTrace();
                     Log.trace(e);
                 }
             }

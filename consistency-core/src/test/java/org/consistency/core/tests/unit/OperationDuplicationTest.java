@@ -52,7 +52,7 @@ class OperationDuplicationTest {
     @Test
     void AttachTest() {
 
-        System.out.println("\n----------------- AttachTest -----------------");
+        Log.info("\n----------------- AttachTest -----------------");
 
         resource.getContents().add(graph);
 
@@ -66,7 +66,7 @@ class OperationDuplicationTest {
     @Test
     void DetachTest() {
 
-        System.out.println("\n----------------- DetachTest -----------------");
+        Log.info("\n----------------- DetachTest -----------------");
 
         resource.getContents().add(graph);
         resource.getContents().remove(graph);
@@ -82,7 +82,7 @@ class OperationDuplicationTest {
     @Test
     void SetAddReferenceTest() {
 
-        System.out.println("\n----------------- SetAddReferenceTest -----------------");
+        Log.info("\n----------------- SetAddReferenceTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -107,7 +107,7 @@ class OperationDuplicationTest {
     @Test
     void SetValueTest() {
 
-        System.out.println("\n----------------- SetValueTest -----------------");
+        Log.info("\n----------------- SetValueTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -130,7 +130,7 @@ class OperationDuplicationTest {
     @Test
     void AddManyReferencesTest() {
 
-        System.out.println("\n----------------- AddManyReferencesTest -----------------");
+        Log.info("\n----------------- AddManyReferencesTest -----------------");
 
         Vertex vA = factory.createVertex();
         Vertex vB = factory.createVertex();
@@ -148,7 +148,7 @@ class OperationDuplicationTest {
     @Test
     void RemoveManyReferencesTest() {
 
-        System.out.println("\n----------------- RemoveManyReferencesTest -----------------");
+        Log.info("\n----------------- RemoveManyReferencesTest -----------------");
 
         Vertex vA = factory.createVertex();
         Vertex vB = factory.createVertex();
@@ -167,7 +167,7 @@ class OperationDuplicationTest {
     @Test
     void RemoveReferenceTest() {
 
-        System.out.println("\n----------------- RemoveReferenceTest -----------------");
+        Log.info("\n----------------- RemoveReferenceTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -189,7 +189,7 @@ class OperationDuplicationTest {
     @Test
     void AddValueTest() {
 
-        System.out.println("\n----------------- AddValueTest -----------------");
+        Log.info("\n----------------- AddValueTest -----------------");
 
         Integer i1 = 5;
 
@@ -225,7 +225,7 @@ class OperationDuplicationTest {
     @Test
     void UnsetTest() {
 
-        System.out.println("\n----------------- UnsetTest -----------------");
+        Log.info("\n----------------- UnsetTest -----------------");
 
         VertexImpl vA = new VertexImpl();
 
@@ -258,7 +258,7 @@ class OperationDuplicationTest {
             Log.warn(e);
         }
 
-        System.out.println();
+        Log.info("\n");
 
         node2.receiveAll();
         node1.receiveAll();

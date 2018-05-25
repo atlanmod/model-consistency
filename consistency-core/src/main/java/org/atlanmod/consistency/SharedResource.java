@@ -87,8 +87,7 @@ public class SharedResource extends ResourceImpl {
             history.basicAdd(new Attach(oid, eObject.eClass(), parentNid));
         }
 
-        Log.info("Adding Id to: " + oid);
-        //System.out.println("Adding Id to: " + oid);
+        Log.info("Adding Id to: {0}", oid);
     }
 
     @Override
@@ -96,8 +95,7 @@ public class SharedResource extends ResourceImpl {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
-            Log.info("--detaching object "+oid+"--");
-            System.out.println("--detaching object "+oid+"--");
+            Log.info("--detaching object {0}--", oid);
             detached.add(adapter);
             contents.remove(oid);
             eObject.eAdapters().remove(adapter);
@@ -106,17 +104,6 @@ public class SharedResource extends ResourceImpl {
         }
         super.detachedHelper(eObject);
     }
-
-    /*@Override
-    public void detached(EObject eObject) {
-
-        this.detachedHelper(eObject);
-        TreeIterator tree = this.getAllProperContents(eObject);
-
-        while(tree.hasNext()) {
-            this.detachedHelper((EObject)tree.next());
-        }
-    }*/
 
     @Override
     protected boolean isAttachedDetachedHelperRequired() {
@@ -230,12 +217,11 @@ public class SharedResource extends ResourceImpl {
         int counter;
         boolean plural;
 
-        Log.info("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
-        System.out.println("\n\n------ RESOURCE " + uri + " SUMMARY ------\nRID : " + rid);
+        Log.info("--- RESOURCE {0} SUMMARY ---", uri);
+        Log.info("RID : {0}", rid);
 
         plural = contents.size() > 1;
-        //Log.info("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
-        System.out.println("\nThere " + (plural ? "are " : "is ") + contents.size() + (plural ? " different EObjects" : " EObject") + " in the resource :\n");
+        Log.info("There {0}{1}{2} in the resource :\n", (plural ? "are " : "is "), contents.size(), (plural ? " different EObjects" : " EObject"));
 
         counter = 1;
         String objectsOutput;
@@ -248,23 +234,19 @@ public class SharedResource extends ResourceImpl {
                 objectsOutput += ((MultiValuesExample)each).output();
             }
 
-            //Log.info(output);
-            System.out.println(objectsOutput);
+            Log.info(objectsOutput);
 
         }
 
         plural = history.basicHistory().size() > 1;
-        //Log.info("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
-        System.out.println("\nThere " + (plural ? "are " : "is ") + history.basicHistory().size() + " registered operation" + (plural ? "s" : "") + " in the resource :\n");
+        Log.info("There {0} {1} registered operation{2} in the resource :\n", (plural ? "are" : "is"), history.basicHistory().size(), (plural ? "s" : ""));
 
         counter = 1;
         for (Operation each : history.basicHistory()){
-            //Log.info("Operation " + counter++ + " : " + each);
-            System.out.println("Operation " + counter++ + " : " + each);
+            Log.info("Operation {0} : {1}", counter++, each);
         }
 
-        Log.info("\n---------------------------- END OF RESOURCE ----------------------------");
-        System.out.println("\n---------------------------- END OF RESOURCE ----------------------------");
+        Log.info("\n------------------------- END OF RESOURCE -------------------------");
     }
 
     public History getHistory() {

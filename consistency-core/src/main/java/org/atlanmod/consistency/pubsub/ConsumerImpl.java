@@ -1,5 +1,6 @@
 package org.atlanmod.consistency.pubsub;
 
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.IntegerId;
 
 import java.io.Serializable;
@@ -43,7 +44,8 @@ public class ConsumerImpl extends PubSub implements Consumer {
         try {
             message = mailBox.poll(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            Log.trace(e);
         }
         return message;
     }
@@ -61,7 +63,7 @@ public class ConsumerImpl extends PubSub implements Consumer {
             message = waitingMessages.take();
             archivedMessages.add(message);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.trace(e);
         }
         return message;
     }
@@ -76,10 +78,10 @@ public class ConsumerImpl extends PubSub implements Consumer {
                 message = receive(TIMEOUT_MS);
                 if (message != null)
                     waitingMessages.offer(message);
-                //System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + waitingMessages.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
+                //Log.info("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + waitingMessages.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
                 ++tries;
             }
-            //System.out.println(Thread.currentThread().getName() + " of client " + clientId + " stopped.");
+            //Log.info(Thread.currentThread().getName() + " of client " + clientId + " stopped.");
         }
     }
 }
