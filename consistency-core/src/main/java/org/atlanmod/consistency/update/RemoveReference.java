@@ -33,6 +33,14 @@ import java.util.*;
  *
  * @author AtlanMod team.
  */
+
+/*
+This class extends RMR because of how notifications work.
+RMR oids are actually indexes of the EObject reference in a feature, while RR oid is a real oid.
+The problem is that you can't remove a reference to a given oid in a feature once the object has been detached of the resource.
+The idea here is to create a singleton to use the index solution and be able to remove the reference in a feature.
+ */
+
 public class RemoveReference extends RemoveManyReferences {
     //private final FeatureId fid;
     //private final Id oid;

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ConsumerImpl extends PubSub implements Consumer {
 
+    public static final int MAX_TRIES = 100;
     private BlockingQueue<Serializable> mailBox = new LinkedBlockingQueue<>(); // Just arrived from a topic/broker
     private BlockingQueue<Serializable> waitingMessages= new LinkedBlockingQueue<>(); // Waiting to be treated
     private Thread t;
@@ -70,13 +71,13 @@ public class ConsumerImpl extends PubSub implements Consumer {
         @Override
         public void run() {
             Serializable message;
-            int cpt = 0;
-            while(cpt < 100) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
+            int tries = 0;
+            while(tries < MAX_TRIES) { // Could be while(true) for infinite fetching, until program or thread manual shutdown
                 message = receive(TIMEOUT_MS);
                 if (message != null)
                     waitingMessages.offer(message);
                 //System.out.println("Thread " + Thread.currentThread().getName() + " of client " + clientId + " received " + waitingMessages.size() + " messages" + ((message != null) ? (" : " + message) : ". (TIMEOUT)"));
-                ++cpt;
+                ++tries;
             }
             //System.out.println(Thread.currentThread().getName() + " of client " + clientId + " stopped.");
         }
