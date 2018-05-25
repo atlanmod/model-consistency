@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class OperationDuplicationTest {
 
-    private static final int MILLIS_WAIT = 10;
+    private static final int MILLIS_WAIT = 15;
     private NeoNode node1, node2;
     private Broker broker;
     private MultiValuesExample multival;
