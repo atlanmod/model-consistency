@@ -58,6 +58,4 @@ public interface Graph extends EObject {
 	 */
 	EList<Edge> getEdges();
 
-	String output();
-
 } // Graph

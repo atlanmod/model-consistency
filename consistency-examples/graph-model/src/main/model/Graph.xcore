@@ -1,6 +1,8 @@
 @Ecore(nsURI="http://atlanmod.consistency.example")
-@GenModel(modelDirectory="/graph-model/target/generated-sources",
-importerID="org.eclipse.emf.importer.ecore")
+@GenModel(modelDirectory="/graph-model/src/main/java",
+    bundleManifest="false",
+    complianceLevel="8.0")
+    
 package graph
 
 class Graph {

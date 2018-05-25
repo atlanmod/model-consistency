@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * @see graph.GraphFactory
  * @model kind="package"
- *        annotation="http://www.eclipse.org/emf/2002/GenModel modelDirectory='/graph-model/target/generated-sources' importerID='org.eclipse.emf.importer.ecore'"
+ *        annotation="http://www.eclipse.org/emf/2002/GenModel modelDirectory='/graph-model/src/main/java' bundleManifest='false' complianceLevel='8.0'"
  * @generated
  */
 public interface GraphPackage extends EPackage {

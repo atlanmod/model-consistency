@@ -107,7 +107,6 @@
         <mockito.version>2.7.4</mockito.version>
         <tomp2p.version>5.0-Beta8</tomp2p.version>
         <artemis.version>2.5.0</artemis.version>
-
     </properties>
 
     <build>
@@ -135,12 +134,9 @@
                         </excludes>
                     </configuration>
                 </plugin>
+
             </plugins>
         </pluginManagement>
-        <plugins>
-        </plugins>
-
-
     </build>
 
     <reporting>
@@ -196,6 +192,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>fr.inria.atlanmod.commons</groupId>
+                <artifactId>commons-core</artifactId>
+                <version>1.0.1</version>
+            </dependency>
 
             <!-- Cache -->
 
@@ -331,12 +333,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>tomp2p.net</id>
-            <url>http://tomp2p.net/dev/mvn/</url>
-        </repository>
-    </repositories>
-
+    
 </project>
