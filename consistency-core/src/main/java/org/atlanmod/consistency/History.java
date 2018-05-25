@@ -51,7 +51,7 @@ public class History {
 
     public void add(Operation operation) {
         resource.broadcast(operation);
-        Log.info("New operation: ", operation);
+        Log.info("New operation: {0}", operation);
         incoming.offer(operation);
         basicHistory.add(operation);
     }

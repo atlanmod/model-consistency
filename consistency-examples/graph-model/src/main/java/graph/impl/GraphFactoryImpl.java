@@ -59,6 +59,7 @@ public class GraphFactoryImpl extends EFactoryImpl implements GraphFactory {
 			case GraphPackage.GRAPH: return createGraph();
 			case GraphPackage.VERTEX: return createVertex();
 			case GraphPackage.EDGE: return createEdge();
+			case GraphPackage.MULTI_VALUES_EXAMPLE: return createMultiValuesExample();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -92,6 +93,16 @@ public class GraphFactoryImpl extends EFactoryImpl implements GraphFactory {
 	public Edge createEdge() {
 		EdgeImpl edge = new EdgeImpl();
 		return edge;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MultiValuesExample createMultiValuesExample() {
+		MultiValuesExampleImpl multiValuesExample = new MultiValuesExampleImpl();
+		return multiValuesExample;
 	}
 
 	/**

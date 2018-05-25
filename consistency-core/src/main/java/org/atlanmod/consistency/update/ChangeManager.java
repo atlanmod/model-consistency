@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -98,7 +99,11 @@ public class ChangeManager {
 
     private Operation set(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "Set of a null feature";
-        assert nonNull(notification.getNewValue()) : "Set with a null value";
+        //assert nonNull(notification.getNewValue()) : "Set with a null value";
+
+        if (Objects.isNull(notification.getNewValue())) {
+            return unset(oid, notification);
+        }
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);
@@ -165,7 +170,7 @@ public class ChangeManager {
 
     private Operation move(InstanceId oid, Notification notification) {
         assert nonNull(notification.getFeature()) : "Move of a null feature";
-        Log.info((CharSequence) notification);
+        Log.info("{0}", notification.toString());
 
         EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
         FeatureId fid = oid.withFeature(feature);

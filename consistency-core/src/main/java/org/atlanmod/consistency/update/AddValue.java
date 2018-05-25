@@ -20,7 +20,9 @@ import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
 import javax.xml.soap.Node;
@@ -54,7 +56,6 @@ public class AddValue extends FeatureOperation {
 
     @Override
     public void execute(SharedResource resource, EObject eObject) {
-        BasicEObjectImpl obj = ((BasicEObjectImpl) (resource.contents().get(featureId().asInstanceId())));
-        ((Collection) obj.eGet(featureId().toInt(),true,true)).add(eObject);
+        ((EList<Object>) ((BasicEObjectImpl)eObject).eGet(featureId().toInt(), true, true)).add(value);
     }
 }

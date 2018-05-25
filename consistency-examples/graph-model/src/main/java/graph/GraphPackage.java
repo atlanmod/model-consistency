@@ -204,6 +204,43 @@ public interface GraphPackage extends EPackage {
 	 */
 	int EDGE_OPERATION_COUNT = 0;
 
+	/**
+	 * The meta object id for the '{@link graph.impl.MultiValuesExampleImpl <em>Multi Values Example</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see graph.impl.MultiValuesExampleImpl
+	 * @see graph.impl.GraphPackageImpl#getMultiValuesExample()
+	 * @generated
+	 */
+	int MULTI_VALUES_EXAMPLE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Numbers</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_VALUES_EXAMPLE__NUMBERS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Multi Values Example</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_VALUES_EXAMPLE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Multi Values Example</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_VALUES_EXAMPLE_OPERATION_COUNT = 0;
+
 
 	/**
 	 * Returns the meta object for class '{@link graph.Graph <em>Graph</em>}'.
@@ -313,6 +350,27 @@ public interface GraphPackage extends EPackage {
 	EReference getEdge_To();
 
 	/**
+	 * Returns the meta object for class '{@link graph.MultiValuesExample <em>Multi Values Example</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Multi Values Example</em>'.
+	 * @see graph.MultiValuesExample
+	 * @generated
+	 */
+	EClass getMultiValuesExample();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link graph.MultiValuesExample#getNumbers <em>Numbers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Numbers</em>'.
+	 * @see graph.MultiValuesExample#getNumbers()
+	 * @see #getMultiValuesExample()
+	 * @generated
+	 */
+	EAttribute getMultiValuesExample_Numbers();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -420,6 +478,24 @@ public interface GraphPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EDGE__TO = eINSTANCE.getEdge_To();
+
+		/**
+		 * The meta object literal for the '{@link graph.impl.MultiValuesExampleImpl <em>Multi Values Example</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see graph.impl.MultiValuesExampleImpl
+		 * @see graph.impl.GraphPackageImpl#getMultiValuesExample()
+		 * @generated
+		 */
+		EClass MULTI_VALUES_EXAMPLE = eINSTANCE.getMultiValuesExample();
+
+		/**
+		 * The meta object literal for the '<em><b>Numbers</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MULTI_VALUES_EXAMPLE__NUMBERS = eINSTANCE.getMultiValuesExample_Numbers();
 
 	}
 

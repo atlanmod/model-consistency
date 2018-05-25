@@ -80,6 +80,10 @@ public class GraphAdapterFactory extends AdapterFactoryImpl {
 				return createEdgeAdapter();
 			}
 			@Override
+			public Adapter caseMultiValuesExample(MultiValuesExample object) {
+				return createMultiValuesExampleAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -138,6 +142,20 @@ public class GraphAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createEdgeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link graph.MultiValuesExample <em>Multi Values Example</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see graph.MultiValuesExample
+	 * @generated
+	 */
+	public Adapter createMultiValuesExampleAdapter() {
 		return null;
 	}
 

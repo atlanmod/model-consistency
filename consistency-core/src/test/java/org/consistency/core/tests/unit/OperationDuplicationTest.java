@@ -10,6 +10,8 @@ import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -40,7 +42,7 @@ class OperationDuplicationTest {
         factory = GraphFactory.eINSTANCE;
         graph = factory.createGraph();
 
-        multival = new MultiValuesExampleImpl();
+        multival = factory.createMultiValuesExample();
 
         node1.attachResource(uri1);
         node2.attachResource(uri2);
@@ -51,8 +53,8 @@ class OperationDuplicationTest {
 
     @Test
     void AttachTest() {
-
-        Log.info("\n----------------- AttachTest -----------------");
+        Log.info("");
+        Log.info("----------------- AttachTest -----------------");
 
         resource.getContents().add(graph);
 
@@ -65,8 +67,8 @@ class OperationDuplicationTest {
 
     @Test
     void DetachTest() {
-
-        Log.info("\n----------------- DetachTest -----------------");
+        Log.info("");
+        Log.info("----------------- DetachTest -----------------");
 
         resource.getContents().add(graph);
         resource.getContents().remove(graph);
@@ -81,8 +83,8 @@ class OperationDuplicationTest {
 
     @Test
     void SetAddReferenceTest() {
-
-        Log.info("\n----------------- SetAddReferenceTest -----------------");
+        Log.info("");
+        Log.info("----------------- SetAddReferenceTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -106,8 +108,8 @@ class OperationDuplicationTest {
 
     @Test
     void SetValueTest() {
-
-        Log.info("\n----------------- SetValueTest -----------------");
+        Log.info("");
+        Log.info("----------------- SetValueTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -129,8 +131,8 @@ class OperationDuplicationTest {
 
     @Test
     void AddManyReferencesTest() {
-
-        Log.info("\n----------------- AddManyReferencesTest -----------------");
+        Log.info("");
+        Log.info("----------------- AddManyReferencesTest -----------------");
 
         Vertex vA = factory.createVertex();
         Vertex vB = factory.createVertex();
@@ -147,8 +149,8 @@ class OperationDuplicationTest {
 
     @Test
     void RemoveManyReferencesTest() {
-
-        Log.info("\n----------------- RemoveManyReferencesTest -----------------");
+        Log.info("");
+        Log.info("----------------- RemoveManyReferencesTest -----------------");
 
         Vertex vA = factory.createVertex();
         Vertex vB = factory.createVertex();
@@ -166,8 +168,8 @@ class OperationDuplicationTest {
 
     @Test
     void RemoveReferenceTest() {
-
-        Log.info("\n----------------- RemoveReferenceTest -----------------");
+        Log.info("");
+        Log.info("----------------- RemoveReferenceTest -----------------");
 
         Vertex vA = factory.createVertex();
 
@@ -188,19 +190,19 @@ class OperationDuplicationTest {
 
     @Test
     void AddValueTest() {
-
-        Log.info("\n----------------- AddValueTest -----------------");
+        Log.info("");
+        Log.info("----------------- AddValueTest -----------------");
 
         Integer i1 = 5;
 
         resource.getContents().add(multival);
         multival.getNumbers().add(i1);
 
-        node1.summary();
-
         broadcast();
 
-        node2.summary();
+        assertThat(multival.getNumbers().size()).isEqualTo(1);
+        assertThat(multival.getNumbers().get(0)).isEqualTo(5);
+
     }
 
     /*@Test
@@ -224,10 +226,10 @@ class OperationDuplicationTest {
 
     @Test
     void UnsetTest() {
+        Log.info("");
+        Log.info("----------------- UnsetTest -----------------");
 
-        Log.info("\n----------------- UnsetTest -----------------");
-
-        VertexImpl vA = new VertexImpl();
+        Vertex vA = factory.createVertex();
 
         resource.getContents().add(graph);
         graph.getVertices().add(vA);
@@ -239,7 +241,9 @@ class OperationDuplicationTest {
 
         assertThat(vB.getLabel()).isNotNull();
 
-        vA.unsetLabel();
+        Log.info("");
+
+        ((VertexImpl)vA).eUnset(GraphPackage.VERTEX__LABEL);
 
         broadcast();
 
@@ -254,11 +258,11 @@ class OperationDuplicationTest {
         try {
             Thread.sleep(MILLIS_WAIT);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             Log.warn(e);
         }
 
-        Log.info("\n");
+        Log.info("");
 
         node2.receiveAll();
         node1.receiveAll();

@@ -49,6 +49,15 @@ public interface GraphFactory extends EFactory {
 	Edge createEdge();
 
 	/**
+	 * Returns a new object of class '<em>Multi Values Example</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Values Example</em>'.
+	 * @generated
+	 */
+	MultiValuesExample createMultiValuesExample();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -22,7 +22,6 @@ import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
 import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.update.*;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
@@ -31,6 +30,7 @@ import java.util.*;
 
 import static org.atlanmod.consistency.util.ConsistencyUtil.adapterFor;
 import static org.atlanmod.consistency.util.ConsistencyUtil.identifierFor;
+import static org.atlanmod.consistency.util.ConsistencyUtil.output;
 
 //import org.atlanmod.appa.pubsub.Consumer;
 //import org.atlanmod.appa.pubsub.ProducerImpl;
@@ -87,7 +87,7 @@ public class SharedResource extends ResourceImpl {
             history.basicAdd(new Attach(oid, eObject.eClass(), parentNid));
         }
 
-        Log.info("Adding Id to: {0}", oid);
+        //Log.info("Adding Id to: {0}", oid);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SharedResource extends ResourceImpl {
         EObjectAdapter adapter = adapterFor(eObject);
         if (Objects.nonNull(adapter)) {
             Id oid = adapter.id();
-            Log.info("--detaching object {0}--", oid);
+            //Log.info("--detaching object {0}--", oid);
             detached.add(adapter);
             contents.remove(oid);
             eObject.eAdapters().remove(adapter);
@@ -216,37 +216,34 @@ public class SharedResource extends ResourceImpl {
     public void summary() {
         int counter;
         boolean plural;
-
+        Log.info("");
         Log.info("--- RESOURCE {0} SUMMARY ---", uri);
         Log.info("RID : {0}", rid);
+        Log.info("");
 
         plural = contents.size() > 1;
-        Log.info("There {0}{1}{2} in the resource :\n", (plural ? "are " : "is "), contents.size(), (plural ? " different EObjects" : " EObject"));
-
+        Log.info("There {0}{1}{2} in the resource :", (plural ? "are " : "is "), contents.size(), (plural ? " different EObjects" : " EObject"));
+        Log.info("");
         counter = 1;
-        String objectsOutput;
         for (EObject each : contents.values()) {
-            objectsOutput = "EObject " + counter++ + " : " + identifierFor(each) + " " + each;
+            Log.info("EObject {0} : {1} {2}", counter++, identifierFor(each), each);
 
-            if (each instanceof Graph) {
-                objectsOutput += ((Graph)each).output();
-            } else if (each instanceof MultiValuesExample) {
-                objectsOutput += ((MultiValuesExample)each).output();
+            if (each instanceof Graph || each instanceof MultiValuesExample) {
+                output(each);
             }
-
-            Log.info(objectsOutput);
-
         }
 
+        Log.info("");
         plural = history.basicHistory().size() > 1;
-        Log.info("There {0} {1} registered operation{2} in the resource :\n", (plural ? "are" : "is"), history.basicHistory().size(), (plural ? "s" : ""));
-
+        Log.info("There {0} {1} registered operation{2} in the resource :", (plural ? "are" : "is"), history.basicHistory().size(), (plural ? "s" : ""));
+        Log.info("");
         counter = 1;
         for (Operation each : history.basicHistory()){
             Log.info("Operation {0} : {1}", counter++, each);
         }
 
-        Log.info("\n------------------------- END OF RESOURCE -------------------------");
+        Log.info("");
+        Log.info("------------------------- END OF RESOURCE -------------------------");
     }
 
     public History getHistory() {

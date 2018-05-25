@@ -6,6 +6,7 @@ import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
 import graph.GraphPackage;
+import graph.MultiValuesExample;
 import graph.Vertex;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -43,6 +44,13 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * @generated
 	 */
 	private EClass edgeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiValuesExampleEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -203,6 +211,24 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMultiValuesExample() {
+		return multiValuesExampleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMultiValuesExample_Numbers() {
+		return (EAttribute)multiValuesExampleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public GraphFactory getGraphFactory() {
 		return (GraphFactory)getEFactoryInstance();
 	}
@@ -238,6 +264,9 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 		edgeEClass = createEClass(EDGE);
 		createEReference(edgeEClass, EDGE__FROM);
 		createEReference(edgeEClass, EDGE__TO);
+
+		multiValuesExampleEClass = createEClass(MULTI_VALUES_EXAMPLE);
+		createEAttribute(multiValuesExampleEClass, MULTI_VALUES_EXAMPLE__NUMBERS);
 	}
 
 	/**
@@ -285,6 +314,9 @@ public class GraphPackageImpl extends EPackageImpl implements GraphPackage {
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEdge_From(), this.getVertex(), null, "from", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEdge_To(), this.getVertex(), null, "to", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiValuesExampleEClass, MultiValuesExample.class, "MultiValuesExample", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMultiValuesExample_Numbers(), theEcorePackage.getEIntegerObject(), "numbers", null, 0, -1, MultiValuesExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

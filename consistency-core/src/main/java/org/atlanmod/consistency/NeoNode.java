@@ -64,14 +64,15 @@ public class NeoNode //extends Node
      */
 
     public void summary() {
-        int i = 0;
-
+        boolean plural = resourceSet.getSharedResources().size() > 1;
+        Log.info("");
         Log.info("------------------------- NODE {0} SUMMARY ------------------------", nid);
+        Log.info("There {0}{1}{2} in the node :", (plural ? "are " : "is "), resourceSet.getSharedResources().size(), (plural ? " different SharedResources" : " SharedResource"));
         for (SharedResource each : resourceSet.getSharedResources()) {
-            Log.info("Resource {0} : {1}", (++i), each.getURI());
             each.summary();
         }
-        Log.info("--------------------------- END OF NODE ---------------------------\n");
+        Log.info("--------------------------- END OF NODE ---------------------------");
+        Log.info("");
     }
 
 

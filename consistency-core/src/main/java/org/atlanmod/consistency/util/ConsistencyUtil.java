@@ -14,8 +14,10 @@
 
 package org.atlanmod.consistency.util;
 
+import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -50,4 +52,11 @@ public class ConsistencyUtil {
         return EAttribute.class.isAssignableFrom(feature.getClass());
     }
 
+    public static void output(EObject eObject) {
+        for (Object each : eObject.eContents()) {
+            if (each != null) {
+                Log.info("\t\t{0}", each);
+            }
+        }
+    }
 }

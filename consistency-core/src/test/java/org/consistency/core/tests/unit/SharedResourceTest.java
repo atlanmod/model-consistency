@@ -15,6 +15,7 @@
 package org.consistency.core.tests.unit;
 
 
+import fr.inria.atlanmod.commons.log.Log;
 import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;
@@ -62,6 +63,9 @@ class SharedResourceTest {
 
     @Test
     void testSharedResource() {
+        Log.info("");
+        Log.info("----------------- SharedResourceTest -----------------");
+
         node.attachResource(otherUri);
         SharedResource other =node.getSharedResourceSet().getSharedResource(otherUri);
 
@@ -71,6 +75,8 @@ class SharedResourceTest {
 
     @Test
     void testAttachDetach() {
+        Log.info("");
+        Log.info("----------------- AttachDetachTest -----------------");
         node.attachResource(otherUri);
         SharedResource other =node.getSharedResourceSet().getSharedResource(otherUri);
 
@@ -93,6 +99,8 @@ class SharedResourceTest {
 
     @Test
     void testContainment() {
+        Log.info("");
+        Log.info("----------------- ContainmentTest -----------------");
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -105,8 +113,10 @@ class SharedResourceTest {
         assertThat(resource.contains(v2)).isFalse();
     }
 
-    @Test
+    /*@Test
     void testNotification() {
+        Log.info("");
+        Log.info("----------------- NotificationTest -----------------");
         Vertex v = factory.createVertex();
         resource.getContents().add(v);
         v.setLabel("A");
@@ -128,10 +138,13 @@ class SharedResourceTest {
         resource.getContents().add(g);
         g.getEdges().add(e);
         g.getVertices().add(v);
-    }
+    }*/
 
     @Test
     void testAddMany() {
+        Log.info("");
+        Log.info("----------------- AddManyTest -----------------");
+
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         Vertex v2 = factory.createVertex();
@@ -152,6 +165,9 @@ class SharedResourceTest {
 
     @Test
     void testRemoveManyReferences() {
+        Log.info("");
+        Log.info("----------------- RemoveManyReferencesTest -----------------");
+
         Vertex v1 = factory.createVertex();
         v1.setLabel("A");
         Vertex v2 = factory.createVertex();
@@ -177,6 +193,9 @@ class SharedResourceTest {
 
     @Test
     void testBasicTypes() {
+        Log.info("");
+        Log.info("----------------- BasicTypesTest -----------------");
+
         Graph g = factory.createGraph();
         Vertex v1 = factory.createVertex();
         resource.getContents().add(g);
@@ -188,6 +207,8 @@ class SharedResourceTest {
 
     @Test
     void testClear() {
+        Log.info("");
+        Log.info("----------------- ClearTest -----------------");
 
         resource.getContents().add(graph);
         Vertex vertexA = factory.createVertex();
