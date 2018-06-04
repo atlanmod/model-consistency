@@ -1,7 +1,7 @@
 package org.consistency.core.tests.unit;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import graph.*;
-import graph.impl.MultiValuesExampleImpl;
 import graph.impl.VertexImpl;
 import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.NeoNode;
@@ -10,13 +10,13 @@ import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -58,7 +58,7 @@ class OperationDuplicationTest {
 
         resource.getContents().add(graph);
 
-        broadcast();
+        commit();
 
         assertThat(resource2.contents().size()).isEqualTo(1);
         assertThat(resource2.getHistory().basicHistory().size()).isEqualTo(1);
@@ -73,7 +73,7 @@ class OperationDuplicationTest {
         resource.getContents().add(graph);
         resource.getContents().remove(graph);
 
-        broadcast();
+        commit();
 
         assertThat(resource2.contents().size()).isEqualTo(0);
         assertThat(resource2.getHistory().basicHistory().size()).isEqualTo(2);
@@ -91,7 +91,7 @@ class OperationDuplicationTest {
         resource.getContents().add(graph);
         graph.getVertices().add(vA);
 
-        broadcast();
+        commit();
 
         Graph graph2 = (Graph) resource2.contentAt(0);
         Vertex vB = (Vertex) resource2.contentAt(1);
@@ -118,7 +118,7 @@ class OperationDuplicationTest {
 
         vA.setLabel("A");
 
-        broadcast();
+        commit();
 
         Vertex vB = (Vertex) resource2.contentAt(1);
 
@@ -140,7 +140,7 @@ class OperationDuplicationTest {
         resource.getContents().add(graph);
         graph.getVertices().addAll(Arrays.asList(vA, vB));
 
-        broadcast();
+        commit();
 
         assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(2);
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(AddManyReferences.class);
@@ -160,7 +160,7 @@ class OperationDuplicationTest {
         graph.getVertices().add(factory.createVertex());
         graph.getVertices().removeAll(Arrays.asList(vA, vB));
 
-        broadcast();
+        commit();
 
         assertThat(resource2.contentAt(0).eContents().size()).isEqualTo(1);
         assertThat(resource2.getHistory().basicHistory()).extracting("class").containsOnlyOnce(RemoveManyReferences.class);
@@ -178,7 +178,7 @@ class OperationDuplicationTest {
         graph.getVertices().add(factory.createVertex());
         graph.getVertices().remove(vA);
 
-        broadcast();
+        commit();
 
         Graph graph2 = (Graph) resource2.contentAt(0);
         Vertex vB = (Vertex) resource2.contentAt(1);
@@ -198,29 +198,46 @@ class OperationDuplicationTest {
         resource.getContents().add(multival);
         multival.getNumbers().add(i1);
 
-        broadcast();
+        commit();
 
-        assertThat(multival.getNumbers().size()).isEqualTo(1);
-        assertThat(multival.getNumbers().get(0)).isEqualTo(5);
+        MultiValuesExample multi2 = (MultiValuesExample) resource2.contentAt(0);
+
+        assertThat(multi2.getNumbers().size()).isEqualTo(1);
+        assertThat(multi2.getNumbers().get(0)).isEqualTo(5);
 
     }
 
-    /*@Test
+    @Test
     void AddManyValuesTest() {
+
+        Log.info("");
+        Log.info("----------------- AddManyValuesTest -----------------");
+
+        List<Integer> ints = new ArrayList<>(Arrays.asList(5,6));
+
+        resource.getContents().add(multival);
+        multival.getNumbers().addAll(ints);
+
+        commit();
+
+        MultiValuesExample multi2 = (MultiValuesExample) resource2.contentAt(0);
+
+        assertThat(multi2.getNumbers().size()).isEqualTo(2);
+        assertThat(multi2.getNumbers()).contains(5,6);
+    }
+
+
+/*
+    @Test
+    void RemoveValueTest() {
         assertThat(false).isTrue();
     }
+
 
 
 
     @Test
     void RemoveManyValuesTest() {
-        assertThat(false).isTrue();
-    }
-
-
-
-    @Test
-    void RemoveValueTest() {
         assertThat(false).isTrue();
     }*/
 
@@ -235,7 +252,7 @@ class OperationDuplicationTest {
         graph.getVertices().add(vA);
         vA.setLabel("A");
 
-        broadcast();
+        commit();
 
         Vertex vB = (Vertex) resource2.contentAt(1);
 
@@ -245,12 +262,12 @@ class OperationDuplicationTest {
 
         ((VertexImpl)vA).eUnset(GraphPackage.VERTEX__LABEL);
 
-        broadcast();
+        commit();
 
         assertThat(vB.getLabel()).isNullOrEmpty();
     }
 
-    private void broadcast() {
+    private void commit() {
 
         node1.sendAll();
         broker.publishAll();

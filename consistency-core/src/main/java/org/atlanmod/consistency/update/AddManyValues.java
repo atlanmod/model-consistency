@@ -14,10 +14,17 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.NodeId;
+import org.atlanmod.consistency.message.MessageType;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -29,7 +36,7 @@ public class AddManyValues extends BaseOperation {
     private final FeatureId fid;
     private final List<Object> values;
 
-    AddManyValues(FeatureId fid, List<Object> values, NodeId originator) {
+    public AddManyValues(FeatureId fid, List<Object> values, NodeId originator) {
         super(originator);
         this.fid = fid;
         this.values = values;
@@ -44,7 +51,17 @@ public class AddManyValues extends BaseOperation {
     }
 
     @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.AddManyValues, fid, values, null, getOriginator());
+    }
+
+    @Override
     public Id instanceId() {
         return fid.asInstanceId();
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        ((Collection) ((BasicEObjectImpl) eObject).eGet(fid.toInt(),true,true)).addAll(values);
     }
 }
