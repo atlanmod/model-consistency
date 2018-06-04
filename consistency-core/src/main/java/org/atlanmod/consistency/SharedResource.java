@@ -186,6 +186,11 @@ public class SharedResource extends ResourceImpl {
                 break;
             case AddManyValues:
                 operation = new AddManyValues((FeatureId) message.featureId(), (List<Object>) message.value(), parentNid);
+                break;
+            case RemoveValue:
+                operation = new RemoveValue((FeatureId) message.featureId(), message.value(), parentNid);
+                break;
+
         }
 
         this.history.integrate(operation);

@@ -209,14 +209,11 @@ class OperationDuplicationTest {
 
     @Test
     void AddManyValuesTest() {
-
         Log.info("");
         Log.info("----------------- AddManyValuesTest -----------------");
 
-        List<Integer> ints = new ArrayList<>(Arrays.asList(5,6));
-
         resource.getContents().add(multival);
-        multival.getNumbers().addAll(ints);
+        multival.getNumbers().addAll(Arrays.asList(5,6));
 
         commit();
 
@@ -226,15 +223,26 @@ class OperationDuplicationTest {
         assertThat(multi2.getNumbers()).contains(5,6);
     }
 
-
-/*
     @Test
     void RemoveValueTest() {
-        assertThat(false).isTrue();
+        Log.info("");
+        Log.info("----------------- RemoveValueTest -----------------");
+
+        resource.getContents().add(multival);
+        multival.getNumbers().addAll(Arrays.asList(2,5));
+        multival.getNumbers().remove((Integer)5);
+
+        commit();
+
+        MultiValuesExample multi2 = (MultiValuesExample) resource2.contentAt(0);
+
+        assertThat(multi2.getNumbers().size()).isEqualTo(1);
+        assertThat(multi2.getNumbers()).contains(2);
+        assertThat(multi2.getNumbers()).doesNotContain(5);
+
     }
 
-
-
+/*
 
     @Test
     void RemoveManyValuesTest() {
