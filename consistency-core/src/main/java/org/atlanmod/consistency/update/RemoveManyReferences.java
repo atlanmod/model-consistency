@@ -47,7 +47,7 @@ public class RemoveManyReferences extends BaseOperation {
     public String toString() {
         return getOriginator() + " RemoveManyReferences{" +
                 "fid=" + fid +
-                ", value=" + oids +
+                ", values=" + oids +
                 '}';
     }
 

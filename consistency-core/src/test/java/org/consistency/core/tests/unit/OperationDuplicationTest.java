@@ -242,12 +242,22 @@ class OperationDuplicationTest {
 
     }
 
-/*
-
     @Test
     void RemoveManyValuesTest() {
-        assertThat(false).isTrue();
-    }*/
+        Log.info("");
+        Log.info("----------------- RemoveManyValuesTest -----------------");
+
+        resource.getContents().add(multival);
+        multival.getNumbers().addAll(Arrays.asList(5,6,7,8));
+        multival.getNumbers().removeAll(Arrays.asList(7,8));
+
+        commit();
+
+        MultiValuesExample multi2 = (MultiValuesExample) resource2.contentAt(0);
+
+        assertThat(multi2.getNumbers().size()).isEqualTo(2);
+        assertThat(multi2.getNumbers()).contains(5,6);
+    }
 
     @Test
     void UnsetTest() {

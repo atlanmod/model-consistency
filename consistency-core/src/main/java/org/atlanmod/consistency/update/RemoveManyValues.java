@@ -14,9 +14,17 @@
 
 package org.atlanmod.consistency.update;
 
+import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.core.Id;
 import org.atlanmod.consistency.core.NodeId;
+import org.atlanmod.consistency.message.MessageType;
+import org.atlanmod.consistency.message.UpdateMessage;
+import org.atlanmod.consistency.message.ValueMessage;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
+
+import java.util.List;
 
 /**
  * Created on 10/03/2017.
@@ -25,24 +33,34 @@ import org.atlanmod.consistency.core.NodeId;
  */
 public class RemoveManyValues extends BaseOperation {
     private final FeatureId fid;
-    private final Object value;
+    private final List<Object> values;
 
-    RemoveManyValues(FeatureId fid, Object value, NodeId originator) {
+    public RemoveManyValues(FeatureId fid, List<Object> values, NodeId originator) {
         super(originator);
         this.fid = fid;
-        this.value = value;
+        this.values = values;
     }
 
     @Override
     public String toString() {
         return getOriginator() + " RemoveManyValues{" +
                 "fid=" + fid +
-                ", value=" + value +
+                ", values=" + values +
                 '}';
+    }
+
+    @Override
+    public UpdateMessage asMessage() {
+        return new ValueMessage(MessageType.RemoveManyValues, fid, values, null, getOriginator());
     }
 
     @Override
     public Id instanceId() {
         return fid.asInstanceId();
+    }
+
+    @Override
+    public void execute(SharedResource resource, EObject eObject) {
+        ((List<Object>)((BasicEObjectImpl)eObject).eGet(fid.toInt(),true, true)).removeAll(values);
     }
 }

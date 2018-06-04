@@ -207,14 +207,18 @@ public class ChangeManager {
         FeatureId fid = oid.withFeature(feature);
 
         if (notification.getNewValue() == null) { // clear() case
-            if (isEAttribute(feature)) {
-                List<EObject> values = ((EStructuralFeature) notification.getFeature()).eContents();
+            if (isEReference(feature)) {
 
-                return new RemoveManyValues(fid, values, nid);
+                List<Id> values = new ArrayList<>();
+                for (EObject obj : ((EStructuralFeature) notification.getFeature()).eContents()) {
+                    values.add(identifierFor(obj));
+                }
 
-            } else if (isEReference(feature)) {
+                return new RemoveManyReferences(fid, values, nid);
 
-                EList<EObject> values = ((EStructuralFeature) notification.getFeature()).eContents();
+            } else if (isEAttribute(feature)) {
+
+                List<Object> values = new ArrayList<>(((EStructuralFeature) notification.getFeature()).eContents());
                 return new RemoveManyValues(fid,values, nid);
 
             } else {
@@ -223,14 +227,9 @@ public class ChangeManager {
         } else {
 
             if (isEAttribute(feature)) {
-                List<Object> values = (List<Object>) notification.getNewValue();
-                return new RemoveManyValues(fid, values, nid);
+                return new RemoveManyValues(fid, (List<Object>) notification.getOldValue(), nid);
             } else if (isEReference(feature)) {
 
-                /*List<EObject> values = (List<EObject>) notification.getNewValue();
-                List<Id> ids = values.stream()
-                        .map(ConsistencyUtil::identifierFor)
-                        .collect(Collectors.toList());*/
                 List<Integer> values = Ints.asList((int[]) notification.getNewValue());
 
                 List<Id> ids = new ArrayList<>();
