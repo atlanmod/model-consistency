@@ -22,11 +22,7 @@ import org.atlanmod.consistency.message.UpdateMessage;
 import org.atlanmod.consistency.message.ValueMessage;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
-
-import javax.xml.soap.Node;
-import java.util.Collection;
 
 /**
  * Created on 10/03/2017.
