@@ -14,7 +14,7 @@
 
 package org.atlanmod.consistency.util;
 
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.Id;
 import org.eclipse.emf.common.util.EList;

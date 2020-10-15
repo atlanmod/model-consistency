@@ -15,7 +15,7 @@
 package org.consistency.core.tests.unit;
 
 
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import graph.Edge;
 import graph.Graph;
 import graph.GraphFactory;

@@ -1,22 +1,17 @@
 package org.consistency.core.tests.unit;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
+import org.atlanmod.commons.log.Log;
 import graph.*;
 import graph.impl.VertexImpl;
-import fr.inria.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.NeoNode;
 import org.atlanmod.consistency.SharedResource;
 import org.atlanmod.consistency.pubsub.Broker;
 import org.atlanmod.consistency.update.*;
 import org.eclipse.emf.common.util.URI;
-
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

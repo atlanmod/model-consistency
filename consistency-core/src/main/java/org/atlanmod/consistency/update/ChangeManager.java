@@ -15,7 +15,7 @@
 package org.atlanmod.consistency.update;
 
 import com.google.common.primitives.Ints;
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.History;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;

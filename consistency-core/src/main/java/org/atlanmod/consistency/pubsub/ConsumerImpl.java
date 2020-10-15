@@ -1,6 +1,6 @@
 package org.atlanmod.consistency.pubsub;
 
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.IntegerId;
 
 import java.io.Serializable;

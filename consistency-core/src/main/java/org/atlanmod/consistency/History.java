@@ -15,7 +15,7 @@
 package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.FeatureId;
 import org.atlanmod.consistency.update.Operation;
 

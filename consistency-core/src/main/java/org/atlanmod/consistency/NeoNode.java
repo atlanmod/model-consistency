@@ -16,7 +16,7 @@ package org.atlanmod.consistency;
 
 //import org.atlanmod.appa.Node;
 
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import org.atlanmod.consistency.core.NodeId;
 import org.atlanmod.consistency.message.MessageType;
 import org.atlanmod.consistency.message.UpdateMessage;

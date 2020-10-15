@@ -16,7 +16,7 @@ package org.atlanmod.consistency;
 
 import com.google.common.collect.Maps;
 import graph.Graph;
-import fr.inria.atlanmod.commons.log.Log;
+import org.atlanmod.commons.log.Log;
 import graph.MultiValuesExample;
 import org.atlanmod.consistency.adapter.EObjectAdapter;
 import org.atlanmod.consistency.core.*;
