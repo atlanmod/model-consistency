@@ -1,8 +1,13 @@
 os: linux
 sudo: false
+dist: trusty
 
 language: java
 jdk: oraclejdk8
+
+cache:
+  directories:
+    - '~/.m2/repository'
 
 install:
   # Resolve all dependencies
